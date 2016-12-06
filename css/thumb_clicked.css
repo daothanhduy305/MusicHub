@@ -1,0 +1,13 @@
+.seek_bar .thumb {
+    -fx-background-color: #fff;
+    -fx-border-color: white;
+    -fx-border-width: 5px;
+    -fx-border-radius: 100%;
+}
+
+.seek_bar .track {
+    -fx-background-insets: 0;
+    -fx-background-radius: 0em, 0em, 0em; /* 3 3 2 */
+    -fx-padding: 5px;
+    -fx-background-color: transparent;
+}

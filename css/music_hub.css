@@ -1,0 +1,122 @@
+@font-face {
+    font-family: 'Segoe UI Semibold';
+    src: url('../proprietary/data/props/font/segoeuisemibold.ttf');
+}
+
+.nav_drawer,
+.song_list_table {
+    -fx-focus-color: transparent;
+}
+
+.song_list_table .scroll-bar:horizontal .track,
+.song_list_table .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius: 0em;
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+.song_list_table .scroll-bar:horizontal .increment-button,
+.song_list_table .scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 0 0 0;
+
+}
+
+/* The increment and decrement button CSS class of scrollbar */
+
+.song_list_table .scroll-bar:vertical .increment-button,
+.song_list_table .scroll-bar:vertical .decrement-button {
+
+    -fx-background-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: 0 0 0 10;
+
+}
+
+.song_list_table .scroll-bar .increment-arrow,
+.song_list_table .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.song_list_table .scroll-bar:horizontal .thumb,
+.song_list_table .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(0, 0, 0, 0.13);
+    -fx-start-margin: 100;
+    -fx-background-insets: 0, 0, 0;
+    -fx-background-radius: 0em;
+
+}
+
+.song_list_table .column-header-background {
+    visibility: hidden;
+    -fx-padding: -1em;
+}
+
+.song_list_table .table-row-cell:odd {
+    -fx-background-color: #fff;
+    -fx-text-background-color: #222;
+}
+
+.song_list_table .table-row-cell:even {
+    -fx-background-color: #f2f2f2;
+    -fx-text-background-color: #222;
+}
+
+.table-view {
+    -fx-table-cell-border-color: transparent;
+}
+
+.song_list_table .table-column {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.song_list_table .table-row-cell:filled:selected:focused,
+.song_list_table .table-row-cell:filled:selected {
+    /*-fx-background-color: #222;*/
+    -fx-text-background-color: dodgerblue;
+    -fx-table-cell-border-color: transparent;
+}
+
+.song_list_table .table-row-cell:filled:hover {
+    -fx-background-color: #dedede;
+    -fx-text-background-color: #0078d7;
+}
+
+.labels {
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+.song_list_table .table-cell {
+    -fx-font-size: 15px;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+.seek_bar .track {
+    -fx-background-insets: 0;
+    -fx-background-radius: 0em, 0em, 0em; /* 3 3 2 */
+    -fx-padding: 5px;
+    -fx-background-color: transparent;
+}
+
+.seek_bar .thumb {
+    -fx-background-color: #01589d;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 100%;
+}
+
+.progress_bar > .bar {
+    -fx-background-insets: 0;
+    -fx-background-radius: 0em, 0em, 0em; /* 3 3 2 */
+    -fx-padding: 1px;
+    -fx-background-color: #fff;
+}
+
+.progress_bar > .track {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
