@@ -16,9 +16,9 @@ import milo.gui.utils.GUIUtils;
 
 public class Main extends Application {
     private Scene mainScene;
-    private MainPlayerControllerAbstract mainPlayerController;
-    private SongPlayerControllerAbstractSub songPlayerController;
-    private AllSongsViewControllerAbstractSub allSongsViewController;
+    private MainPlayerControllerPlayer mainPlayerController;
+    private SongPlayerController songPlayerController;
+    private AllSongsViewController allSongsViewController;
     private AlbumsViewController albumsViewController;
     private AlbumsViewOverviewController albumsViewOverviewController;
     private AlbumsViewSpecificController albumsViewSpecificController;
@@ -28,20 +28,20 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ui/fxmlTemplates/main_player.fxml"));
 
-        mainPlayerController = new MainPlayerControllerAbstract();
-        songPlayerController = new SongPlayerControllerAbstractSub();
-        allSongsViewController = new AllSongsViewControllerAbstractSub();
+        mainPlayerController = new MainPlayerControllerPlayer();
+        songPlayerController = new SongPlayerController();
+        allSongsViewController = new AllSongsViewController();
         albumsViewController =  new AlbumsViewController();
         albumsViewOverviewController = new AlbumsViewOverviewController();
         albumsViewSpecificController = new AlbumsViewSpecificController();
         navigationDrawerController = new NavigationDrawerController();
 
         fxmlLoader.setControllerFactory(param -> {
-            if (param == MainPlayerControllerAbstract.class)
+            if (param == MainPlayerControllerPlayer.class)
                 return mainPlayerController;
-            else if (param == SongPlayerControllerAbstractSub.class)
+            else if (param == SongPlayerController.class)
                 return songPlayerController;
-            else if (param == AllSongsViewControllerAbstractSub.class)
+            else if (param == AllSongsViewController.class)
                 return allSongsViewController;
             else if (param == AlbumsViewController.class)
                 return albumsViewController;

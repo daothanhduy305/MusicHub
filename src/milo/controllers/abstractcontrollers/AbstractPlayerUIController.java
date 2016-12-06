@@ -5,12 +5,12 @@ import milo.data.SongData;
 import java.util.List;
 
 /**
- * Class name:  AbstractPlayerAbstractUIController
+ * Class name:  AbstractPlayerUIController
  * Description: This is an abstract class serves as a template for a the player controller. A player controller would
  *              control all things on the player bar, such as album art, seek bar, buttons...
  */
 
-public abstract class AbstractPlayerAbstractUIController extends AbstractUIController {
+public abstract class AbstractPlayerUIController extends AbstractUIController {
     protected List<SongData> currentPlaylist;
     protected List<SongData> previousPlaylist;
 

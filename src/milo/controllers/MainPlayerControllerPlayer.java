@@ -5,25 +5,25 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.media.MediaPlayer;
-import milo.controllers.abstractcontrollers.AbstractPlayerAbstractUIController;
+import milo.controllers.abstractcontrollers.AbstractPlayerUIController;
 import milo.data.SongData;
 import milo.gui.utils.SizeCalculator;
 
 import java.util.List;
 
 /**
- * Class name:  MainPlayerControllerAbstract
+ * Class name:  MainPlayerControllerPlayer
  * Description: This is the controllers for the whole Music Hub
  *              Every magic will happen here.
  */
 
-public class MainPlayerControllerAbstract extends AbstractPlayerAbstractUIController {
+public class MainPlayerControllerPlayer extends AbstractPlayerUIController {
     /**
      * Start of the variable declarations
      * First is the section for @FXML variables, which are corresponded to the UI element with the same name <-> fx:id
      */
-    @FXML private SongPlayerControllerAbstractSub songPlayerController;
-    @FXML private AllSongsViewControllerAbstractSub allSongsViewController;
+    @FXML private SongPlayerController songPlayerController;
+    @FXML private AllSongsViewController allSongsViewController;
     @FXML private AlbumsViewController albumsViewController;
     @FXML private NavigationDrawerController navigationDrawerController;
     @FXML private StackPane mainPlayerHolder; // Serve the show/hide views method
