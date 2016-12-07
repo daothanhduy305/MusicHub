@@ -10,11 +10,11 @@ import java.io.File;
  */
 
 public class Constants {
-    private final static File CSS_FILE = new File("css/noob_player.css");
+    private final static File CSS_FILE = new File("css/music_hub.css");
     private final static String CSS_PATH = "file:///" + CSS_FILE.getAbsolutePath().replace("\\", "/");
-    private final static File CSS_FILE_THUMB_CLICKED = new File("css/thumbClicked.css");
+    private final static File CSS_FILE_THUMB_CLICKED = new File("css/thumb_clicked.css");
     private final static String CSS_FILE_THUMB_CLICKED_PATH = "file:///" + CSS_FILE_THUMB_CLICKED.getAbsolutePath().replace("\\", "/");
-    private final static File DEFAULT_ARTWORK = new File("proprietary/data/media/aw/ebolo_df");
+    private final static File DEFAULT_ARTWORK = new File("proprietary/data/media/aw/milo_dfaw");
     private final static String BUTTONS_PRE_PATH = "file:proprietary/data/media/buts/";
     private final static String IMAGE_EXTENSION = ".png";
 
