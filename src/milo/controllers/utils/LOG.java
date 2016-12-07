@@ -19,4 +19,14 @@ public class LOG {
     public static void e(String errorMessage) {
         System.out.println(LOG_TAG + "(ERROR): " + errorMessage);
     }
+
+    /**
+     * Function name:   w
+     * Usage:   to shout out the warning message to the terminal
+     *
+     * @param warningMessage message to be shouted out
+     */
+    public static void w(String warningMessage) {
+        System.out.println(LOG_TAG + "(WARNING): " + warningMessage);
+    }
 }
