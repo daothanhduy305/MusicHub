@@ -1,5 +1,6 @@
 package milo.controllers.abstractcontrollers;
 
+import javafx.scene.media.MediaPlayer;
 import milo.data.SongData;
 
 import java.util.List;
@@ -13,6 +14,9 @@ import java.util.List;
 public abstract class AbstractPlayerUIController extends AbstractUIController {
     protected List<SongData> currentPlaylist;
     protected List<SongData> previousPlaylist;
+    protected MediaPlayer player;
+    private SongData currentPlayingSong;
+    private volatile boolean isPlaying = false;
 
     /**
      * Function name:   playSong
@@ -61,5 +65,17 @@ public abstract class AbstractPlayerUIController extends AbstractUIController {
 
     public void setPreviousPlaylist(List<SongData> previousPlaylist) {
         this.previousPlaylist = previousPlaylist;
+    }
+
+    public MediaPlayer getPlayer() {
+        return player;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public SongData getCurrentPlayingSong() {
+        return currentPlayingSong;
     }
 }

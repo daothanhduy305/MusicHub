@@ -16,7 +16,7 @@ import milo.gui.utils.GUIUtils;
 
 public class Main extends Application {
     private Scene mainScene;
-    private MainPlayerControllerPlayer mainPlayerController;
+    private MainPlayerController mainPlayerController;
     private SongPlayerController songPlayerController;
     private AllSongsViewController allSongsViewController;
     private AlbumsViewController albumsViewController;
@@ -24,11 +24,15 @@ public class Main extends Application {
     private AlbumsViewSpecificController albumsViewSpecificController;
     private NavigationDrawerController navigationDrawerController;
 
+    public static void main(String[] args) throws Exception {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ui/fxmlTemplates/main_player.fxml"));
 
-        mainPlayerController = new MainPlayerControllerPlayer();
+        mainPlayerController = new MainPlayerController();
         songPlayerController = new SongPlayerController();
         allSongsViewController = new AllSongsViewController();
         albumsViewController =  new AlbumsViewController();
@@ -37,7 +41,7 @@ public class Main extends Application {
         navigationDrawerController = new NavigationDrawerController();
 
         fxmlLoader.setControllerFactory(param -> {
-            if (param == MainPlayerControllerPlayer.class)
+            if (param == MainPlayerController.class)
                 return mainPlayerController;
             else if (param == SongPlayerController.class)
                 return songPlayerController;
@@ -73,7 +77,7 @@ public class Main extends Application {
         albumsViewOverviewController.setAlbumsViewController(albumsViewController);
 
         mainPlayerController.setScene(mainScene);
-        mainPlayerController.initPlayer();
+        mainPlayerController.buildUI();
 
         primaryStage.setTitle("Music Hub");
         primaryStage.setScene(mainScene);
@@ -84,10 +88,5 @@ public class Main extends Application {
         primaryStage.show();
 
         mainPlayerController.refreshUI();
-    }
-
-
-    public static void main(String[] args) throws Exception {
-        launch(args);
     }
 }

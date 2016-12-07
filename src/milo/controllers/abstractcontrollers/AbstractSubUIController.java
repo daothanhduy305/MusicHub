@@ -1,6 +1,6 @@
 package milo.controllers.abstractcontrollers;
 
-import milo.controllers.MainPlayerControllerPlayer;
+import milo.controllers.MainPlayerController;
 
 /**
  * Class name:  AbstractSubUIController
@@ -9,9 +9,9 @@ import milo.controllers.MainPlayerControllerPlayer;
  */
 
 public abstract class AbstractSubUIController extends AbstractUIController {
-    protected MainPlayerControllerPlayer mainPlayerController;
+    protected MainPlayerController mainPlayerController;
 
-    public void setMainPlayerController(MainPlayerControllerPlayer mainPlayerController) {
+    public void setMainPlayerController(MainPlayerController mainPlayerController) {
         this.mainPlayerController = mainPlayerController;
     }
 }

@@ -1,6 +1,5 @@
 package milo.controllers;
 
-import javafx.scene.Scene;
 import milo.controllers.abstractcontrollers.AbstractSubUIController;
 
 /**
@@ -10,8 +9,6 @@ import milo.controllers.abstractcontrollers.AbstractSubUIController;
  */
 
 public class AlbumsViewController extends AbstractSubUIController {
-    private Scene mScene;
-
     @Override
     public void buildUI() {
 
@@ -20,9 +17,5 @@ public class AlbumsViewController extends AbstractSubUIController {
     @Override
     public void refreshUI() {
 
-    }
-
-    public void setScene(Scene scene) {
-        this.mScene = scene;
     }
 }
