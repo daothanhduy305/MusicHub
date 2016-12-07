@@ -1,7 +1,5 @@
 package milo.controllers.utils;
 
-import milo.gui.utils.Constants;
-
 /**
  * Class name:  LOG
  * Description: This class contains the methods used for logging
@@ -9,6 +7,7 @@ import milo.gui.utils.Constants;
  */
 
 public class LOG {
+    private final static String LOG_TAG = "Music Hub: ";
 
     /**
      * Function name:   e
@@ -18,6 +17,6 @@ public class LOG {
      */
 
     public static void e(String errorMessage) {
-        System.out.println(Constants.getLogTag() + "(ERROR): " + errorMessage);
+        System.out.println(LOG_TAG + "(ERROR): " + errorMessage);
     }
 }
