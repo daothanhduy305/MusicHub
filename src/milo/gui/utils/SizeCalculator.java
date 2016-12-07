@@ -1,7 +1,6 @@
 package milo.gui.utils;
 
 import javafx.scene.Scene;
-import milo.data.Constants;
 
 /**
  * Class name:  SizeCalculator

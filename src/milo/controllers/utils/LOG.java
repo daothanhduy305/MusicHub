@@ -1,6 +1,6 @@
 package milo.controllers.utils;
 
-import milo.data.Constants;
+import milo.gui.utils.Constants;
 
 /**
  * Class name:  LOG

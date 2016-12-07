@@ -1,8 +1,6 @@
 package milo.gui.custom;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import milo.data.Constants;
 
 /**
  * Class name:  ActionButton

@@ -1,4 +1,4 @@
-package milo.data;
+package milo.gui.utils;
 
 /**
  * Class name:  Constants
