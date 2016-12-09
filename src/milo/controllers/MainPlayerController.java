@@ -22,7 +22,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
      */
     @FXML private SongPlayerController songPlayerController;
     @FXML
-    private MainPanelController mainPanelController;
+    private MainViewPanelController mainViewPanelController;
 
     private ObservableList<SongData> songDatas; // TODO: make this into settings class instead
     private List<SongData> currentPlaylist, previousList;
@@ -67,6 +67,6 @@ public class MainPlayerController extends AbstractPlayerUIController {
         SizeCalculator sizeCalculator = new SizeCalculator(scene);
 
         songPlayerController.setSizeCalculator(sizeCalculator);
-        mainPanelController.setSizeCalculator(sizeCalculator);
+        mainViewPanelController.setSizeCalculator(sizeCalculator);
     }
 }
