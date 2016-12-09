@@ -30,7 +30,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ui/fxmlTemplates/main_player.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gui/designs/main_player_GUI.fxml"));
 
         mainPlayerController = new MainPlayerController();
         songPlayerController = new SongPlayerController();

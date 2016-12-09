@@ -4,6 +4,6 @@
 <?import javafx.scene.layout.StackPane?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" alignment="BOTTOM_LEFT" xmlns="http://javafx.com/javafx/8.0.112"
            fx:controller="milo.controllers.MainPlayerController">
-    <fx:include source="main_view_panel.fxml" fx:id="mainPanel"/>
+    <fx:include source="main_view_panel.fxml" fx:id="mainViewPanel"/>
     <fx:include source="song_player.fxml" fx:id="songPlayer"/>
 </StackPane>
