@@ -64,9 +64,9 @@ public class SongPlayerController extends AbstractSubUIController {
         albumArtHolder.setVisible(false);
 
         songSeekBar.getStylesheets().clear();
-        songSeekBar.getStylesheets().add(Constants.getCssPath());
+        songSeekBar.getStylesheets().add(Constants.getCssMainFilePath());
         songProgressBar.getStylesheets().clear();
-        songProgressBar.getStylesheets().add(Constants.getCssPath());
+        songProgressBar.getStylesheets().add(Constants.getCssMainFilePath());
 
         prevButton = new ActionButton("prev");
         prevButton.setOnMouseClicked(event -> mainPlayerController.playPreviousSong());
@@ -122,7 +122,7 @@ public class SongPlayerController extends AbstractSubUIController {
         });
         songSeekBar.setOnMouseReleased(event -> {
             songSeekBar.getStylesheets().clear();
-            songSeekBar.getStylesheets().add(Constants.getCssPath());
+            songSeekBar.getStylesheets().add(Constants.getCssMainFilePath());
             mainPlayerController.getPlayer().seek(new Duration(songSeekBar.getValue() * 1000.0));
             thumbChanged = false;
         });

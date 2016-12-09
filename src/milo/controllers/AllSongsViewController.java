@@ -33,7 +33,7 @@ public class AllSongsViewController extends AbstractSubUIController {
     @Override
     public void buildUI() {
         songListTable.getStylesheets().clear();
-        songListTable.getStylesheets().add(Constants.getCssPath());
+        songListTable.getStylesheets().add(Constants.getCssMainFilePath());
         songListTable.setVisible(false);
 
         songListTableTitle.setCellValueFactory(cellData -> cellData.getValue().titleProperty());

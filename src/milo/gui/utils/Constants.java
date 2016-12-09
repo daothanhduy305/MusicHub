@@ -10,8 +10,8 @@ import java.io.File;
  */
 
 public class Constants {
-    private final static File CSS_FILE = new File("css/music_hub.css");
-    private final static String CSS_PATH = "file:///" + CSS_FILE.getAbsolutePath().replace("\\", "/");
+    private final static File CSS_MAIN_FILE = new File("css/music_hub.css");
+    private final static String CSS_MAIN_FILE_PATH = "file:///" + CSS_MAIN_FILE.getAbsolutePath().replace("\\", "/");
     private final static File CSS_FILE_THUMB_CLICKED = new File("css/thumb_clicked.css");
     private final static String CSS_FILE_THUMB_CLICKED_PATH = "file:///" + CSS_FILE_THUMB_CLICKED.getAbsolutePath().replace("\\", "/");
     private final static File DEFAULT_ARTWORK = new File("proprietary/data/media/aw/milo_dfaw");
@@ -23,8 +23,8 @@ public class Constants {
     private final static double PLAYER_BAR_HEIGHT = GUIUtils.getScreenHeight() / 10.0;
     private final static double PLAYER_BAR_ALBUM_ART_SIZE = PLAYER_BAR_HEIGHT - 2 * PLAYER_BAR_PADDING_V;
 
-    public static String getCssPath() {
-        return CSS_PATH;
+    public static String getCssMainFilePath() {
+        return CSS_MAIN_FILE_PATH;
     }
 
     public static String getCssFileThumbClickedPath() {
