@@ -23,19 +23,26 @@ public class MainPlayerController extends AbstractPlayerUIController {
     @FXML private SongPlayerController songPlayerController;
     @FXML
     private MainViewPanelController mainViewPanelController;
+    @FXML
+    private NavigationDrawerController navigationDrawerController;
 
     private ObservableList<SongData> songDatas; // TODO: make this into settings class instead
     private List<SongData> currentPlaylist, previousList;
     private boolean isShuffle = false, isRepeat = false; // TODO: make this into settings class instead
+    private SizeCalculator sizeCalculator;
 
     @Override
     public void buildUI() {
         songPlayerController.buildUI();
         mainViewPanelController.buildUI();
+
+        mainViewPanelController.showAllSongsView();
     }
 
     @Override
     public void refreshUI() {
+        sizeCalculator.calibrate();
+
         songPlayerController.refreshUI();
         mainViewPanelController.refreshUI();
     }
@@ -65,10 +72,21 @@ public class MainPlayerController extends AbstractPlayerUIController {
 
     }
 
+    /**
+     * Function name:   setScene
+     * Usage:   this method would be called to set the main scene for refreshUI() to work properly. This also pass the
+     * sizeCalculator to children controllers.
+     *
+     * @param scene main scene from Main
+     */
     public void setScene(Scene scene) {
-        SizeCalculator sizeCalculator = new SizeCalculator(scene);
+        sizeCalculator = new SizeCalculator(scene);
 
         songPlayerController.setSizeCalculator(sizeCalculator);
         mainViewPanelController.setSizeCalculator(sizeCalculator);
+    }
+
+    public ObservableList<SongData> getSongDatas() {
+        return songDatas;
     }
 }

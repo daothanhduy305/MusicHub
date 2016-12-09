@@ -16,6 +16,7 @@ import milo.data.SongData;
 import milo.gui.custom.ActionButton;
 import milo.gui.utils.Constants;
 import milo.gui.utils.GUIUtils;
+import milo.gui.utils.SizeCalculator;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.tag.images.Artwork;
 
@@ -129,7 +130,49 @@ public class SongPlayerController extends AbstractSubUIController {
 
     @Override
     public void refreshUI() {
-        // TODO: implement this
+        playerBox.setPrefHeight(SizeCalculator.getPlayerBarHeight());
+        playerBox.setMaxHeight(SizeCalculator.getPlayerBarHeight());
+
+        playerBox.setPadding(new Insets(
+                sizeCalculator.getPlayerBarPaddingV(),
+                sizeCalculator.getPlayerBarPaddingH(),
+                sizeCalculator.getPlayerBarPaddingV(),
+                sizeCalculator.getPlayerBarPaddingH()
+        ));
+        albumArtView.setFitHeight(sizeCalculator.getPlayerBarAlbumArtSize());
+        albumArtView.setFitWidth(sizeCalculator.getPlayerBarAlbumArtSize());
+        final int delta = 2;
+        albumArtHolder.setMaxWidth(sizeCalculator.getPlayerBarAlbumArtSize() + delta);
+        albumArtHolder.setPrefWidth(sizeCalculator.getPlayerBarAlbumArtSize() + delta);
+        albumArtHolder.setMaxHeight(sizeCalculator.getPlayerBarAlbumArtSize() + delta);
+        albumArtHolder.setPrefHeight(sizeCalculator.getPlayerBarAlbumArtSize() + delta);
+        songInfoLabelsBox.setPadding(new Insets(
+                sizeCalculator.getPlayerBarPaddingV(),
+                sizeCalculator.getPlayerBarPaddingH(),
+                sizeCalculator.getPlayerBarPaddingV(),
+                2 * sizeCalculator.getPlayerBarPaddingH()
+        ));
+        songInfoLabelsBox.setMaxWidth(sizeCalculator.getSongInfoLabelsBoxW());
+        songInfoLabelsBox.setPrefWidth(sizeCalculator.getSongInfoLabelsBoxW());
+        lengthCountLabel.setPrefWidth(sizeCalculator.getLengthLabelWidth());
+        lengthCountLabel.setMaxWidth(sizeCalculator.getLengthLabelWidth());
+        lengthTotalLabel.setPrefWidth(sizeCalculator.getLengthLabelWidth());
+        lengthTotalLabel.setMaxWidth(sizeCalculator.getLengthLabelWidth());
+        lengthCountLabel.setPadding(new Insets(
+                0, 0, 0, sizeCalculator.getPlayerBarPaddingH()
+        ));
+        lengthTotalLabel.setPadding(new Insets(
+                0, 0, 0, sizeCalculator.getPlayerBarPaddingH()
+        ));
+        songSeekBar.setMaxWidth(sizeCalculator.getSeekBarWidth());
+        songSeekBar.setPrefWidth(sizeCalculator.getSeekBarWidth());
+        songProgressBar.setMaxWidth(sizeCalculator.getSeekBarWidth());
+        songProgressBar.setPrefWidth(sizeCalculator.getSeekBarWidth());
+        seekBarHolder.setMaxWidth(sizeCalculator.getSeekBarWidth());
+        seekBarHolder.setPrefWidth(sizeCalculator.getSeekBarWidth());
+        seekBarHolder.setPadding(new Insets(
+                0, 2 * sizeCalculator.getPlayerBarPaddingH(), 0, 2 * sizeCalculator.getPlayerBarPaddingH()
+        ));
 
         if (thumb == null)
             thumb = (StackPane) songSeekBar.lookup(".thumb");
@@ -176,15 +219,15 @@ public class SongPlayerController extends AbstractSubUIController {
                         if (rawAlbumArt != null)
                             albumArtView.setImage(new Image(
                                     new ByteArrayInputStream(rawAlbumArt),
-                                    Constants.getPlayerBarHeight() * 1.5,
-                                    Constants.getPlayerBarHeight() * 1.5,
+                                    SizeCalculator.getPlayerBarHeight() * 1.5,
+                                    SizeCalculator.getPlayerBarHeight() * 1.5,
                                     true, true
                             ));
                         else
                             albumArtView.setImage(new Image(
                                     Constants.getDefaultArtwork().toURI().toURL().toExternalForm(),
-                                    Constants.getPlayerBarHeight() * 1.5,
-                                    Constants.getPlayerBarHeight() * 1.5,
+                                    SizeCalculator.getPlayerBarHeight() * 1.5,
+                                    SizeCalculator.getPlayerBarHeight() * 1.5,
                                     true, true, false
                             ));
                     } catch (MalformedURLException mal) {

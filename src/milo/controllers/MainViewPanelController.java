@@ -1,7 +1,9 @@
 package milo.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 import milo.controllers.abstractcontrollers.AbstractSubUIController;
+import milo.gui.utils.SizeCalculator;
 
 /**
  * Class name:  MainViewPanelController
@@ -10,9 +12,11 @@ import milo.controllers.abstractcontrollers.AbstractSubUIController;
 
 public class MainViewPanelController extends AbstractSubUIController {
     @FXML
-    AllSongsViewController allSongsViewController;
+    private AllSongsViewController allSongsViewController;
     @FXML
-    AlbumsViewController albumsViewController;
+    private AlbumsViewController albumsViewController;
+    @FXML
+    private StackPane mHolder;
 
     @Override
     public void buildUI() {
@@ -24,5 +28,33 @@ public class MainViewPanelController extends AbstractSubUIController {
     public void refreshUI() {
         allSongsViewController.refreshUI();
         albumsViewController.refreshUI();
+    }
+
+    @Override
+    public void setSizeCalculator(SizeCalculator sizeCalculator) {
+        super.setSizeCalculator(sizeCalculator);
+
+        albumsViewController.setSizeCalculator(sizeCalculator);
+        allSongsViewController.setSizeCalculator(sizeCalculator);
+    }
+
+    /**
+     * Function name:   showAllSongsView
+     * Usage:   this method would be called to set the mainViewPanel to display AllSongsView
+     */
+    public void showAllSongsView() {
+        mHolder.getChildren().get(0).setVisible(true);
+        mHolder.getChildren().get(1).setVisible(false);
+    }
+
+    /**
+     * Function name:   showAlbumsView
+     * Usage:   this method would be called to set the mainViewPanel to display AlbumsView
+     */
+    public void showAlbumsView() {
+        mHolder.getChildren().get(1).setVisible(true);
+        mHolder.getChildren().get(0).setVisible(false);
+
+        albumsViewController.showAlbumOverview();
     }
 }

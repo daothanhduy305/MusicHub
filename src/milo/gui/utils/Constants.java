@@ -50,4 +50,12 @@ public class Constants {
     public static double getPlayerBarAlbumArtSize() {
         return PLAYER_BAR_ALBUM_ART_SIZE;
     }
+
+    public static double getPlayerBarPaddingH() {
+        return PLAYER_BAR_PADDING_H;
+    }
+
+    public static double getPlayerBarPaddingV() {
+        return PLAYER_BAR_PADDING_V;
+    }
 }

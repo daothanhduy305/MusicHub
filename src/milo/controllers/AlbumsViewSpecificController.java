@@ -1,6 +1,7 @@
 package milo.controllers;
 
 import milo.controllers.abstractcontrollers.AbstractAlbumsViewSubController;
+import milo.data.AlbumData;
 
 /**
  * Class name:  AlbumsViewSpecificController
@@ -16,6 +17,16 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
 
     @Override
     public void refreshUI() {
+
+    }
+
+    /**
+     * Function name:   showAlbum
+     * Usage:   this function is called display the view for a specific album
+     *
+     * @param albumData the data of the album to be displayed
+     */
+    public void showAlbum(AlbumData albumData) {
 
     }
 }
