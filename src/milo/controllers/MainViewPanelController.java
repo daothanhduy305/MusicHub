@@ -1,5 +1,6 @@
 package milo.controllers;
 
+import javafx.fxml.FXML;
 import milo.controllers.abstractcontrollers.AbstractSubUIController;
 
 /**
@@ -8,13 +9,20 @@ import milo.controllers.abstractcontrollers.AbstractSubUIController;
  */
 
 public class MainViewPanelController extends AbstractSubUIController {
+    @FXML
+    AllSongsViewController allSongsViewController;
+    @FXML
+    AlbumsViewController albumsViewController;
+
     @Override
     public void buildUI() {
-
+        allSongsViewController.buildUI();
+        albumsViewController.buildUI();
     }
 
     @Override
     public void refreshUI() {
-
+        allSongsViewController.refreshUI();
+        albumsViewController.refreshUI();
     }
 }
