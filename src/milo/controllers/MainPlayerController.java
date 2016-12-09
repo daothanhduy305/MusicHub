@@ -31,11 +31,13 @@ public class MainPlayerController extends AbstractPlayerUIController {
     @Override
     public void buildUI() {
         songPlayerController.buildUI();
+        mainViewPanelController.buildUI();
     }
 
     @Override
     public void refreshUI() {
         songPlayerController.refreshUI();
+        mainViewPanelController.refreshUI();
     }
 
     @Override
