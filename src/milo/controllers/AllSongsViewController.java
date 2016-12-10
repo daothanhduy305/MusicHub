@@ -19,12 +19,9 @@ import java.util.ArrayList;
  */
 
 public class AllSongsViewController extends AbstractSubUIController {
-    @FXML
-    private TableView<SongData> songListTable;
-    @FXML
-    private TableColumn<SongData, String> songListTableTitle, songListTableArtist, songListTableLength;
-    @FXML
-    private VBox mHolder;
+    @FXML private TableView<SongData> songListTable;
+    @FXML private TableColumn<SongData, String> songListTableTitle, songListTableArtist, songListTableLength;
+    @FXML private VBox mHolder;
 
     private SortedList<SongData> songDataSortedList;
     private boolean isDBSet = false;

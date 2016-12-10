@@ -35,14 +35,10 @@ public class SongPlayerController extends AbstractSubUIController {
     private VBox songInfoLabelsBox;
     @FXML
     private Label songTitleLabel, songArtistLabel, lengthCountLabel, lengthTotalLabel;
-    @FXML
-    private ImageView albumArtView;
-    @FXML
-    private StackPane albumArtHolder, seekBarHolder;
-    @FXML
-    private Slider songSeekBar;
-    @FXML
-    private ProgressBar songProgressBar;
+    @FXML private ImageView albumArtView;
+    @FXML private StackPane albumArtHolder, seekBarHolder;
+    @FXML private Slider songSeekBar;
+    @FXML private ProgressBar songProgressBar;
 
     private ActionButton playButton;
     private ActionButton nextButton;

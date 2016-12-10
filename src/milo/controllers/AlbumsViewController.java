@@ -12,12 +12,9 @@ import milo.data.AlbumData;
  */
 
 public class AlbumsViewController extends AbstractSubUIController {
-    @FXML
-    private AlbumsViewOverviewController albumsViewOverviewController;
-    @FXML
-    private AlbumsViewSpecificController albumsViewSpecificController;
-    @FXML
-    private StackPane mHolder;
+    @FXML private AlbumsViewOverviewController albumsViewOverviewController;
+    @FXML private AlbumsViewSpecificController albumsViewSpecificController;
+    @FXML private StackPane mHolder;
 
     @Override
     public void buildUI() {

@@ -14,10 +14,8 @@ import milo.gui.utils.Constants;
  */
 
 public class NavigationDrawerController extends AbstractSubUIController {
-    @FXML
-    private ScrollPane mHolder;
-    @FXML
-    private VBox buttonBox;
+    @FXML private ScrollPane mHolder;
+    @FXML private VBox buttonBox;
 
     private NavigationViewButton allSongViewButton;
     private NavigationViewButton albumsViewButton;

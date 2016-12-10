@@ -11,14 +11,10 @@ import milo.gui.utils.SizeCalculator;
  */
 
 public class MainViewPanelController extends AbstractSubUIController {
-    @FXML
-    private AllSongsViewController allSongsViewController;
-    @FXML
-    private AlbumsViewController albumsViewController;
-    @FXML
-    private StackPane mHolder;
-    @FXML
-    private NavigationDrawerController navigationDrawerController;
+    @FXML private AllSongsViewController allSongsViewController;
+    @FXML private AlbumsViewController albumsViewController;
+    @FXML private StackPane mHolder;
+    @FXML private NavigationDrawerController navigationDrawerController;
 
     @Override
     public void buildUI() {
