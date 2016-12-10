@@ -22,12 +22,9 @@ public class MainPlayerController extends AbstractPlayerUIController {
      * First is the section for @FXML variables, which are corresponded to the UI element with the same name <-> fx:id
      */
     @FXML private SongPlayerController songPlayerController;
-    @FXML
-    private MainViewPanelController mainViewPanelController;
-    @FXML
-    private NavigationDrawerController navigationDrawerController;
-    @FXML
-    private GridPane mHolder;
+    @FXML private MainViewPanelController mainViewPanelController;
+    @FXML private NavigationDrawerController navigationDrawerController;
+    @FXML private GridPane mHolder;
 
     private ObservableList<SongData> songDatas; // TODO: make this into settings class instead
     private List<SongData> currentPlaylist, previousList;
