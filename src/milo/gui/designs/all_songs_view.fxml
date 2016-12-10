@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112"
-      fx:controller="milo.controllers.AllSongsViewController" fx:id="mHolder">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="mHolder" prefHeight="500.0" prefWidth="500.0"
+      style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8.0.102"
+      fx:controller="milo.controllers.AllSongsViewController">
     <children>
-        <TableView fx:id="songListTable" editable="true" fixedCellSize="48.0" focusTraversable="false"
-                   prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;"
-                   styleClass="song_list_table">
+        <TableView fx:id="songListTable" fixedCellSize="48.0" focusTraversable="false" prefHeight="200.0"
+                   prefWidth="200.0"
+                   style="-fx-background-color: #fff;" styleClass="song_list_table">
             <columns>
                 <TableColumn fx:id="songListTableTitle" minWidth="100.0" prefWidth="400.0" resizable="false"
                              text="Title"/>

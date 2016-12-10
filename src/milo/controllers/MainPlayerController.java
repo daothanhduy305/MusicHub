@@ -3,6 +3,7 @@ package milo.controllers;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
 import milo.controllers.abstractcontrollers.AbstractPlayerUIController;
 import milo.data.SongData;
 import milo.gui.utils.SizeCalculator;
@@ -25,6 +26,8 @@ public class MainPlayerController extends AbstractPlayerUIController {
     private MainViewPanelController mainViewPanelController;
     @FXML
     private NavigationDrawerController navigationDrawerController;
+    @FXML
+    private GridPane mHolder;
 
     private ObservableList<SongData> songDatas; // TODO: make this into settings class instead
     private List<SongData> currentPlaylist, previousList;
@@ -34,17 +37,19 @@ public class MainPlayerController extends AbstractPlayerUIController {
     @Override
     public void buildUI() {
         songPlayerController.buildUI();
+        navigationDrawerController.buildUI();
         mainViewPanelController.buildUI();
-
-        mainViewPanelController.showAllSongsView();
     }
 
     @Override
     public void refreshUI() {
         sizeCalculator.calibrate();
 
+        mHolder.setPrefHeight(sizeCalculator.getWindowHeight());
+
         songPlayerController.refreshUI();
         mainViewPanelController.refreshUI();
+        navigationDrawerController.refreshUI();
     }
 
     @Override
@@ -84,6 +89,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
 
         songPlayerController.setSizeCalculator(sizeCalculator);
         mainViewPanelController.setSizeCalculator(sizeCalculator);
+        navigationDrawerController.setSizeCalculator(sizeCalculator);
     }
 
     public ObservableList<SongData> getSongDatas() {

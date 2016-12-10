@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.layout.StackPane?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-           minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112"
-           fx:controller="milo.controllers.MainViewPanelController" fx:id="mHolder">
+<StackPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mHolder" prefHeight="400.0" prefWidth="600.0"
+           style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8.0.102"
+           fx:controller="milo.controllers.MainViewPanelController">
     <children>
-        <fx:include source="all_songs_view.fxml" fx:id="allSongsView"/>
-        <fx:include source="album_views.fxml" fx:id="albumsView"/>
+        <fx:include fx:id="allSongsView" source="all_songs_view.fxml"/>
+        <fx:include fx:id="albumsView" source="album_views.fxml"/>
     </children>
 </StackPane>

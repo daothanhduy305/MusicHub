@@ -16,7 +16,6 @@ import milo.data.SongData;
 import milo.gui.custom.ActionButton;
 import milo.gui.utils.Constants;
 import milo.gui.utils.GUIUtils;
-import milo.gui.utils.SizeCalculator;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.tag.images.Artwork;
 
@@ -130,8 +129,8 @@ public class SongPlayerController extends AbstractSubUIController {
 
     @Override
     public void refreshUI() {
-        playerBox.setPrefHeight(SizeCalculator.getPlayerBarHeight());
-        playerBox.setMaxHeight(SizeCalculator.getPlayerBarHeight());
+        playerBox.setPrefHeight(sizeCalculator.getPlayerBarHeight());
+        playerBox.setMaxHeight(sizeCalculator.getPlayerBarHeight());
 
         playerBox.setPadding(new Insets(
                 sizeCalculator.getPlayerBarPaddingV(),
@@ -219,15 +218,15 @@ public class SongPlayerController extends AbstractSubUIController {
                         if (rawAlbumArt != null)
                             albumArtView.setImage(new Image(
                                     new ByteArrayInputStream(rawAlbumArt),
-                                    SizeCalculator.getPlayerBarHeight() * 1.5,
-                                    SizeCalculator.getPlayerBarHeight() * 1.5,
+                                    sizeCalculator.getPlayerBarHeight() * 1.5,
+                                    sizeCalculator.getPlayerBarHeight() * 1.5,
                                     true, true
                             ));
                         else
                             albumArtView.setImage(new Image(
                                     Constants.getDefaultArtwork().toURI().toURL().toExternalForm(),
-                                    SizeCalculator.getPlayerBarHeight() * 1.5,
-                                    SizeCalculator.getPlayerBarHeight() * 1.5,
+                                    sizeCalculator.getPlayerBarHeight() * 1.5,
+                                    sizeCalculator.getPlayerBarHeight() * 1.5,
                                     true, true, false
                             ));
                     } catch (MalformedURLException mal) {

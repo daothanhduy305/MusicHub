@@ -6,6 +6,10 @@
 .nav_drawer,
 .song_list_table {
     -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-inner-border: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0px;
 }
 
 .song_list_table .scroll-bar:horizontal .track,

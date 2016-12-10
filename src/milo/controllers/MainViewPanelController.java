@@ -17,15 +17,22 @@ public class MainViewPanelController extends AbstractSubUIController {
     private AlbumsViewController albumsViewController;
     @FXML
     private StackPane mHolder;
+    @FXML
+    private NavigationDrawerController navigationDrawerController;
 
     @Override
     public void buildUI() {
         allSongsViewController.buildUI();
         albumsViewController.buildUI();
+
+        showAllSongsView();
     }
 
     @Override
     public void refreshUI() {
+        mHolder.setPrefWidth(sizeCalculator.getMainViewPanelWidth());
+        mHolder.setPrefHeight(sizeCalculator.getWindowHeight());
+
         allSongsViewController.refreshUI();
         albumsViewController.refreshUI();
     }
@@ -45,6 +52,8 @@ public class MainViewPanelController extends AbstractSubUIController {
     public void showAllSongsView() {
         mHolder.getChildren().get(0).setVisible(true);
         mHolder.getChildren().get(1).setVisible(false);
+
+        navigationDrawerController.enableAllSongsViewButton();
     }
 
     /**
@@ -55,6 +64,11 @@ public class MainViewPanelController extends AbstractSubUIController {
         mHolder.getChildren().get(1).setVisible(true);
         mHolder.getChildren().get(0).setVisible(false);
 
+        navigationDrawerController.enableAlbumsViewButton();
         albumsViewController.showAlbumOverview();
+    }
+
+    public void setNavigationDrawerController(NavigationDrawerController navigationDrawerController) {
+        this.navigationDrawerController = navigationDrawerController;
     }
 }

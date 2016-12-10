@@ -4,14 +4,15 @@ import javafx.scene.Scene;
 
 /**
  * Class name:  SizeCalculator
- * Description: This class will be called on resizing to tuned the necessary sizes to adapt to the scene's sizes
+ * Description: This class will be called on resizing to tuned the necessary sizes to adapt to the mScene's sizes
  *              dynamically
  * TODO: Some of these (or their names) will need to be tweaked later
  */
 
 public class SizeCalculator {
-    private static double playerBarHeight = Constants.getPlayerBarHeight();
-    private Scene theScene;
+    private Scene mScene;
+
+    private double playerBarHeight = Constants.getPlayerBarHeight();
     private double playerBarPaddingV = Constants.getPlayerBarPaddingV();
     private double playerBarPaddingH = Constants.getPlayerBarPaddingH();
     private double playerBarAlbumArtSize = Constants.getPlayerBarAlbumArtSize();
@@ -19,21 +20,20 @@ public class SizeCalculator {
     private double seekBarWidth;
     private double lengthLabelWidth;
 
-    private double navigationDrawerWidth;
+    private double navigationDrawerWidth = Constants.getNavigationDrawerWidth();
+    private double navigationDrawerButtonHeight = Constants.getNavigationDrawerButtonHeight();
+    private double navigationDrawerPaddingH = Constants.getNavigationDrawerPaddingH();
+    private double navigationDrawerPaddingV = Constants.getNavigationDrawerPaddingV();
 
     private double mainViewPanelWidth;
-    private double mainPanelPaddingWidth;
+    private double mainViewPanelPaddingWidth;
     private double songTableWidth;
     private double bigColumnWidth;
     private double smallColumnWidth;
 
     public SizeCalculator(Scene scene) {
-        this.theScene = scene;
+        this.mScene = scene;
         this.calibrate();
-    }
-
-    public static double getPlayerBarHeight() {
-        return playerBarHeight;
     }
 
     /**
@@ -42,25 +42,31 @@ public class SizeCalculator {
      * TODO: implement the method
      */
     public void calibrate() {
-        navigationDrawerWidth = theScene.getWidth() / 4.25;
-
-        mainViewPanelWidth = theScene.getWidth() - navigationDrawerWidth;
-        mainPanelPaddingWidth = mainViewPanelWidth / 50;
-        songTableWidth = mainViewPanelWidth - 2 * mainPanelPaddingWidth;
+        mainViewPanelWidth = mScene.getWidth() - navigationDrawerWidth;
+        mainViewPanelPaddingWidth = mainViewPanelWidth / 50;
+        songTableWidth = mainViewPanelWidth /*- 2 * mainViewPanelPaddingWidth*/;
         bigColumnWidth = (4.7 * songTableWidth) / 10;
         smallColumnWidth = (songTableWidth - 2 * bigColumnWidth) * 0.9;
 
-        songInfoLabelsBoxW = (theScene.getWidth() - (playerBarAlbumArtSize + 4 + 2 * playerBarPaddingH)) / 5;
+        songInfoLabelsBoxW = (mScene.getWidth() - (playerBarAlbumArtSize + 4 + 2 * playerBarPaddingH)) / 5;
         lengthLabelWidth = songInfoLabelsBoxW * 0.15;
         seekBarWidth = songInfoLabelsBoxW * 3 - 2 * lengthLabelWidth - 2 * playerBarPaddingH;
+    }
+
+    public double getWindowWidth() {
+        return mScene.getWidth();
+    }
+
+    public double getWindowHeight() {
+        return mScene.getHeight();
     }
 
     public double getBigColumnWidth() {
         return bigColumnWidth;
     }
 
-    public double getMainPanelPaddingWidth() {
-        return mainPanelPaddingWidth;
+    public double getMainViewPanelPaddingWidth() {
+        return mainViewPanelPaddingWidth;
     }
 
     public double getSmallColumnWidth() {
@@ -87,6 +93,10 @@ public class SizeCalculator {
         return navigationDrawerWidth;
     }
 
+    public double getPlayerBarHeight() {
+        return playerBarHeight;
+    }
+
     public double getPlayerBarPaddingH() {
         return playerBarPaddingH;
     }
@@ -101,5 +111,17 @@ public class SizeCalculator {
 
     public double getSongInfoLabelsBoxW() {
         return songInfoLabelsBoxW;
+    }
+
+    public double getNavigationDrawerPaddingV() {
+        return navigationDrawerPaddingV;
+    }
+
+    public double getNavigationDrawerButtonHeight() {
+        return navigationDrawerButtonHeight;
+    }
+
+    public double getNavigationDrawerPaddingH() {
+        return navigationDrawerPaddingH;
     }
 }

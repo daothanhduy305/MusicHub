@@ -17,6 +17,7 @@ import milo.gui.utils.GUIUtils;
 public class Main extends Application {
     private Scene mainScene;
     private MainPlayerController mainPlayerController;
+    private MainViewPanelController mainViewPanelController;
     private SongPlayerController songPlayerController;
     private AllSongsViewController allSongsViewController;
     private AlbumsViewController albumsViewController;
@@ -33,6 +34,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gui/designs/main_player_GUI.fxml"));
 
         mainPlayerController = new MainPlayerController();
+        mainViewPanelController = new MainViewPanelController();
         songPlayerController = new SongPlayerController();
         allSongsViewController = new AllSongsViewController();
         albumsViewController =  new AlbumsViewController();
@@ -55,6 +57,8 @@ public class Main extends Application {
                 return albumsViewSpecificController;
             else if (param == NavigationDrawerController.class)
                 return navigationDrawerController;
+            else if (param == MainViewPanelController.class)
+                return mainViewPanelController;
             else {
                 try {
                     return param.newInstance();
@@ -73,8 +77,9 @@ public class Main extends Application {
         albumsViewController.setMainPlayerController(mainPlayerController);
         navigationDrawerController.setMainPlayerController(mainPlayerController);
 
-
         albumsViewOverviewController.setAlbumsViewController(albumsViewController);
+        navigationDrawerController.setMainViewPanelController(mainViewPanelController);
+        mainViewPanelController.setNavigationDrawerController(navigationDrawerController);
 
         mainPlayerController.setScene(mainScene);
         mainPlayerController.buildUI();

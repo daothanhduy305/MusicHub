@@ -1,15 +1,14 @@
 package milo.controllers;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import milo.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.data.SongData;
 import milo.gui.utils.Constants;
-import milo.gui.utils.GUIUtils;
 
 import java.util.ArrayList;
 
@@ -34,21 +33,23 @@ public class AllSongsViewController extends AbstractSubUIController {
     public void buildUI() {
         songListTable.getStylesheets().clear();
         songListTable.getStylesheets().add(Constants.getCssMainFilePath());
-        songListTable.setVisible(false);
 
         songListTableTitle.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
         songListTableArtist.setCellValueFactory(cellData -> cellData.getValue().artistProperty());
         songListTableLength.setCellValueFactory(cellData -> cellData.getValue().lengthStrProperty());
-        //noinspection unchecked
-        songListTable.getSortOrder().setAll(songListTableTitle);
+
+        songListTable.setFixedCellSize(48.0);
     }
 
     @Override
     public void refreshUI() {
-        songListTable.setMaxWidth(sizeCalculator.getSongTableWidth());
+        mHolder.setPrefWidth(sizeCalculator.getMainViewPanelWidth());
+        mHolder.setPrefHeight(sizeCalculator.getWindowHeight());
+
         songListTable.setPrefWidth(sizeCalculator.getSongTableWidth());
-        songListTable.setMaxHeight(GUIUtils.getScreenHeight());
-        songListTable.setPrefHeight(GUIUtils.getScreenHeight());
+        songListTable.prefHeightProperty().bind(
+                Bindings.size(songListTable.getItems()).multiply(songListTable.getFixedCellSize()).add(2.0)
+        );
 
         songListTableTitle.setPrefWidth(sizeCalculator.getBigColumnWidth());
         songListTableTitle.setMaxWidth(sizeCalculator.getBigColumnWidth());
@@ -56,13 +57,6 @@ public class AllSongsViewController extends AbstractSubUIController {
         songListTableArtist.setMaxWidth(sizeCalculator.getBigColumnWidth());
         songListTableLength.setPrefWidth(sizeCalculator.getSmallColumnWidth());
         songListTableLength.setMaxWidth(sizeCalculator.getSmallColumnWidth());
-
-        mHolder.setPadding(new Insets(
-                0,
-                sizeCalculator.getMainPanelPaddingWidth(),
-                0,
-                sizeCalculator.getMainPanelPaddingWidth()
-        ));
     }
 
     /**
@@ -84,6 +78,8 @@ public class AllSongsViewController extends AbstractSubUIController {
         }
 
         isDBSet = true;
+        //noinspection unchecked
+        songListTable.getSortOrder().setAll(songListTableTitle);
         songListTableRefresh();
     }
 
