@@ -1,8 +1,10 @@
 package milo.controllers;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import milo.controllers.abstractcontrollers.AbstractSubUIController;
+import milo.data.SongData;
 import milo.gui.utils.SizeCalculator;
 
 /**
@@ -62,6 +64,16 @@ public class MainViewPanelController extends AbstractSubUIController {
 
         navigationDrawerController.enableAlbumsViewButton();
         albumsViewController.showAlbumOverview();
+    }
+
+    /**
+     * Function name:   setDB
+     * Usage:   this method would be called to set database
+     *
+     * @param songDatas database
+     */
+    public void setDB(ObservableList<SongData> songDatas) {
+        allSongsViewController.setDB(songDatas);
     }
 
     public void setNavigationDrawerController(NavigationDrawerController navigationDrawerController) {

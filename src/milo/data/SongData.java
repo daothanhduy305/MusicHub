@@ -8,6 +8,9 @@ import milo.gui.utils.GUIUtils;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.tag.FieldKey;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
@@ -112,5 +115,24 @@ public class SongData implements Serializable, Comparable<SongData> {
     @Override
     public int compareTo(SongData o) {
         return (this.getTitle().compareTo(o.getTitle()));
+    }
+
+    private void writeObject(ObjectOutputStream s) throws IOException {
+        s.writeUTF(title.get());
+        s.writeUTF(artist.get());
+        s.writeUTF(path.get());
+        s.writeInt(length.get());
+        s.writeUTF(albumTitle.get());
+        s.writeUTF(albumAuthor.get());
+    }
+
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+        title = new SimpleStringProperty(s.readUTF());
+        artist = new SimpleStringProperty(s.readUTF());
+        path = new SimpleStringProperty(s.readUTF());
+        length = new SimpleIntegerProperty(s.readInt());
+        this.lengthStr = new SimpleStringProperty(GUIUtils.lengthToLengthStr(this.getLength(), " "));
+        albumTitle = new SimpleStringProperty(s.readUTF());
+        albumAuthor = new SimpleStringProperty(s.readUTF());
     }
 }

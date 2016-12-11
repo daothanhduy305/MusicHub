@@ -1,6 +1,8 @@
 package milo.controllers;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -25,11 +27,13 @@ public class AllSongsViewController extends AbstractSubUIController {
 
     private SortedList<SongData> songDataSortedList;
     private boolean isDBSet = false;
+    private ObservableList<SongData> songDatas;
 
     @Override
     public void buildUI() {
         songListTable.getStylesheets().clear();
         songListTable.getStylesheets().add(Constants.getCssMainFilePath());
+        songListTable.setVisible(false);
 
         songListTableTitle.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
         songListTableArtist.setCellValueFactory(cellData -> cellData.getValue().artistProperty());
@@ -59,11 +63,13 @@ public class AllSongsViewController extends AbstractSubUIController {
     /**
      * Function name:   setDB
      * Usage:   this function is called to set the song list. This can be considered as the result action for the method
-     * of creating database from Settings later. Moreover, this should be done only on init.
+     *          of creating database from Settings later. Moreover, this should be done only on init and partly done on
+     *          another thread.
      */
-    public void setDB() {
+    public void setDB(ObservableList<SongData> songDatas) {
+        this.songDatas = songDatas;
         if (!isDBSet) {
-            songDataSortedList = new SortedList<>(mainPlayerController.getSongDatas());
+            songDataSortedList = new SortedList<>(songDatas);
             songListTable.setItems(songDataSortedList);
             songDataSortedList.comparatorProperty().bind(songListTable.comparatorProperty());
             songListTable.setOnMouseClicked(event -> {
@@ -75,15 +81,18 @@ public class AllSongsViewController extends AbstractSubUIController {
         }
 
         isDBSet = true;
-        //noinspection unchecked
-        songListTable.getSortOrder().setAll(songListTableTitle);
-        songListTableRefresh();
+        Platform.runLater(() -> {
+            //noinspection unchecked
+            songListTable.getSortOrder().setAll(songListTableTitle);
+            songListTable.setVisible(true);
+            songListTableRefresh();
+        });
     }
 
     /**
      * Function name:   setDB
      * Usage:   This is the very ugly workaround to force the tableview to refresh when the data got updated but the UI
-     * view still be stuck with old data
+     *          view still be stuck with old data
      */
     private void songListTableRefresh() {
         songListTable.getColumns().get(0).setVisible(false);
@@ -95,13 +104,13 @@ public class AllSongsViewController extends AbstractSubUIController {
      * Usage:   this method would be called to build linear playlist (without shuffle)
      *
      * @param id the id number of the starting song (in the table view)
-     *           TODO: have a look at repeat mode
+     * TODO: have a look at repeat mode
      */
     void buildCurrentPlaylistLinear(int id) {
         mainPlayerController.setCurrentPlaylist(new ArrayList<>(100));
         mainPlayerController.setPreviousPlaylist(new ArrayList<>(100));
         (new Thread(() -> {
-            for (int i = id + 1; i < mainPlayerController.getSongDatas().size(); i++) {
+            for (int i = id + 1; i < songDatas.size(); i++) {
                 mainPlayerController.getCurrentPlaylist().add(songListTable.getItems().get(i));
             }
             for (int i = 0; i <= id; i++) {

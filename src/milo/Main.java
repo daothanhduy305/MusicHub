@@ -91,7 +91,5 @@ public class Main extends Application {
 
         mainScene.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> mainPlayerController.refreshUI());
         primaryStage.show();
-
-        mainPlayerController.refreshUI();
     }
 }

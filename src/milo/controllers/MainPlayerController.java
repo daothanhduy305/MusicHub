@@ -1,11 +1,13 @@
 package milo.controllers;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import milo.controllers.abstractcontrollers.AbstractPlayerUIController;
 import milo.data.SongData;
+import milo.gui.utils.SettingsFactory;
 import milo.gui.utils.SizeCalculator;
 
 import java.util.List;
@@ -26,16 +28,18 @@ public class MainPlayerController extends AbstractPlayerUIController {
     @FXML private NavigationDrawerController navigationDrawerController;
     @FXML private GridPane mHolder;
 
-    private ObservableList<SongData> songDatas; // TODO: make this into settings class instead
+    private ObservableList<SongData> songDatas;
     private List<SongData> currentPlaylist, previousList;
-    private boolean isShuffle = false, isRepeat = false; // TODO: make this into settings class instead
     private SizeCalculator sizeCalculator;
+    private SettingsFactory settingsFactory;
 
     @Override
     public void buildUI() {
         songPlayerController.buildUI();
         navigationDrawerController.buildUI();
         mainViewPanelController.buildUI();
+
+        settingsFactory = new SettingsFactory(this);
     }
 
     @Override
@@ -77,7 +81,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
     /**
      * Function name:   setScene
      * Usage:   this method would be called to set the main scene for refreshUI() to work properly. This also pass the
-     * sizeCalculator to children controllers.
+     *          sizeCalculator to children controllers.
      *
      * @param scene main scene from Main
      */
@@ -89,7 +93,20 @@ public class MainPlayerController extends AbstractPlayerUIController {
         navigationDrawerController.setSizeCalculator(sizeCalculator);
     }
 
-    public ObservableList<SongData> getSongDatas() {
-        return songDatas;
+    public MainViewPanelController getMainViewPanelController() {
+        return mainViewPanelController;
+    }
+
+    /**
+     * Function name:   setDB
+     * Usage:   this method would be called to set database and call lower-level relevant methods to set data for also
+     *          children views.
+     * @param songDatas database
+     */
+    public void setDB(List<SongData> songDatas) {
+        this.songDatas = FXCollections.observableArrayList(songDatas);
+
+        mainViewPanelController.setDB(this.songDatas);
+        refreshUI();
     }
 }
