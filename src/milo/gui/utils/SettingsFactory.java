@@ -1,7 +1,6 @@
 package milo.gui.utils;
 
 import milo.controllers.MainPlayerController;
-import milo.controllers.utils.LOG;
 import milo.data.SettingsData;
 import milo.data.SongData;
 import org.jaudiotagger.audio.AudioFile;
@@ -37,10 +36,10 @@ public class SettingsFactory {
             ObjectInputStream settingsDataIS = new ObjectInputStream(settingsFileIS);
             settingsData = (SettingsData) settingsDataIS.readObject();
             mainPlayerController.setDB(settingsData.getSongDatas());
-            LOG.w("Finished loading data");
         } catch (Exception e) {
             settingsData = new SettingsData();
             settingsData.initData();
+            // TODO: this is just a test path, it is necessary to be removed and replaced with users' path(s)
             this.createDB("TestSongs", settingsData.getSongDatas());
         }
     }
@@ -88,6 +87,26 @@ public class SettingsFactory {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean getRepeatModeStatus() {
+        return settingsData.isRepeat();
+    }
+
+    public void setRepeatModeStatus(boolean newStatus) {
+        settingsData.setRepeat(newStatus);
+    }
+
+    public boolean getShuffleModeStatus() {
+        return settingsData.isShuffle();
+    }
+
+    public void setShuffleModeStatus(boolean newStatus) {
+        settingsData.setShuffle(newStatus);
+    }
+
+    public void setPlayingSong(SongData playingSong) {
+        settingsData.setLastPlayedSong(playingSong);
     }
 
     public SettingsData getSettingsData() {

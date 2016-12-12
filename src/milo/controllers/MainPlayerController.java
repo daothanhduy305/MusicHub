@@ -5,11 +5,16 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import milo.controllers.abstractcontrollers.AbstractPlayerUIController;
 import milo.data.SongData;
 import milo.gui.utils.SettingsFactory;
 import milo.gui.utils.SizeCalculator;
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -29,7 +34,6 @@ public class MainPlayerController extends AbstractPlayerUIController {
     @FXML private GridPane mHolder;
 
     private ObservableList<SongData> songDatas;
-    private List<SongData> currentPlaylist, previousList;
     private SizeCalculator sizeCalculator;
     private SettingsFactory settingsFactory;
 
@@ -55,27 +59,77 @@ public class MainPlayerController extends AbstractPlayerUIController {
 
     @Override
     public void playSong(SongData songData) {
-
+        settingsFactory.setPlayingSong(songData);
+        this.currentPlayingSong = songData;
+        this.stopPlaying();
+        try {
+            File songFile = new File(songData.getPath());
+            AudioFile audioFile = AudioFileIO.read(songFile);
+            isPlaying = true;
+            player = new MediaPlayer(new Media(songFile.toURI().toURL().toExternalForm()));
+            songPlayerController.setupForPlayingMusic(audioFile);
+            player.play();
+            // TODO: check whether we reach the end of the list? If so, call to stop instead of pause
+            player.setOnEndOfMedia(this::playNextSong);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void pausePlaying() {
+        if (player != null) {
+            isPlaying = false;
+            songPlayerController.stopPlaying(false);
+            player.pause();
+            songPlayerController.getPlayButton().replaceButName("play");
+            songPlayerController.getPlayButton().setOnMouseClicked(event -> resumePlaying());
+        }
+    }
 
+    @Override
+    public void stopPlaying() {
+        if (player != null) {
+            isPlaying = false;
+            player.stop();
+            player.dispose();
+        }
+        songPlayerController.stopPlaying(true);
     }
 
     @Override
     public void resumePlaying() {
-
+        if (player != null) {
+            isPlaying = true;
+            songPlayerController.resumePlaying();
+            player.play();
+            songPlayerController.getPlayButton().replaceButName("pause");
+            songPlayerController.getPlayButton().setOnMouseClicked(event -> pausePlaying());
+        }
     }
 
     @Override
     public void playNextSong() {
-
+        if (currentPlaylist != null && currentPlaylist.size() > 0) {
+            previousPlaylist.add(0, currentPlayingSong);
+            currentPlayingSong = currentPlaylist.get(0);
+            if (settingsFactory.getRepeatModeStatus())
+                currentPlaylist.add(currentPlaylist.get(0));
+            currentPlaylist.remove(0);
+            mainViewPanelController.selectCurrentSong(currentPlayingSong);
+            playSong(currentPlayingSong);
+        }
     }
 
     @Override
     public void playPreviousSong() {
-
+        if (previousPlaylist != null && previousPlaylist.size() > 0) {
+            currentPlaylist.add(0, currentPlayingSong);
+            currentPlayingSong = previousPlaylist.get(0);
+            previousPlaylist.remove(0);
+            mainViewPanelController.selectCurrentSong(currentPlayingSong);
+            playSong(currentPlayingSong);
+        }
     }
 
     /**

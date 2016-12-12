@@ -15,8 +15,8 @@ public abstract class AbstractPlayerUIController extends AbstractUIController {
     protected List<SongData> currentPlaylist;
     protected List<SongData> previousPlaylist;
     protected MediaPlayer player;
-    private SongData currentPlayingSong;
-    private volatile boolean isPlaying = false;
+    protected SongData currentPlayingSong;
+    protected volatile boolean isPlaying = false;
 
     /**
      * Function name:   playSong
@@ -32,6 +32,12 @@ public abstract class AbstractPlayerUIController extends AbstractUIController {
      *          including stopping any thread relevant to the play, pausing the music
      */
     public abstract void pausePlaying();
+
+    /**
+     * Function name:   stopPlaying
+     * Usage:   this function would stop the music being played and all the relevant threads
+     */
+    public abstract void stopPlaying();
 
     /**
      * Function name:   resumePlaying

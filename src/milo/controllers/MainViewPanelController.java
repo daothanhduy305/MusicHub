@@ -67,6 +67,15 @@ public class MainViewPanelController extends AbstractSubUIController {
     }
 
     /**
+     * Function name:   selectCurrentSong
+     * Usage:   this function would be called to select the current playing song in the table(s)
+     */
+    public void selectCurrentSong(SongData songData) {
+        allSongsViewController.getSongListTable().getSelectionModel().select(songData);
+        // TODO: the same for song list of specific album
+    }
+
+    /**
      * Function name:   setDB
      * Usage:   this method would be called to set database
      *

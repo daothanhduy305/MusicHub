@@ -29,12 +29,9 @@ import java.net.MalformedURLException;
  */
 
 public class SongPlayerController extends AbstractSubUIController {
-    @FXML
-    private HBox playerBox, buttonsBox;
-    @FXML
-    private VBox songInfoLabelsBox;
-    @FXML
-    private Label songTitleLabel, songArtistLabel, lengthCountLabel, lengthTotalLabel;
+    @FXML private HBox playerBox, buttonsBox;
+    @FXML private VBox songInfoLabelsBox;
+    @FXML private Label songTitleLabel, songArtistLabel, lengthCountLabel, lengthTotalLabel;
     @FXML private ImageView albumArtView;
     @FXML private StackPane albumArtHolder, seekBarHolder;
     @FXML private Slider songSeekBar;
@@ -198,6 +195,25 @@ public class SongPlayerController extends AbstractSubUIController {
     }
 
     /**
+     * Function name:   stopPlaying
+     * Usage:   this function would be called to set up things that are necessary for stopping job
+     */
+    public void stopPlaying(boolean timeReset) {
+        if (timeReset)
+            this.timeCurrent = 0;
+        killTimeThread();
+    }
+
+    /**
+     * Function name:   resumePlaying
+     * Usage:   this function would be called to set up things that are necessary for resuming job
+     */
+    public void resumePlaying() {
+        timeStart = System.currentTimeMillis() - Math.round(mainPlayerController.getPlayer().getCurrentTime().toMillis());
+        timeTrack();
+    }
+
+    /**
      * Function name:   setAlbumArtView
      * Usage:   this function is called when a song is played, to set up the corresponding album art.
      * The loading job would be done in background instead.
@@ -260,23 +276,21 @@ public class SongPlayerController extends AbstractSubUIController {
         timeTrackingThread.start();
     }
 
-    Thread getSetAlbumArtThread() {
-        return setAlbumArtThread;
+    /**
+     * Function name:   stopPlaying
+     * Usage:   this function would be called to kill the timeTrackingThread
+     */
+    private void killTimeThread() {
+        if (timeTrackingThread != null && timeTrackingThread.isAlive()) {
+            try {
+                timeTrackingThread.join();
+            } catch (InterruptedException ie) {
+                ie.printStackTrace();
+            }
+        }
     }
 
-    Thread getTimeTrackingThread() {
-        return timeTrackingThread;
-    }
-
-    long getTimePassed() {
-        return timePassed;
-    }
-
-    void setTimeCurrent(long timeCurrent) {
-        this.timeCurrent = timeCurrent;
-    }
-
-    void setTimeStart(long timeStart) {
-        this.timeStart = timeStart;
+    public ActionButton getPlayButton() {
+        return playButton;
     }
 }
