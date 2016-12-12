@@ -8,6 +8,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import milo.controllers.abstractcontrollers.AbstractPlayerUIController;
+import milo.data.AlbumData;
 import milo.data.SongData;
 import milo.gui.utils.SettingsFactory;
 import milo.gui.utils.SizeCalculator;
@@ -16,6 +17,7 @@ import org.jaudiotagger.audio.AudioFileIO;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class name:  MainPlayerController
@@ -155,12 +157,13 @@ public class MainPlayerController extends AbstractPlayerUIController {
      * Function name:   setDB
      * Usage:   this method would be called to set database and call lower-level relevant methods to set data for also
      *          children views.
-     * @param songDatas database
+     * @param songDatas database for songs
+     * @param albumDataMap database for albums
      */
-    public void setDB(List<SongData> songDatas) {
+    public void setDB(List<SongData> songDatas, Map<String, AlbumData> albumDataMap) {
         this.songDatas = FXCollections.observableArrayList(songDatas);
 
-        mainViewPanelController.setDB(this.songDatas);
+        mainViewPanelController.setDB(this.songDatas, albumDataMap);
         refreshUI();
     }
 }

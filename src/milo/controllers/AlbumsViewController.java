@@ -5,6 +5,8 @@ import javafx.scene.layout.StackPane;
 import milo.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.data.AlbumData;
 
+import java.util.Map;
+
 /**
  * Class name:  AlbumsViewController
  * Description: This controller will control the albums views, consists of Overview (All albums) and Specific view
@@ -34,7 +36,7 @@ public class AlbumsViewController extends AbstractSubUIController {
      */
     public void showAlbumOverview() {
         mHolder.getChildren().get(0).setVisible(true);
-        mHolder.getChildren().get(1).setVisible(true);
+        mHolder.getChildren().get(1).setVisible(false);
     }
 
     /**
@@ -46,8 +48,18 @@ public class AlbumsViewController extends AbstractSubUIController {
      */
     public void showAlbum(AlbumData albumData) {
         mHolder.getChildren().get(1).setVisible(true);
-        mHolder.getChildren().get(0).setVisible(true);
+        mHolder.getChildren().get(0).setVisible(false);
 
         albumsViewSpecificController.showAlbum(albumData);
+    }
+
+    /**
+     * Function name:   setDB
+     * Usage:   this method would be called to set database
+     *
+     * @param albumDataMap database
+     */
+    public void setDB(Map<String, AlbumData> albumDataMap) {
+        albumsViewOverviewController.setDB(albumDataMap);
     }
 }

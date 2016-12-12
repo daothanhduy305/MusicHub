@@ -24,8 +24,16 @@ public class AlbumData implements Serializable, Comparable<AlbumData> {
         return mAuthor;
     }
 
+    public void setAlbumAuthor(String mAuthor) {
+        this.mAuthor = mAuthor;
+    }
+
     public String getAlbumTitle() {
         return mTitle;
+    }
+
+    public void setAlbumTitle(String mTitle) {
+        this.mTitle = mTitle;
     }
 
     public List<SongData> getSongList() {

@@ -3,6 +3,8 @@ package milo.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Class name:  SettingsData
@@ -11,15 +13,21 @@ import java.util.List;
 
 public class SettingsData implements Serializable{
     private List<SongData> songDatas;
+    private Map<String, AlbumData> albumDataMap;
     private SongData lastPlayedSong;
     private boolean isShuffle = false, isRepeat = false;
+
+    public void initData() {
+        songDatas = new ArrayList<>(100);
+        albumDataMap = new TreeMap<>();
+    }
 
     public List<SongData> getSongDatas() {
         return songDatas;
     }
 
-    public void initData() {
-        songDatas = new ArrayList<>(100);
+    public Map<String, AlbumData> getAlbumDataMap() {
+        return albumDataMap;
     }
 
     public void setLastPlayedSong(SongData lastPlayedSong) {

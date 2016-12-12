@@ -1,6 +1,8 @@
 package milo.gui.utils;
 
+import javafx.application.Platform;
 import milo.controllers.MainPlayerController;
+import milo.data.AlbumData;
 import milo.data.SettingsData;
 import milo.data.SongData;
 import org.jaudiotagger.audio.AudioFile;
@@ -9,6 +11,7 @@ import org.jaudiotagger.audio.AudioFileIO;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static milo.gui.utils.Utils.getSongsFromDir;
 
@@ -35,12 +38,12 @@ public class SettingsFactory {
             FileInputStream settingsFileIS = new FileInputStream("proprietary/data/settings/milo_set");
             ObjectInputStream settingsDataIS = new ObjectInputStream(settingsFileIS);
             settingsData = (SettingsData) settingsDataIS.readObject();
-            mainPlayerController.setDB(settingsData.getSongDatas());
+            mainPlayerController.setDB(settingsData.getSongDatas(), settingsData.getAlbumDataMap());
         } catch (Exception e) {
             settingsData = new SettingsData();
             settingsData.initData();
             // TODO: this is just a test path, it is necessary to be removed and replaced with users' path(s)
-            this.createDB("TestSongs", settingsData.getSongDatas());
+            this.createDB("TestSongs", settingsData.getSongDatas(), settingsData.getAlbumDataMap());
         }
     }
 
@@ -51,7 +54,7 @@ public class SettingsFactory {
      * @param dirPath directory that contains song files
      * @param songList database
      */
-    private void createDB(String dirPath, List<SongData> songList) {
+    private void createDB(String dirPath, List<SongData> songList, Map<String, AlbumData> albumDataMap) {
         final File directory = new File(dirPath);
         List<File> filesList = new ArrayList<>(100);
         if (directory.isDirectory()) {
@@ -61,12 +64,25 @@ public class SettingsFactory {
                 for (File songFile : filesList) {
                     try {
                         AudioFile song = AudioFileIO.read(songFile);
-                        songList.add(new SongData(song));
+                        SongData songData = new SongData(song);
+                        songList.add(songData);
+                        if (albumDataMap.get(songData.getAlbumTitle()) == null) {
+                            AlbumData albumData = new AlbumData(
+                                    songData.getAlbumTitle(),
+                                    songData.getAlbumAuthor()
+                            );
+                            if (albumData.getAlbumTitle() == null || albumData.getAlbumTitle().compareTo("") == 0)
+                                albumData.setAlbumTitle("Unknown");
+                            if (albumData.getAlbumAuthor() == null || albumData.getAlbumAuthor().compareTo("") == 0)
+                                albumData.setAlbumAuthor("Unknown");
+                            albumDataMap.put(songData.getAlbumTitle(), albumData);
+                        }
+                        albumDataMap.get(songData.getAlbumTitle()).getSongList().add(songData);
                     } catch (Exception error) {
                         error.printStackTrace();
                     }
                 }
-                mainPlayerController.setDB(settingsData.getSongDatas());
+                Platform.runLater(() -> mainPlayerController.setDB(songList, albumDataMap));
                 // TODO: call setDB also for albums view when it is implemented
                 saveSettings();
             });

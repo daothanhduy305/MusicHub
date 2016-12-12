@@ -89,8 +89,8 @@ public class Main extends Application {
         primaryStage.setScene(mainScene);
         primaryStage.setMaximized(true);
         primaryStage.setOnCloseRequest(e -> System.exit(0));
+        primaryStage.show();
 
         mainScene.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> mainPlayerController.refreshUI());
-        primaryStage.show();
     }
 }
