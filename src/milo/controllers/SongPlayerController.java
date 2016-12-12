@@ -20,7 +20,6 @@ import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.tag.images.Artwork;
 
 import java.io.ByteArrayInputStream;
-import java.net.MalformedURLException;
 
 /**
  * Class name:  SongPlayerController
@@ -224,28 +223,16 @@ public class SongPlayerController extends AbstractSubUIController {
         setAlbumArtThread = new Thread(() -> {
             try {
                 Artwork artwork = audioFile.getTag().getFirstArtwork();
-                byte[] rawAlbumArt = artwork != null ? artwork.getBinaryData() : null;
+                byte[] rawAlbumArt = artwork != null ? artwork.getBinaryData(): Constants.getDefaultArtworkRaw();
                 Platform.runLater(() -> {
-                    try {
-                        if (rawAlbumArt != null)
-                            albumArtView.setImage(new Image(
-                                    new ByteArrayInputStream(rawAlbumArt),
-                                    sizeCalculator.getPlayerBarHeight() * 1.5,
-                                    sizeCalculator.getPlayerBarHeight() * 1.5,
-                                    true, true
-                            ));
-                        else
-                            albumArtView.setImage(new Image(
-                                    Constants.getDefaultArtwork().toURI().toURL().toExternalForm(),
-                                    sizeCalculator.getPlayerBarHeight() * 1.5,
-                                    sizeCalculator.getPlayerBarHeight() * 1.5,
-                                    true, true, false
-                            ));
-                    } catch (MalformedURLException mal) {
-                        mal.printStackTrace();
-                    } finally {
-                        albumArtHolder.setVisible(true);
-                    }
+                    Image albumArtImage = new Image(
+                            new ByteArrayInputStream(rawAlbumArt),
+                            sizeCalculator.getPlayerBarHeight() * 1.5,
+                            sizeCalculator.getPlayerBarHeight() * 1.5,
+                            true, true
+                    );
+                    albumArtHolder.setVisible(true);
+                    albumArtView.setImage(albumArtImage);
                 });
             } catch (Exception e) {
                 e.printStackTrace();
