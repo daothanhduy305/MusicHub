@@ -7,6 +7,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 /**
  * Class name:  Constants
@@ -23,6 +25,14 @@ public class Constants {
     private final static File DEFAULT_ARTWORK = new File("proprietary/data/media/aw/milo_dfaw");
     private final static String BUTTONS_PRE_PATH = "file:proprietary/data/media/buts/";
     private final static String IMAGE_EXTENSION = ".png";
+    private static byte[] DEFAULT_ARTWORK_RAW;
+
+    private final static Background BG_WHITE = new Background(new BackgroundFill(
+            Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY
+    ));
+    private final static Background BG_GRAY = new Background(new BackgroundFill(
+            Color.web("#f0f0f0"), CornerRadii.EMPTY, Insets.EMPTY
+    ));
     private final static Background BG_GRAYER = new Background(new BackgroundFill(
             Color.web("#dadada"), CornerRadii.EMPTY, Insets.EMPTY
     ));
@@ -36,6 +46,8 @@ public class Constants {
     private final static double NAVIGATION_DRAWER_BUTTON_HEIGHT = GUIUtils.getScreenHeight() * 0.06;
     private final static double NAVIGATION_DRAWER_PADDING_H = GUIUtils.getScreenWidth() * 0.014;
     private final static double NAVIGATION_DRAWER_PADDING_V = 0;
+
+    private final static double ALBUM_OVERVIEW_ALBUM_ART_SIZE = GUIUtils.getScreenWidth() / 10.0;
 
     public static String getCssMainFilePath() {
         return CSS_MAIN_FILE_PATH;
@@ -89,7 +101,30 @@ public class Constants {
         return NAVIGATION_DRAWER_PADDING_V;
     }
 
+    public static Background getBgWhite() {
+        return BG_WHITE;
+    }
+
+    public static Background getBgGray() {
+        return BG_GRAY;
+    }
+
     public static Background getBgGrayer() {
         return BG_GRAYER;
+    }
+
+    public static byte[] getDefaultArtworkRaw() {
+        if (DEFAULT_ARTWORK_RAW == null) {
+            try {
+                DEFAULT_ARTWORK_RAW = Files.readAllBytes(getDefaultArtwork().toPath());
+            } catch (IOException e) {
+                DEFAULT_ARTWORK_RAW = new byte[0];
+            }
+        }
+        return DEFAULT_ARTWORK_RAW;
+    }
+
+    public static double getAlbumOverviewAlbumArtSize() {
+        return ALBUM_OVERVIEW_ALBUM_ART_SIZE;
     }
 }

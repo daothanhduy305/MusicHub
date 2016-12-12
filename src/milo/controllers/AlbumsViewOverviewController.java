@@ -1,6 +1,10 @@
 package milo.controllers;
 
 import milo.controllers.abstractcontrollers.AbstractAlbumsViewSubController;
+import milo.data.AlbumData;
+import milo.gui.custom.AlbumTileCell;
+
+import java.util.List;
 
 /**
  * Class name:  AlbumsViewOverviewController
@@ -8,6 +12,8 @@ import milo.controllers.abstractcontrollers.AbstractAlbumsViewSubController;
  */
 
 public class AlbumsViewOverviewController extends AbstractAlbumsViewSubController {
+    private List<AlbumTileCell> monitoringCells;
+
     @Override
     public void buildUI() {
 
@@ -16,5 +22,13 @@ public class AlbumsViewOverviewController extends AbstractAlbumsViewSubControlle
     @Override
     public void refreshUI() {
 
+    }
+
+    public void showAlbum(AlbumData albumData) {
+        albumsViewController.showAlbum(albumData);
+    }
+
+    public List<AlbumTileCell> getMonitoringCells() {
+        return monitoringCells;
     }
 }

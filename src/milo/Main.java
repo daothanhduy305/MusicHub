@@ -78,6 +78,7 @@ public class Main extends Application {
         navigationDrawerController.setMainPlayerController(mainPlayerController);
 
         albumsViewOverviewController.setAlbumsViewController(albumsViewController);
+        albumsViewSpecificController.setAlbumsViewController(albumsViewController);
         navigationDrawerController.setMainViewPanelController(mainViewPanelController);
         mainViewPanelController.setNavigationDrawerController(navigationDrawerController);
 

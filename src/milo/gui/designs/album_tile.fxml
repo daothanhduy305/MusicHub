@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<fx:root cache="true" spacing="7.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1">
+    <ImageView fx:id="albumArtImageView" VBox.vgrow="ALWAYS" />
+    <VBox fx:id="albumInfoBox" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+        <children>
+            <Label fx:id="albumTitleLabel" alignment="TOP_LEFT" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS">
+                <font>
+                    <Font name="Segoe UI Semibold" size="15.0" />
+                </font>
+            </Label>
+            <Label fx:id="albumAuthorLabel" accessibleHelp="..." alignment="TOP_LEFT" minWidth="-Infinity" VBox.vgrow="NEVER">
+                <font>
+                    <Font name="Segoe UI Semibold" size="13.0" />
+                </font>
+            </Label>
+        </children>
+    </VBox>
+</fx:root>
