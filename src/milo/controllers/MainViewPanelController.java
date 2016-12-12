@@ -75,7 +75,7 @@ public class MainViewPanelController extends AbstractSubUIController {
      */
     public void selectCurrentSong(SongData songData) {
         allSongsViewController.getSongListTable().getSelectionModel().select(songData);
-        // TODO: the same for song list of specific album
+        albumsViewController.selectCurrentSong(songData);
     }
 
     /**

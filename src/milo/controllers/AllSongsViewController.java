@@ -90,7 +90,7 @@ public class AllSongsViewController extends AbstractSubUIController {
     }
 
     /**
-     * Function name:   setDB
+     * Function name:   songListTableRefresh
      * Usage:   This is the very ugly workaround to force the tableview to refresh when the data got updated but the UI
      *          view still be stuck with old data
      */
@@ -106,7 +106,7 @@ public class AllSongsViewController extends AbstractSubUIController {
      * @param id the id number of the starting song (in the table view)
      * TODO: have a look at repeat mode
      */
-    void buildCurrentPlaylistLinear(int id) {
+    private void buildCurrentPlaylistLinear(int id) {
         mainPlayerController.setCurrentPlaylist(new ArrayList<>(100));
         mainPlayerController.setPreviousPlaylist(new ArrayList<>(100));
         (new Thread(() -> {

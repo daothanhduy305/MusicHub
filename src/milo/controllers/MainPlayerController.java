@@ -45,6 +45,8 @@ public class MainPlayerController extends AbstractPlayerUIController {
         navigationDrawerController.buildUI();
         mainViewPanelController.buildUI();
 
+        refreshUI();
+
         settingsFactory = new SettingsFactory(this);
     }
 

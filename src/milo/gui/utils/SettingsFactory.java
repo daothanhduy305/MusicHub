@@ -2,6 +2,7 @@ package milo.gui.utils;
 
 import javafx.application.Platform;
 import milo.controllers.MainPlayerController;
+import milo.controllers.utils.LOG;
 import milo.data.AlbumData;
 import milo.data.SettingsData;
 import milo.data.SongData;
@@ -39,6 +40,7 @@ public class SettingsFactory {
             ObjectInputStream settingsDataIS = new ObjectInputStream(settingsFileIS);
             settingsData = (SettingsData) settingsDataIS.readObject();
             mainPlayerController.setDB(settingsData.getSongDatas(), settingsData.getAlbumDataMap());
+            LOG.w(getClass() + ": Finished loading settings");
         } catch (Exception e) {
             settingsData = new SettingsData();
             settingsData.initData();
@@ -73,8 +75,12 @@ public class SettingsFactory {
                             );
                             if (albumData.getAlbumTitle() == null || albumData.getAlbumTitle().compareTo("") == 0)
                                 albumData.setAlbumTitle("Unknown");
-                            if (albumData.getAlbumAuthor() == null || albumData.getAlbumAuthor().compareTo("") == 0)
-                                albumData.setAlbumAuthor("Unknown");
+                            if (albumData.getAlbumAuthor() == null || albumData.getAlbumAuthor().compareTo("") == 0) {
+                                if (songData.getArtist() == null || songData.getArtist().compareTo("") == 0)
+                                    albumData.setAlbumAuthor("Unknown");
+                                else
+                                    albumData.setAlbumAuthor(songData.getArtist());
+                            }
                             albumDataMap.put(songData.getAlbumTitle(), albumData);
                         }
                         albumDataMap.get(songData.getAlbumTitle()).getSongList().add(songData);

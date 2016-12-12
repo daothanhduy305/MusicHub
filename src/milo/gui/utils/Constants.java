@@ -49,6 +49,12 @@ public class Constants {
 
     private final static double ALBUM_OVERVIEW_ALBUM_ART_SIZE = GUIUtils.getScreenWidth() / 10.0;
 
+    private final static double ALBUM_PRIVATE_INFO_BOX_HEIGHT = GUIUtils.getScreenHeight() / 3.0;
+    private final static double ALBUM_PRIVATE_INFO_BOX_PADDING = ALBUM_PRIVATE_INFO_BOX_HEIGHT / 11.0;
+    private final static double ALBUM_ART_PRIVATE_SIZE = ALBUM_PRIVATE_INFO_BOX_HEIGHT - 2.0 * ALBUM_PRIVATE_INFO_BOX_PADDING;
+    private final static double ALBUM_PRIVATE_LABEL_BOX_w = GUIUtils.getScreenWidth() - NAVIGATION_DRAWER_WIDTH
+            - ALBUM_ART_PRIVATE_SIZE - 2.0 * ALBUM_PRIVATE_INFO_BOX_PADDING;
+
     public static String getCssMainFilePath() {
         return CSS_MAIN_FILE_PATH;
     }
@@ -126,5 +132,21 @@ public class Constants {
 
     public static double getAlbumOverviewAlbumArtSize() {
         return ALBUM_OVERVIEW_ALBUM_ART_SIZE;
+    }
+
+    public static double getAlbumArtPrivateSize() {
+        return ALBUM_ART_PRIVATE_SIZE;
+    }
+
+    public static double getAlbumPrivateInfoBoxHeight() {
+        return ALBUM_PRIVATE_INFO_BOX_HEIGHT;
+    }
+
+    public static double getAlbumPrivateInfoBoxPadding() {
+        return ALBUM_PRIVATE_INFO_BOX_PADDING;
+    }
+
+    public static double getAlbumPrivateLabelBoxw() {
+        return ALBUM_PRIVATE_LABEL_BOX_w;
     }
 }

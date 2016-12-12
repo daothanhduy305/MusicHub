@@ -8,7 +8,7 @@ import milo.controllers.AlbumsViewController;
  *              which is basically the same as a modal controller but would need to access the albums view methods.
  */
 
-public abstract class AbstractAlbumsViewSubController extends AbstractUIController {
+public abstract class AbstractAlbumsViewSubController extends AbstractSubUIController {
     protected AlbumsViewController albumsViewController;
 
     public void setAlbumsViewController(AlbumsViewController albumsViewController) {

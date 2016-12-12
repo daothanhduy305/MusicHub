@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import milo.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.data.AlbumData;
+import milo.data.SongData;
+import milo.gui.utils.SizeCalculator;
 
 import java.util.Map;
 
@@ -61,5 +63,30 @@ public class AlbumsViewController extends AbstractSubUIController {
      */
     public void setDB(Map<String, AlbumData> albumDataMap) {
         albumsViewOverviewController.setDB(albumDataMap);
+    }
+
+    @Override
+    public void setMainPlayerController(MainPlayerController mainPlayerController) {
+        super.setMainPlayerController(mainPlayerController);
+
+        albumsViewOverviewController.setMainPlayerController(mainPlayerController);
+        albumsViewSpecificController.setMainPlayerController(mainPlayerController);
+    }
+
+    /**
+     * Function name:   selectCurrentSong
+     * Usage:   this function would be called to select the current playing song in the table(s)
+     */
+    public void selectCurrentSong(SongData songData) {
+        if (albumsViewSpecificController.getSongListTable() != null)
+            albumsViewSpecificController.getSongListTable().getSelectionModel().select(songData);
+    }
+
+    @Override
+    public void setSizeCalculator(SizeCalculator sizeCalculator) {
+        super.setSizeCalculator(sizeCalculator);
+
+        albumsViewOverviewController.setSizeCalculator(sizeCalculator);
+        albumsViewSpecificController.setSizeCalculator(sizeCalculator);
     }
 }
