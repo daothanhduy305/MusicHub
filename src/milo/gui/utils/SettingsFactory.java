@@ -83,7 +83,6 @@ public class SettingsFactory {
                     }
                 }
                 Platform.runLater(() -> mainPlayerController.setDB(songList, albumDataMap));
-                // TODO: call setDB also for albums view when it is implemented
                 saveSettings();
             });
             createDBThread.start();
