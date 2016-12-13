@@ -68,10 +68,28 @@ public class AllSongsViewController extends AbstractSubUIController {
      */
     public void setDB(ObservableList<SongData> songDatas) {
         this.songDatas = songDatas;
+        // TODO: if we want to watch the paths later, then we have to eliminate these dummy on saving
+        // TODO: furthermore, be aware that the scrollbar also need to have padding
+        songDatas.addAll(SongData.getDummySongData(
+                (int) Math.ceil(sizeCalculator.getPlayerBarHeight() / songListTable.getFixedCellSize())
+        ));
         if (!isDBSet) {
-            songDataSortedList = new SortedList<>(songDatas);
+            songDataSortedList = new SortedList<>(songDatas, (o1, o2) -> {
+                if (o1.getTitle().equals(" ")) {
+                    return Integer.MAX_VALUE;
+                }
+                else if (o2.getTitle().equals(" ")) {
+                    return Integer.MIN_VALUE;
+                }
+                else {
+                    if (o1.getTitle().compareToIgnoreCase(o2.getTitle()) != 0)
+                        return (o1.getTitle().compareToIgnoreCase(o2.getTitle()));
+                    else
+                        return (o1.getArtist().compareToIgnoreCase(o2.getArtist()));
+                }
+            });
+
             songListTable.setItems(songDataSortedList);
-            songDataSortedList.comparatorProperty().bind(songListTable.comparatorProperty());
             songListTable.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2) {
                     mainPlayerController.playSong(songListTable.getSelectionModel().getSelectedItem());
@@ -82,8 +100,6 @@ public class AllSongsViewController extends AbstractSubUIController {
 
         isDBSet = true;
         Platform.runLater(() -> {
-            //noinspection unchecked
-            songListTable.getSortOrder().setAll(songListTableTitle);
             songListTable.setVisible(true);
             songListTableRefresh();
         });

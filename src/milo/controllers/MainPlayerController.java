@@ -63,20 +63,22 @@ public class MainPlayerController extends AbstractPlayerUIController {
 
     @Override
     public void playSong(SongData songData) {
-        settingsFactory.setPlayingSong(songData);
-        this.currentPlayingSong = songData;
-        this.stopPlaying();
-        try {
-            File songFile = new File(songData.getPath());
-            AudioFile audioFile = AudioFileIO.read(songFile);
-            isPlaying = true;
-            player = new MediaPlayer(new Media(songFile.toURI().toURL().toExternalForm()));
-            songPlayerController.setupForPlayingMusic(audioFile);
-            player.play();
-            // TODO: check whether we reach the end of the list? If so, call to stop instead of pause
-            player.setOnEndOfMedia(this::playNextSong);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (!songData.getTitle().equals(" ")) {
+            settingsFactory.setPlayingSong(songData);
+            this.currentPlayingSong = songData;
+            this.stopPlaying();
+            try {
+                File songFile = new File(songData.getPath());
+                AudioFile audioFile = AudioFileIO.read(songFile);
+                isPlaying = true;
+                player = new MediaPlayer(new Media(songFile.toURI().toURL().toExternalForm()));
+                songPlayerController.setupForPlayingMusic(audioFile);
+                player.play();
+                // TODO: check whether we reach the end of the list? If so, call to stop instead of pause
+                player.setOnEndOfMedia(this::playNextSong);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

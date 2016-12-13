@@ -12,17 +12,19 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Class name:  AlbumData
  * Description: This class is the data-type that holds all info about a specific song, but not the audio file
  */
 
-public class SongData implements Serializable, Comparable<SongData> {
+public class SongData implements Serializable {
     private StringProperty title, artist, path, lengthStr, albumTitle, albumAuthor; // TODO: Add in album support
     private IntegerProperty length;
 
-    public SongData(AudioFile audioFile) throws Exception{
+    public SongData(AudioFile audioFile) throws Exception {
         String songTitle = audioFile.getTag().getFirst(FieldKey.TITLE);
 
         // In case that the title is empty, we will use the file name as the replacement
@@ -38,6 +40,20 @@ public class SongData implements Serializable, Comparable<SongData> {
         this.lengthStr = new SimpleStringProperty(GUIUtils.lengthToLengthStr(this.getLength(), " "));
         this.albumTitle = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.ALBUM));
         this.albumAuthor = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.ALBUM_ARTIST));
+    }
+
+    public SongData() {
+        this.title = new SimpleStringProperty(" ");
+        this.artist = new SimpleStringProperty(" ");
+        this.path = new SimpleStringProperty(" ");
+        this.length = new SimpleIntegerProperty(0);
+        this.lengthStr = new SimpleStringProperty(" ");
+        this.albumTitle = new SimpleStringProperty(" ");
+        this.albumAuthor = new SimpleStringProperty(" ");
+    }
+
+    public static List<SongData> getDummySongData(int number) {
+        return Collections.nCopies(number, new SongData());
     }
 
     public int getLength() {
@@ -110,11 +126,6 @@ public class SongData implements Serializable, Comparable<SongData> {
 
     public StringProperty albumAuthorProperty() {
         return albumAuthor;
-    }
-
-    @Override
-    public int compareTo(SongData o) {
-        return (this.getTitle().compareTo(o.getTitle()));
     }
 
     private void writeObject(ObjectOutputStream s) throws IOException {
