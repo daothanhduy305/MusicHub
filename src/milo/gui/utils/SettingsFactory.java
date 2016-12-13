@@ -33,6 +33,7 @@ public class SettingsFactory {
     /**
      * Function name:   loadSettings
      * Usage:   this method would be called to either load former settings or create a new one
+     * TODO:    take care of loading settings and loading/creating database separately
      */
     private void loadSettings() {
         try {
@@ -90,6 +91,7 @@ public class SettingsFactory {
                 }
                 Platform.runLater(() -> mainPlayerController.setDB(songList, albumDataMap));
                 saveSettings();
+                LOG.w(getClass() + ": Finished creating database");
             });
             createDBThread.start();
         }
