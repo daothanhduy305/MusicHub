@@ -18,6 +18,6 @@
                 <RowConstraints/>
             </rowConstraints>
         </GridPane>
-        <fx:include fx:id="songPlayer" source="song_player.fxml"/>
+        <fx:include fx:id="songPlayer" source="song_player_bar.fxml"/>
     </children>
 </StackPane>
