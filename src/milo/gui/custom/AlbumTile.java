@@ -35,8 +35,8 @@ public class AlbumTile extends VBox implements Comparable<AlbumTile> {
     private Thread setAlbumArtThread;
 
     public AlbumTile(AlbumData albumData) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-                "../designs/album_tile.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/milo/gui/designs/album_tile.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 

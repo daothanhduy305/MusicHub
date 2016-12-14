@@ -33,8 +33,8 @@ public class NavigationViewButton extends HBox {
     public NavigationViewButton(String buttonTitle, SizeCalculator sizeCalculator) {
         this.sizeCalculator = sizeCalculator;
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-                "../designs/navigation_view_button.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/milo/gui/designs/navigation_view_button.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 
