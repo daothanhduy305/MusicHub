@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 public class SongData implements Serializable {
-    private StringProperty title, artist, path, lengthStr, albumTitle, albumAuthor; // TODO: Add in album support
+    private StringProperty title, artist, path, lengthStr, albumTitle, albumAuthor, gerne, year; // TODO: Add in album support
     private IntegerProperty length;
 
     public SongData(AudioFile audioFile) throws Exception {
@@ -40,6 +40,8 @@ public class SongData implements Serializable {
         this.lengthStr = new SimpleStringProperty(GUIUtils.lengthToLengthStr(this.getLength(), " "));
         this.albumTitle = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.ALBUM));
         this.albumAuthor = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.ALBUM_ARTIST));
+        this.gerne = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.GENRE));
+        this.year = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.YEAR));
     }
 
     public SongData() {
@@ -50,6 +52,8 @@ public class SongData implements Serializable {
         this.lengthStr = new SimpleStringProperty(" ");
         this.albumTitle = new SimpleStringProperty(" ");
         this.albumAuthor = new SimpleStringProperty(" ");
+        this.gerne = new SimpleStringProperty("");
+        this.year = new SimpleStringProperty(" ");
     }
 
     public static List<SongData> getDummySongData(int number) {
@@ -126,6 +130,22 @@ public class SongData implements Serializable {
 
     public StringProperty albumAuthorProperty() {
         return albumAuthor;
+    }
+
+    public String getGerne() {
+        return gerne.get();
+    }
+
+    public StringProperty gerneProperty() {
+        return gerne;
+    }
+
+    public String getYear() {
+        return year.get();
+    }
+
+    public StringProperty yearProperty() {
+        return year;
     }
 
     private void writeObject(ObjectOutputStream s) throws IOException {

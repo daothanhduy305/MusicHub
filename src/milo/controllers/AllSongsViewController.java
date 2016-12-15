@@ -22,7 +22,8 @@ import java.util.ArrayList;
 
 public class AllSongsViewController extends AbstractSubUIController {
     @FXML private TableView<SongData> songListTable;
-    @FXML private TableColumn<SongData, String> songListTableTitle, songListTableArtist, songListTableLength;
+    @FXML private TableColumn<SongData, String> songListTableTitle, songListTableArtist, songListTableLength,
+            songListTableAlbum, songListTableYear, songListTableGerne;
     @FXML private VBox mHolder;
 
     private SortedList<SongData> songDataSortedList;
@@ -38,6 +39,9 @@ public class AllSongsViewController extends AbstractSubUIController {
         songListTableTitle.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
         songListTableArtist.setCellValueFactory(cellData -> cellData.getValue().artistProperty());
         songListTableLength.setCellValueFactory(cellData -> cellData.getValue().lengthStrProperty());
+        songListTableAlbum.setCellValueFactory(cellData -> cellData.getValue().albumTitleProperty());
+        songListTableYear.setCellValueFactory(cellData -> cellData.getValue().yearProperty());
+        songListTableGerne.setCellValueFactory(cellData -> cellData.getValue().gerneProperty());
 
         songListTable.setFixedCellSize(48.0);
     }
