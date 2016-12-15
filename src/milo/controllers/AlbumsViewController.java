@@ -20,6 +20,8 @@ public class AlbumsViewController extends AbstractSubUIController {
     @FXML private AlbumsViewSpecificController albumsViewSpecificController;
     @FXML private StackPane mHolder;
 
+    private Map<String, AlbumData> albumDataMap;
+
     @Override
     public void buildUI() {
         albumsViewOverviewController.buildUI();
@@ -36,7 +38,7 @@ public class AlbumsViewController extends AbstractSubUIController {
      * Function name:   showAlbumOverview
      * Usage:   this function is called to change the AlbumView back to Overview
      */
-    public void showAlbumOverview() {
+    void showAlbumOverview() {
         mHolder.getChildren().get(0).setVisible(true);
         mHolder.getChildren().get(1).setVisible(false);
     }
@@ -48,11 +50,25 @@ public class AlbumsViewController extends AbstractSubUIController {
      *
      * @param albumData the data of the album to be displayed
      */
-    public void showAlbum(AlbumData albumData) {
+    void showAlbum(AlbumData albumData) {
         mHolder.getChildren().get(1).setVisible(true);
         mHolder.getChildren().get(0).setVisible(false);
 
         albumsViewSpecificController.showAlbum(albumData);
+    }
+
+    /**
+     * Function name:   showAlbum
+     * Usage:   this function is called display the view for a specific album
+     * this also calls the lower level relevant method from albumsViewSpecificController
+     *
+     * @param albumTitle the data of the album to be displayed
+     */
+    void showAlbum(String albumTitle) {
+        mHolder.getChildren().get(1).setVisible(true);
+        mHolder.getChildren().get(0).setVisible(false);
+
+        albumsViewSpecificController.showAlbum(albumDataMap.get(albumTitle));
     }
 
     /**
@@ -61,8 +77,9 @@ public class AlbumsViewController extends AbstractSubUIController {
      *
      * @param albumDataMap database
      */
-    public void setDB(Map<String, AlbumData> albumDataMap) {
-        albumsViewOverviewController.setDB(albumDataMap);
+    void setDB(Map<String, AlbumData> albumDataMap) {
+        this.albumDataMap = albumDataMap;
+        albumsViewOverviewController.setDB(this.albumDataMap);
     }
 
     @Override
@@ -77,7 +94,7 @@ public class AlbumsViewController extends AbstractSubUIController {
      * Function name:   selectCurrentSong
      * Usage:   this function would be called to select the current playing song in the table(s)
      */
-    public void selectCurrentSong(SongData songData) {
+    void selectCurrentSong(SongData songData) {
         if (albumsViewSpecificController.getSongListTable() != null)
             albumsViewSpecificController.getSongListTable().getSelectionModel().select(songData);
     }

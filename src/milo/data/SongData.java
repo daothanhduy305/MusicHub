@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 public class SongData implements Serializable {
-    private StringProperty title, artist, path, lengthStr, albumTitle, albumAuthor, gerne, year; // TODO: Add in album support
+    private StringProperty title, artist, path, lengthStr, albumTitle, albumAuthor, gerne, year;
     private IntegerProperty length;
 
     public SongData(AudioFile audioFile) throws Exception {
@@ -33,12 +33,17 @@ public class SongData implements Serializable {
             songTitle = songTitle.substring(0, songTitle.length() - 4);
         }
 
+        // In case that the album title is empty then we should group it to "Unknown" album
+        String albumStr = audioFile.getTag().getFirst(FieldKey.ALBUM);
+        if (albumStr == null || albumStr.isEmpty())
+            albumStr = "Unknown";
+
         this.title = new SimpleStringProperty("    " + songTitle);
         this.artist = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.ARTIST));
         this.path = new SimpleStringProperty(audioFile.getFile().getPath());
         this.length = new SimpleIntegerProperty(audioFile.getAudioHeader().getTrackLength());
         this.lengthStr = new SimpleStringProperty(GUIUtils.lengthToLengthStr(this.getLength(), " "));
-        this.albumTitle = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.ALBUM));
+        this.albumTitle = new SimpleStringProperty(albumStr);
         this.albumAuthor = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.ALBUM_ARTIST));
         this.gerne = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.GENRE));
         this.year = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.YEAR));
@@ -52,7 +57,7 @@ public class SongData implements Serializable {
         this.lengthStr = new SimpleStringProperty(" ");
         this.albumTitle = new SimpleStringProperty(" ");
         this.albumAuthor = new SimpleStringProperty(" ");
-        this.gerne = new SimpleStringProperty("");
+        this.gerne = new SimpleStringProperty(" ");
         this.year = new SimpleStringProperty(" ");
     }
 
@@ -64,20 +69,8 @@ public class SongData implements Serializable {
         return this.length.get();
     }
 
-    public void setLength(int length) {
-        this.length.set(length);
-    }
-
-    public IntegerProperty lengthProperty() {
-        return length;
-    }
-
     public String getArtist() {
         return this.artist.get();
-    }
-
-    public void setArtist(String artist) {
-        this.artist.set(artist);
     }
 
     public StringProperty artistProperty() {
@@ -88,10 +81,6 @@ public class SongData implements Serializable {
         return this.lengthStr.get();
     }
 
-    public void setLengthStr(String lengthStr) {
-        this.lengthStr.set(lengthStr);
-    }
-
     public StringProperty lengthStrProperty() {
         return lengthStr;
     }
@@ -100,20 +89,12 @@ public class SongData implements Serializable {
         return this.path.get();
     }
 
-    public StringProperty pathProperty() {
-        return path;
-    }
-
     public String getTitle() {
         return this.title.get();
     }
 
     public StringProperty titleProperty() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title.set(title);
     }
 
     public String getAlbumTitle() {
@@ -128,20 +109,8 @@ public class SongData implements Serializable {
         return albumAuthor.get();
     }
 
-    public StringProperty albumAuthorProperty() {
-        return albumAuthor;
-    }
-
-    public String getGerne() {
-        return gerne.get();
-    }
-
     public StringProperty gerneProperty() {
         return gerne;
-    }
-
-    public String getYear() {
-        return year.get();
     }
 
     public StringProperty yearProperty() {
@@ -155,6 +124,8 @@ public class SongData implements Serializable {
         s.writeInt(length.get());
         s.writeUTF(albumTitle.get());
         s.writeUTF(albumAuthor.get());
+        s.writeUTF(year.get());
+        s.writeUTF(gerne.get());
     }
 
     private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
@@ -165,5 +136,7 @@ public class SongData implements Serializable {
         this.lengthStr = new SimpleStringProperty(GUIUtils.lengthToLengthStr(this.getLength(), " "));
         albumTitle = new SimpleStringProperty(s.readUTF());
         albumAuthor = new SimpleStringProperty(s.readUTF());
+        year = new SimpleStringProperty(s.readUTF());
+        gerne = new SimpleStringProperty(s.readUTF());
     }
 }

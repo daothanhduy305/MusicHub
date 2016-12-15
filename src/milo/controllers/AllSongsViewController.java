@@ -5,10 +5,13 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import milo.controllers.abstractcontrollers.AbstractSubUIController;
+import milo.controllers.utils.LOG;
 import milo.data.SongData;
 import milo.gui.utils.Constants;
 
@@ -76,7 +79,7 @@ public class AllSongsViewController extends AbstractSubUIController {
      *          of creating database from Settings later. Moreover, this should be done only on init and partly done on
      *          another thread.
      */
-    public void setDB(ObservableList<SongData> songDatas) {
+    void setDB(ObservableList<SongData> songDatas) {
         this.songDatas = songDatas;
         // TODO: if we want to watch the paths later, then we have to eliminate these dummy on saving
         // TODO: furthermore, be aware that the scrollbar also need to have padding
@@ -100,10 +103,42 @@ public class AllSongsViewController extends AbstractSubUIController {
             });
 
             songListTable.setItems(songDataSortedList);
-            songListTable.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2) {
-                    mainPlayerController.playSong(songListTable.getSelectionModel().getSelectedItem());
-                    buildCurrentPlaylistLinear(songListTable.getSelectionModel().getSelectedIndex());
+
+            songListTableTitle.setCellFactory(new Callback<TableColumn<SongData, String>, TableCell<SongData, String>>() {
+                @Override
+                public TableCell<SongData, String> call(TableColumn<SongData, String> param) {
+                    return new TableCell<SongData, String>() {
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            setText(item);
+                            setStyle("");
+                            this.setOnMouseClicked(event -> {
+                                if (event.getClickCount() == 2) {
+                                    mainPlayerController.playSong(songListTable.getSelectionModel().getSelectedItem());
+                                    AllSongsViewController.this.buildCurrentPlaylistLinear(
+                                            songListTable.getSelectionModel().getSelectedIndex()
+                                    );
+                                }
+                            });
+                        }
+                    };
+                }
+            });
+
+            songListTableAlbum.setCellFactory(new Callback<TableColumn<SongData, String>, TableCell<SongData, String>>() {
+                @Override
+                public TableCell<SongData, String> call(TableColumn<SongData, String> param) {
+                    return new TableCell<SongData, String>() {
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            setText(item);
+                            LOG.w(getClass() + item);
+                            setStyle("");
+                            this.setOnMouseClicked(event -> mainPlayerController.getMainViewPanelController().showAlbum(item));
+                        }
+                    };
                 }
             });
         }
@@ -145,7 +180,7 @@ public class AllSongsViewController extends AbstractSubUIController {
         })).start();
     }
 
-    public TableView<SongData> getSongListTable() {
+    TableView<SongData> getSongListTable() {
         return songListTable;
     }
 }

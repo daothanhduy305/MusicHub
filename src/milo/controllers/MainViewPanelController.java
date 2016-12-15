@@ -50,7 +50,7 @@ public class MainViewPanelController extends AbstractSubUIController {
      * Function name:   showAllSongsView
      * Usage:   this method would be called to set the mainViewPanel to display AllSongsView
      */
-    public void showAllSongsView() {
+    void showAllSongsView() {
         mHolder.getChildren().get(0).setVisible(true);
         mHolder.getChildren().get(1).setVisible(false);
 
@@ -61,7 +61,7 @@ public class MainViewPanelController extends AbstractSubUIController {
      * Function name:   showAlbumsView
      * Usage:   this method would be called to set the mainViewPanel to display AlbumsView
      */
-    public void showAlbumsView() {
+    void showAlbumsView() {
         mHolder.getChildren().get(1).setVisible(true);
         mHolder.getChildren().get(0).setVisible(false);
 
@@ -70,10 +70,22 @@ public class MainViewPanelController extends AbstractSubUIController {
     }
 
     /**
+     * Function name:   showAlbumsView
+     * Usage:   this method would be called to set the mainViewPanel to display AlbumsView
+     */
+    void showAlbum(String albumTitle) {
+        mHolder.getChildren().get(1).setVisible(true);
+        mHolder.getChildren().get(0).setVisible(false);
+
+        navigationDrawerController.enableAlbumsViewButton();
+        albumsViewController.showAlbum(albumTitle);
+    }
+
+    /**
      * Function name:   selectCurrentSong
      * Usage:   this function would be called to select the current playing song in the table(s)
      */
-    public void selectCurrentSong(SongData songData) {
+    void selectCurrentSong(SongData songData) {
         allSongsViewController.getSongListTable().getSelectionModel().select(songData);
         albumsViewController.selectCurrentSong(songData);
     }
@@ -85,7 +97,7 @@ public class MainViewPanelController extends AbstractSubUIController {
      * @param songDatas database for songs
      * @param albumDataMap database for albums
      */
-    public void setDB(ObservableList<SongData> songDatas, Map<String, AlbumData> albumDataMap) {
+    void setDB(ObservableList<SongData> songDatas, Map<String, AlbumData> albumDataMap) {
         allSongsViewController.setDB(songDatas);
         albumsViewController.setDB(albumDataMap);
     }
