@@ -20,9 +20,7 @@ import java.nio.file.Files;
 
 public class Constants {
     private final static File CSS_MAIN_FILE = new File("css/music_hub.css");
-    //private final static String CSS_MAIN_FILE_PATH = "file:///" + CSS_MAIN_FILE.getAbsolutePath().replace("\\", "/");
     private static String CSS_MAIN_FILE_PATH="";
-
     static {
         try {
             CSS_MAIN_FILE_PATH = CSS_MAIN_FILE.toURI().toURL().toExternalForm();
@@ -32,9 +30,7 @@ public class Constants {
     }
 
     private final static File CSS_FILE_THUMB_CLICKED = new File("css/thumb_clicked.css");
-    //private final static String CSS_FILE_THUMB_CLICKED_PATH = "file:///" + CSS_FILE_THUMB_CLICKED.getAbsolutePath().replace("\\", "/");
     private static String CSS_FILE_THUMB_CLICKED_PATH = "";
-
     static {
         try {
             CSS_FILE_THUMB_CLICKED_PATH = CSS_FILE_THUMB_CLICKED.toURI().toURL().toExternalForm();
