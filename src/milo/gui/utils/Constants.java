@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 
 /**
@@ -19,9 +20,29 @@ import java.nio.file.Files;
 
 public class Constants {
     private final static File CSS_MAIN_FILE = new File("css/music_hub.css");
-    private final static String CSS_MAIN_FILE_PATH = "file:///" + CSS_MAIN_FILE.getAbsolutePath().replace("\\", "/");
+    //private final static String CSS_MAIN_FILE_PATH = "file:///" + CSS_MAIN_FILE.getAbsolutePath().replace("\\", "/");
+    private static String CSS_MAIN_FILE_PATH="";
+
+    static {
+        try {
+            CSS_MAIN_FILE_PATH = CSS_MAIN_FILE.toURI().toURL().toExternalForm();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private final static File CSS_FILE_THUMB_CLICKED = new File("css/thumb_clicked.css");
-    private final static String CSS_FILE_THUMB_CLICKED_PATH = "file:///" + CSS_FILE_THUMB_CLICKED.getAbsolutePath().replace("\\", "/");
+    //private final static String CSS_FILE_THUMB_CLICKED_PATH = "file:///" + CSS_FILE_THUMB_CLICKED.getAbsolutePath().replace("\\", "/");
+    private static String CSS_FILE_THUMB_CLICKED_PATH = "";
+
+    static {
+        try {
+            CSS_FILE_THUMB_CLICKED_PATH = CSS_FILE_THUMB_CLICKED.toURI().toURL().toExternalForm();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private final static File DEFAULT_ARTWORK = new File("proprietary/data/media/aw/milo_dfaw");
     private final static String BUTTONS_PRE_PATH = "file:proprietary/data/media/buts/";
     private final static String IMAGE_EXTENSION = ".png";
@@ -124,6 +145,7 @@ public class Constants {
             try {
                 DEFAULT_ARTWORK_RAW = Files.readAllBytes(getDefaultArtwork().toPath());
             } catch (IOException e) {
+                e.printStackTrace();
                 DEFAULT_ARTWORK_RAW = new byte[0];
             }
         }
