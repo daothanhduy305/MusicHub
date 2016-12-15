@@ -67,7 +67,8 @@ public class SongPlayerController extends AbstractSubUIController {
         nextButton = new ActionButton("next");
         nextButton.setOnMouseClicked(event -> mainPlayerController.playNextSong());
         buttonsBox.getChildren().add(nextButton);
-
+        buttonsBox.getChildren().add(new ActionButton("play"));
+        buttonsBox.getChildren().add(new ActionButton("play"));
         songSeekBar.setMin(0f);
         songSeekBar.valueChangingProperty().addListener((obs, wasChanging, isNowChanging) -> {
             if (mainPlayerController.getPlayer() != null) {
@@ -145,10 +146,13 @@ public class SongPlayerController extends AbstractSubUIController {
         ));
         songInfoLabelsBox.setMaxWidth(sizeCalculator.getSongInfoLabelsBoxW());
         songInfoLabelsBox.setPrefWidth(sizeCalculator.getSongInfoLabelsBoxW());
+        songInfoLabelsBox.setMinWidth(sizeCalculator.getSongInfoLabelsBoxW());
         lengthCountLabel.setPrefWidth(sizeCalculator.getLengthLabelWidth());
         lengthCountLabel.setMaxWidth(sizeCalculator.getLengthLabelWidth());
+        lengthCountLabel.setMinWidth(30.0);
         lengthTotalLabel.setPrefWidth(sizeCalculator.getLengthLabelWidth());
         lengthTotalLabel.setMaxWidth(sizeCalculator.getLengthLabelWidth());
+        lengthTotalLabel.setMinWidth(30.0);
         lengthCountLabel.setPadding(new Insets(
                 0, 0, 0, sizeCalculator.getPlayerBarPaddingH()
         ));

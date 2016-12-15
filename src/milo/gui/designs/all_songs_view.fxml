@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="mHolder" prefHeight="500.0" prefWidth="500.0"
-      style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8.0.102"
-      fx:controller="milo.controllers.AllSongsViewController">
+
+<VBox fx:id="mHolder" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="milo.controllers.AllSongsViewController">
     <children>
-        <TableView fx:id="songListTable" fixedCellSize="48.0" focusTraversable="false" prefHeight="200.0"
-                   prefWidth="200.0"
-                   style="-fx-background-color: #fff;" styleClass="song_list_table">
+        <TableView fx:id="songListTable" fixedCellSize="48.0" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" styleClass="song_list_table">
             <columns>
-                <TableColumn fx:id="songListTableTitle" prefWidth="75.0" resizable="false" text="Title"/>
-                <TableColumn fx:id="songListTableArtist" prefWidth="75.0" resizable="false" text="Artist"/>
-                <TableColumn fx:id="songListTableAlbum" prefWidth="75.0" resizable="false" text="Album"/>
-                <TableColumn fx:id="songListTableYear" prefWidth="75.0" resizable="false" text="Year"/>
-                <TableColumn fx:id="songListTableGerne" prefWidth="75.0" resizable="false" text="Gerne"/>
-                <TableColumn fx:id="songListTableLength" prefWidth="75.0" resizable="false" text="Length"/>
+                <TableColumn fx:id="songListTableTitle" prefWidth="75.0" resizable="false" text="Title" />
+                <TableColumn fx:id="songListTableArtist" prefWidth="75.0" resizable="false" text="Artist" />
+                <TableColumn fx:id="songListTableAlbum" prefWidth="75.0" resizable="false" text="Album" />
+                <TableColumn fx:id="songListTableYear" prefWidth="75.0" resizable="false" text="Year" />
+                <TableColumn fx:id="songListTableGenre" prefWidth="75.0" resizable="false" text="Genre" />
+                <TableColumn fx:id="songListTableLength" prefWidth="75.0" resizable="false" text="Length" />
             </columns>
         </TableView>
     </children>

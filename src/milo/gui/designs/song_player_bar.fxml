@@ -1,73 +1,75 @@
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<HBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.102"
-      fx:controller="milo.controllers.SongPlayerController"
-      fx:id="playerBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="BOTTOM_LEFT">
+
+<HBox fx:id="playerBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="BOTTOM_LEFT" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="milo.controllers.SongPlayerController">
     <children>
         <StackPane fx:id="albumArtHolder" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #fff;">
             <children>
-                <ImageView fx:id="albumArtView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true"
-                           preserveRatio="true" styleClass="album_art"/>
+                <ImageView fx:id="albumArtView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" styleClass="album_art" />
             </children>
             <opaqueInsets>
-                <Insets/>
+                <Insets />
             </opaqueInsets>
             <padding>
-                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
             </padding>
         </StackPane>
         <VBox fx:id="songInfoLabelsBox" prefHeight="200.0" prefWidth="100.0">
             <children>
                 <Label fx:id="songTitleLabel" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="17.0"/>
+                        <Font name="System Bold" size="17.0" />
                     </font>
                 </Label>
                 <Label fx:id="songArtistLabel" textFill="WHITE">
                     <font>
-                        <Font size="15.0"/>
+                        <Font size="15.0" />
                     </font>
                 </Label>
             </children>
         </VBox>
         <Label fx:id="lengthCountLabel" text="0:00" textFill="WHITE">
             <font>
-                <Font size="13.0"/>
+                <Font size="13.0" />
             </font>
             <HBox.margin>
-                <Insets/>
+                <Insets />
             </HBox.margin>
         </Label>
-        <StackPane fx:id="seekBarHolder" alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0"
-                   HBox.hgrow="ALWAYS">
+        <StackPane fx:id="seekBarHolder" alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
             <children>
-                <ProgressBar fx:id="songProgressBar" focusTraversable="false" prefWidth="200.0" progress="0.0"
-                             styleClass="progress_bar">
+                <ProgressBar fx:id="songProgressBar" focusTraversable="false" prefWidth="200.0" progress="0.0" styleClass="progress_bar">
                     <StackPane.margin>
-                        <Insets/>
+                        <Insets />
                     </StackPane.margin>
                 </ProgressBar>
                 <Slider fx:id="songSeekBar" focusTraversable="false" styleClass="seek_bar">
                     <StackPane.margin>
-                        <Insets/>
+                        <Insets />
                     </StackPane.margin>
                 </Slider>
             </children>
             <HBox.margin>
-                <Insets/>
+                <Insets />
             </HBox.margin>
         </StackPane>
         <Label fx:id="lengthTotalLabel" text="0:00" textFill="WHITE">
             <font>
-                <Font size="13.0"/>
+                <Font size="13.0" />
             </font>
             <HBox.margin>
-                <Insets/>
+                <Insets />
             </HBox.margin>
         </Label>
-        <HBox fx:id="buttonsBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0"/>
+        <HBox fx:id="buttonsBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" />
     </children>
 </HBox>

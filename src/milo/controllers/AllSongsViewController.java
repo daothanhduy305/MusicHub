@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class AllSongsViewController extends AbstractSubUIController {
     @FXML private TableView<SongData> songListTable;
     @FXML private TableColumn<SongData, String> songListTableTitle, songListTableArtist, songListTableLength,
-            songListTableAlbum, songListTableYear, songListTableGerne;
+            songListTableAlbum, songListTableYear, songListTableGenre;
     @FXML private VBox mHolder;
 
     private SortedList<SongData> songDataSortedList;
@@ -41,7 +41,7 @@ public class AllSongsViewController extends AbstractSubUIController {
         songListTableLength.setCellValueFactory(cellData -> cellData.getValue().lengthStrProperty());
         songListTableAlbum.setCellValueFactory(cellData -> cellData.getValue().albumTitleProperty());
         songListTableYear.setCellValueFactory(cellData -> cellData.getValue().yearProperty());
-        songListTableGerne.setCellValueFactory(cellData -> cellData.getValue().gerneProperty());
+        songListTableGenre.setCellValueFactory(cellData -> cellData.getValue().gerneProperty());
 
         songListTable.setFixedCellSize(48.0);
     }
@@ -60,6 +60,12 @@ public class AllSongsViewController extends AbstractSubUIController {
         songListTableTitle.setMaxWidth(sizeCalculator.getBigColumnWidth());
         songListTableArtist.setPrefWidth(sizeCalculator.getBigColumnWidth());
         songListTableArtist.setMaxWidth(sizeCalculator.getBigColumnWidth());
+        songListTableAlbum.setPrefWidth(sizeCalculator.getBigColumnWidth());
+        songListTableAlbum.setMaxWidth(sizeCalculator.getBigColumnWidth());
+        songListTableYear.setPrefWidth(sizeCalculator.getSmallColumnWidth());
+        songListTableYear.setMaxWidth(sizeCalculator.getSmallColumnWidth());
+        songListTableGenre.setPrefWidth(sizeCalculator.getSmallColumnWidth());
+        songListTableGenre.setMaxWidth(sizeCalculator.getSmallColumnWidth());
         songListTableLength.setPrefWidth(sizeCalculator.getSmallColumnWidth());
         songListTableLength.setMaxWidth(sizeCalculator.getSmallColumnWidth());
     }
