@@ -11,7 +11,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import milo.controllers.abstractcontrollers.AbstractSubUIController;
-import milo.controllers.utils.LOG;
 import milo.data.SongData;
 import milo.gui.utils.Constants;
 
@@ -134,7 +133,6 @@ public class AllSongsViewController extends AbstractSubUIController {
                         protected void updateItem(String item, boolean empty) {
                             super.updateItem(item, empty);
                             setText(item);
-                            LOG.w(getClass() + item);
                             setStyle("");
                             this.setOnMouseClicked(event -> mainPlayerController.getMainViewPanelController().showAlbum(item));
                         }
