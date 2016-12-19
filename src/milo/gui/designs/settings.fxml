@@ -1,21 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.*?>
-<VBox prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="milo.controllers.SettingsController">
-   <children>
-      <Label text="Settings" />
-      <Label text="Build your collection from your local music files" />
-      <Label text="Right now, we're watching these folders:" />
-      <GridPane fx:id="pathsGrid">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
-   </children>
-</VBox>
+<?import javafx.scene.text.Font?>
+<ScrollPane maxHeight="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="milo.controllers.SettingsController">
+    <VBox maxHeight="1.7976931348623157E308">
+        <children>
+            <Label text="Settings">
+                <font>
+                    <Font name="Segoe UI Semilight" size="38.0" />
+                </font></Label>
+            <Label text="Build your collection from your local music files" wrapText="true">
+                <font>
+                    <Font name="Segoe UI Semibold" size="20.0" />
+                </font>
+                <padding>
+                    <Insets top="30.0" />
+                </padding></Label>
+            <Label text="Right now, we're watching these folders:">
+                <font>
+                    <Font name="Segoe UI" size="16.0" />
+                </font>
+                <padding>
+                    <Insets bottom="10.0" top="10.0" />
+                </padding></Label>
+            <GridPane fx:id="pathsGrid" hgap="5.0" maxHeight="1.7976931348623157E308" vgap="5.0" VBox.vgrow="ALWAYS">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="200.0" />
+                    <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="200.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="NEVER" />
+                </rowConstraints>
+            <padding>
+               <Insets left="20.0" />
+            </padding>
+            <VBox.margin>
+               <Insets bottom="10.0" />
+            </VBox.margin>
+            </GridPane>
+        </children>
+        <padding>
+            <Insets left="10.0" right="10.0" top="5.0" />
+        </padding>
+    </VBox>
+</ScrollPane>
