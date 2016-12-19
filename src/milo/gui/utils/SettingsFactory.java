@@ -41,7 +41,7 @@ public class SettingsFactory {
             ObjectInputStream settingsDataIS = new ObjectInputStream(settingsFileIS);
             settingsData = (SettingsData) settingsDataIS.readObject();
             mainPlayerController.setDB(settingsData.getSongDatas(), settingsData.getAlbumDataMap());
-            LOG.w(getClass() + ": Finished loading settings");
+            LOG.w( ": Finished loading settings");
         } catch (Exception e) {
             settingsData = new SettingsData();
             settingsData.initData();
@@ -91,7 +91,7 @@ public class SettingsFactory {
                 }
                 Platform.runLater(() -> mainPlayerController.setDB(songList, albumDataMap));
                 saveSettings();
-                LOG.w(getClass() + ": Finished creating database");
+                LOG.w(": Finished creating database");
             });
             createDBThread.start();
         }
