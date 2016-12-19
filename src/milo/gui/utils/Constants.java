@@ -8,7 +8,6 @@ import javafx.scene.paint.Color;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 
 /**
@@ -37,6 +36,12 @@ public class Constants {
     ));
     private final static Background BG_GRAYER = new Background(new BackgroundFill(
             Color.web("#dadada"), CornerRadii.EMPTY, Insets.EMPTY
+    ));
+    private final static Background BG_BUT_GRAY = new Background(new BackgroundFill(
+            Color.web("#767676"), CornerRadii.EMPTY, Insets.EMPTY
+    ));
+    private final static Background BG_BUT_BLUE = new Background(new BackgroundFill(
+            Color.web("#005a9e"), CornerRadii.EMPTY, Insets.EMPTY
     ));
 
     private final static double PLAYER_BAR_PADDING_V = GUIUtils.getScreenHeight() / 125;
@@ -119,6 +124,14 @@ public class Constants {
 
     public static Background getBgGrayer() {
         return BG_GRAYER;
+    }
+
+    public static Background getBgButGray() {
+        return BG_BUT_GRAY;
+    }
+
+    public static Background getBgButBlue() {
+        return BG_BUT_BLUE;
     }
 
     public static byte[] getDefaultArtworkRaw() {

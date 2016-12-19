@@ -13,6 +13,7 @@ import java.util.TreeMap;
 
 public class SettingsData implements Serializable{
     private List<SongData> songDatas;
+    private List<String> pathList;
     private Map<String, AlbumData> albumDataMap;
     private SongData lastPlayedSong;
     private boolean isShuffle = false, isRepeat = false;
@@ -28,6 +29,10 @@ public class SettingsData implements Serializable{
 
     public Map<String, AlbumData> getAlbumDataMap() {
         return albumDataMap;
+    }
+
+    public List<String> getPathList() {
+        return pathList;
     }
 
     public void setLastPlayedSong(SongData lastPlayedSong) {

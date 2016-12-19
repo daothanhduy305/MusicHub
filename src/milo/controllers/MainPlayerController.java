@@ -1,13 +1,16 @@
 package milo.controllers;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import milo.controllers.abstractcontrollers.AbstractPlayerUIController;
+import milo.controllers.utils.LOG;
 import milo.data.AlbumData;
 import milo.data.SongData;
 import milo.gui.utils.SettingsFactory;
@@ -16,6 +19,7 @@ import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -35,9 +39,14 @@ public class MainPlayerController extends AbstractPlayerUIController {
     @FXML private NavigationDrawerController navigationDrawerController;
     @FXML private GridPane mHolder;
 
-    private ObservableList<SongData> songDatas;
     private SizeCalculator sizeCalculator;
+    private Window mainWindow;
+
     private SettingsFactory settingsFactory;
+    private SettingsController settingsController;
+    private Stage settingsStage;
+    private FXMLLoader settingsLoader;
+    private Scene settingsScene;
 
     @Override
     public void buildUI() {
@@ -165,9 +174,37 @@ public class MainPlayerController extends AbstractPlayerUIController {
      * @param albumDataMap database for albums
      */
     public void setDB(List<SongData> songDatas, Map<String, AlbumData> albumDataMap) {
-        this.songDatas = FXCollections.observableArrayList(songDatas);
-
-        mainViewPanelController.setDB(this.songDatas, albumDataMap);
+        mainViewPanelController.setDB(FXCollections.observableArrayList(songDatas), albumDataMap);
         refreshUI();
+    }
+
+    public void showSettings() {
+        if (settingsLoader == null) {
+            settingsLoader = new FXMLLoader();
+            settingsLoader.setLocation(getClass().getResource("/milo/gui/designs/settings.fxml"));
+            try {
+                settingsScene = new Scene(settingsLoader.load(), 800.0, 300.0);
+            } catch (IOException exception) {
+                throw new RuntimeException(exception);
+            }
+            settingsController = settingsLoader.getController();
+            settingsController.setSettingsFactory(settingsFactory);
+            settingsController.buildUI();
+
+            settingsStage = new Stage();
+            settingsController.setSettingsWindow(settingsStage);
+            settingsStage.initOwner(mainWindow);
+            settingsStage.setMinWidth(400.0);
+            settingsStage.setTitle("Music Hub - Settings");
+            settingsStage.setScene(settingsScene);
+
+            LOG.w("New settings window started");
+        }
+
+        settingsStage.show();
+    }
+
+    public void setMainWindow(Window mainWindow) {
+        this.mainWindow = mainWindow;
     }
 }

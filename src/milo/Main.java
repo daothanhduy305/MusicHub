@@ -83,6 +83,7 @@ public class Main extends Application {
         mainViewPanelController.setNavigationDrawerController(navigationDrawerController);
 
         mainPlayerController.setScene(mainScene);
+        mainPlayerController.setMainWindow(primaryStage);
         mainPlayerController.buildUI();
 
         primaryStage.setMinWidth(GUIUtils.getScreenWidth() / 1.5);

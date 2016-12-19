@@ -39,6 +39,7 @@ public class SongPlayerController extends AbstractSubUIController {
     private ActionButton playButton;
     private ActionButton nextButton;
     private ActionButton prevButton;
+    private ActionButton settingButton;
 
     private StackPane thumb;
     private boolean thumbChanged = false;
@@ -69,6 +70,9 @@ public class SongPlayerController extends AbstractSubUIController {
         buttonsBox.getChildren().add(nextButton);
         buttonsBox.getChildren().add(new ActionButton("play"));
         buttonsBox.getChildren().add(new ActionButton("play"));
+        settingButton = new ActionButton("play");
+        settingButton.setOnMouseClicked(event -> mainPlayerController.showSettings());
+        buttonsBox.getChildren().add(settingButton);
         songSeekBar.setMin(0f);
         songSeekBar.valueChangingProperty().addListener((obs, wasChanging, isNowChanging) -> {
             if (mainPlayerController.getPlayer() != null) {
