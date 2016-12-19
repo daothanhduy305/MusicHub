@@ -22,12 +22,12 @@ import org.jaudiotagger.tag.images.Artwork;
 import java.io.ByteArrayInputStream;
 
 /**
- * Class name:  SongPlayerController
+ * Class name:  SongPlayerBarController
  * Description: This controller will control the player bar, which will show some info, album art of the currently
  *              playing song, and control buttons.
  */
 
-public class SongPlayerController extends AbstractSubUIController {
+public class SongPlayerBarController extends AbstractSubUIController {
     @FXML private HBox playerBox, buttonsBox;
     @FXML private VBox songInfoLabelsBox;
     @FXML private Label songTitleLabel, songArtistLabel, lengthCountLabel, lengthTotalLabel;

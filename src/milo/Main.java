@@ -18,7 +18,7 @@ public class Main extends Application {
     private Scene mainScene;
     private MainPlayerController mainPlayerController;
     private MainViewPanelController mainViewPanelController;
-    private SongPlayerController songPlayerController;
+    private SongPlayerBarController songPlayerBarController;
     private AllSongsViewController allSongsViewController;
     private AlbumsViewController albumsViewController;
     private AlbumsViewOverviewController albumsViewOverviewController;
@@ -35,7 +35,7 @@ public class Main extends Application {
 
         mainPlayerController = new MainPlayerController();
         mainViewPanelController = new MainViewPanelController();
-        songPlayerController = new SongPlayerController();
+        songPlayerBarController = new SongPlayerBarController();
         allSongsViewController = new AllSongsViewController();
         albumsViewController =  new AlbumsViewController();
         albumsViewOverviewController = new AlbumsViewOverviewController();
@@ -45,8 +45,8 @@ public class Main extends Application {
         fxmlLoader.setControllerFactory(param -> {
             if (param == MainPlayerController.class)
                 return mainPlayerController;
-            else if (param == SongPlayerController.class)
-                return songPlayerController;
+            else if (param == SongPlayerBarController.class)
+                return songPlayerBarController;
             else if (param == AllSongsViewController.class)
                 return allSongsViewController;
             else if (param == AlbumsViewController.class)
@@ -72,7 +72,7 @@ public class Main extends Application {
         Parent root = fxmlLoader.load();
         mainScene = new Scene(root, GUIUtils.getScreenWidth(), GUIUtils.getScreenHeight());
 
-        songPlayerController.setMainPlayerController(mainPlayerController);
+        songPlayerBarController.setMainPlayerController(mainPlayerController);
         allSongsViewController.setMainPlayerController(mainPlayerController);
         albumsViewController.setMainPlayerController(mainPlayerController);
         navigationDrawerController.setMainPlayerController(mainPlayerController);

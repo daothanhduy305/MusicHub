@@ -34,7 +34,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
      * Start of the variable declarations
      * First is the section for @FXML variables, which are corresponded to the UI element with the same name <-> fx:id
      */
-    @FXML private SongPlayerController songPlayerController;
+    @FXML private SongPlayerBarController songPlayerBarController;
     @FXML private MainViewPanelController mainViewPanelController;
     @FXML private NavigationDrawerController navigationDrawerController;
     @FXML private GridPane mHolder;
@@ -50,7 +50,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
 
     @Override
     public void buildUI() {
-        songPlayerController.buildUI();
+        songPlayerBarController.buildUI();
         navigationDrawerController.buildUI();
         mainViewPanelController.buildUI();
 
@@ -65,7 +65,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
 
         mHolder.setPrefHeight(sizeCalculator.getWindowHeight());
 
-        songPlayerController.refreshUI();
+        songPlayerBarController.refreshUI();
         mainViewPanelController.refreshUI();
         navigationDrawerController.refreshUI();
     }
@@ -81,7 +81,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
                 AudioFile audioFile = AudioFileIO.read(songFile);
                 isPlaying = true;
                 player = new MediaPlayer(new Media(songFile.toURI().toURL().toExternalForm()));
-                songPlayerController.setupForPlayingMusic(audioFile);
+                songPlayerBarController.setupForPlayingMusic(audioFile);
                 player.play();
                 // TODO: check whether we reach the end of the list? If so, call to stop instead of pause
                 player.setOnEndOfMedia(this::playNextSong);
@@ -95,10 +95,10 @@ public class MainPlayerController extends AbstractPlayerUIController {
     public void pausePlaying() {
         if (player != null) {
             isPlaying = false;
-            songPlayerController.stopPlaying(false);
+            songPlayerBarController.stopPlaying(false);
             player.pause();
-            songPlayerController.getPlayButton().replaceButName("play");
-            songPlayerController.getPlayButton().setOnMouseClicked(event -> resumePlaying());
+            songPlayerBarController.getPlayButton().replaceButName("play");
+            songPlayerBarController.getPlayButton().setOnMouseClicked(event -> resumePlaying());
         }
     }
 
@@ -109,17 +109,17 @@ public class MainPlayerController extends AbstractPlayerUIController {
             player.stop();
             player.dispose();
         }
-        songPlayerController.stopPlaying(true);
+        songPlayerBarController.stopPlaying(true);
     }
 
     @Override
     public void resumePlaying() {
         if (player != null) {
             isPlaying = true;
-            songPlayerController.resumePlaying();
+            songPlayerBarController.resumePlaying();
             player.play();
-            songPlayerController.getPlayButton().replaceButName("pause");
-            songPlayerController.getPlayButton().setOnMouseClicked(event -> pausePlaying());
+            songPlayerBarController.getPlayButton().replaceButName("pause");
+            songPlayerBarController.getPlayButton().setOnMouseClicked(event -> pausePlaying());
         }
     }
 
@@ -157,7 +157,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
     public void setScene(Scene scene) {
         sizeCalculator = new SizeCalculator(scene);
 
-        songPlayerController.setSizeCalculator(sizeCalculator);
+        songPlayerBarController.setSizeCalculator(sizeCalculator);
         mainViewPanelController.setSizeCalculator(sizeCalculator);
         navigationDrawerController.setSizeCalculator(sizeCalculator);
     }
