@@ -183,7 +183,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
             settingsLoader = new FXMLLoader();
             settingsLoader.setLocation(getClass().getResource("/milo/gui/designs/settings.fxml"));
             try {
-                settingsScene = new Scene(settingsLoader.load(), 800.0, 300.0);
+                settingsScene = new Scene(settingsLoader.load(), 600.0, 300.0);
             } catch (IOException exception) {
                 throw new RuntimeException(exception);
             }
