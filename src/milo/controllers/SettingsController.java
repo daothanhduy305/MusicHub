@@ -2,6 +2,8 @@ package milo.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 import milo.gui.custom.PathAddButton;
@@ -29,6 +31,11 @@ public class SettingsController {
             pathChooser.setTitle("Add path");
             File folder = pathChooser.showDialog(settingsWindow);
             pathsGrid.add(new PathTile(folder.getPath()), item % 2, item / 2);
+            if (item % 2 == 0) {
+                RowConstraints newRow = new RowConstraints(60.0);
+                newRow.setVgrow(Priority.NEVER);
+                pathsGrid.getRowConstraints().add(newRow);
+            }
             item++;
         });
         pathsGrid.add(pathAddButton, 0, 0);
