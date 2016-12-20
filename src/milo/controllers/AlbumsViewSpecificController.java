@@ -76,8 +76,7 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
 
         // TODO choose between the scene's height and the calculation beneath
         songListTable.setFixedCellSize(48.0);
-        songListTable.prefHeightProperty().bind(Bindings.size(songListTable.getItems()).multiply(songListTable.getFixedCellSize()));
-        songListTable.setPadding(new Insets(0, 0, 0, 0));
+        songListTable.prefHeightProperty().bind(Bindings.size(songListTable.getItems()).multiply(songListTable.getFixedCellSize()).add(2.0));
     }
 
     /**
