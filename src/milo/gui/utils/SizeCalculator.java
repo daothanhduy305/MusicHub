@@ -18,7 +18,7 @@ public class SizeCalculator {
     private double playerBarAlbumArtSize = Constants.getPlayerBarAlbumArtSize();
     private double songInfoLabelsBoxW;
     private double seekBarWidth;
-    private double lengthLabelWidth;
+    private double lengthLabelWidth = 30.0;
 
     private double navigationDrawerWidth = Constants.getNavigationDrawerWidth();
     private double navigationDrawerButtonHeight = Constants.getNavigationDrawerButtonHeight();
@@ -49,7 +49,6 @@ public class SizeCalculator {
         smallColumnWidth = ((songTableWidth - 3.0 * bigColumnWidth) / 3.0) - 1.0;
 
         songInfoLabelsBoxW = navigationDrawerWidth - playerBarAlbumArtSize;
-        lengthLabelWidth = 30.0;
         seekBarWidth = songInfoLabelsBoxW * 3 - 2 * lengthLabelWidth - 2 * playerBarPaddingH;
     }
 

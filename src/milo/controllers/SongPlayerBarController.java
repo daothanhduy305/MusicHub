@@ -149,14 +149,11 @@ public class SongPlayerBarController extends AbstractSubUIController {
                 2 * sizeCalculator.getPlayerBarPaddingH()
         ));
         songInfoLabelsBox.setMaxWidth(sizeCalculator.getSongInfoLabelsBoxW());
-        songInfoLabelsBox.setPrefWidth(sizeCalculator.getSongInfoLabelsBoxW());
         songInfoLabelsBox.setMinWidth(sizeCalculator.getSongInfoLabelsBoxW());
-        lengthCountLabel.setPrefWidth(sizeCalculator.getLengthLabelWidth());
         lengthCountLabel.setMaxWidth(sizeCalculator.getLengthLabelWidth());
-        lengthCountLabel.setMinWidth(30.0);
-        lengthTotalLabel.setPrefWidth(sizeCalculator.getLengthLabelWidth());
+        lengthCountLabel.setMinWidth(sizeCalculator.getLengthLabelWidth());
         lengthTotalLabel.setMaxWidth(sizeCalculator.getLengthLabelWidth());
-        lengthTotalLabel.setMinWidth(30.0);
+        lengthTotalLabel.setMinWidth(sizeCalculator.getLengthLabelWidth());
         lengthCountLabel.setPadding(new Insets(
                 0, 0, 0, sizeCalculator.getPlayerBarPaddingH()
         ));
