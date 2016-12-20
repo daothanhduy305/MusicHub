@@ -45,12 +45,10 @@ public class SizeCalculator {
         mainViewPanelWidth = mScene.getWidth() - navigationDrawerWidth;
         mainViewPanelPaddingWidth = mainViewPanelWidth / 50;
         songTableWidth = mainViewPanelWidth /*- 2 * mainViewPanelPaddingWidth*/;
-        bigColumnWidth = (0.18 * songTableWidth);
-        smallColumnWidth = (songTableWidth - 3 * bigColumnWidth) / 3;
+        bigColumnWidth = (0.18 * songTableWidth) - 1.0;
+        smallColumnWidth = ((songTableWidth - 3.0 * bigColumnWidth) / 3.0) - 1.0;
 
-//        songInfoLabelsBoxW = (mScene.getWidth() - (playerBarAlbumArtSize + 4 + 2 * playerBarPaddingH)) / 5;
         songInfoLabelsBoxW = navigationDrawerWidth - playerBarAlbumArtSize;
-//        lengthLabelWidth = songInfoLabelsBoxW * 0.15;
         lengthLabelWidth = 30.0;
         seekBarWidth = songInfoLabelsBoxW * 3 - 2 * lengthLabelWidth - 2 * playerBarPaddingH;
     }

@@ -63,8 +63,6 @@ public class MainPlayerController extends AbstractPlayerUIController {
     public void refreshUI() {
         sizeCalculator.calibrate();
 
-        mHolder.setPrefHeight(sizeCalculator.getWindowHeight());
-
         songPlayerBarController.refreshUI();
         mainViewPanelController.refreshUI();
         navigationDrawerController.refreshUI();
@@ -156,6 +154,8 @@ public class MainPlayerController extends AbstractPlayerUIController {
      */
     public void setScene(Scene scene) {
         sizeCalculator = new SizeCalculator(scene);
+
+        scene.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> refreshUI());
 
         songPlayerBarController.setSizeCalculator(sizeCalculator);
         mainViewPanelController.setSizeCalculator(sizeCalculator);

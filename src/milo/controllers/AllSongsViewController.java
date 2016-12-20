@@ -60,18 +60,18 @@ public class AllSongsViewController extends AbstractSubUIController {
                 Bindings.size(songListTable.getItems()).multiply(songListTable.getFixedCellSize()).add(2.0)
         );
 
-        songListTableTitle.setPrefWidth(sizeCalculator.getBigColumnWidth());
         songListTableTitle.setMaxWidth(sizeCalculator.getBigColumnWidth());
-        songListTableArtist.setPrefWidth(sizeCalculator.getBigColumnWidth());
+        songListTableTitle.setMinWidth(sizeCalculator.getBigColumnWidth());
         songListTableArtist.setMaxWidth(sizeCalculator.getBigColumnWidth());
-        songListTableAlbum.setPrefWidth(sizeCalculator.getBigColumnWidth());
+        songListTableArtist.setMinWidth(sizeCalculator.getBigColumnWidth());
         songListTableAlbum.setMaxWidth(sizeCalculator.getBigColumnWidth());
-        songListTableYear.setPrefWidth(sizeCalculator.getSmallColumnWidth());
+        songListTableAlbum.setMinWidth(sizeCalculator.getBigColumnWidth());
         songListTableYear.setMaxWidth(sizeCalculator.getSmallColumnWidth());
-        songListTableGenre.setPrefWidth(sizeCalculator.getSmallColumnWidth());
+        songListTableYear.setMinWidth(sizeCalculator.getSmallColumnWidth());
         songListTableGenre.setMaxWidth(sizeCalculator.getSmallColumnWidth());
-        songListTableLength.setPrefWidth(sizeCalculator.getSmallColumnWidth());
+        songListTableGenre.setMinWidth(sizeCalculator.getSmallColumnWidth());
         songListTableLength.setMaxWidth(sizeCalculator.getSmallColumnWidth());
+        songListTableLength.setMinWidth(sizeCalculator.getSmallColumnWidth());
     }
 
     /**

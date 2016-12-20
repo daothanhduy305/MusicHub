@@ -31,8 +31,8 @@ public class MainViewPanelController extends AbstractSubUIController {
 
     @Override
     public void refreshUI() {
-        mHolder.setPrefWidth(sizeCalculator.getMainViewPanelWidth());
-        mHolder.setPrefHeight(sizeCalculator.getWindowHeight());
+        /*mHolder.setPrefWidth(sizeCalculator.getMainViewPanelWidth());
+        mHolder.setPrefHeight(sizeCalculator.getWindowHeight());*/
 
         allSongsViewController.refreshUI();
         albumsViewController.refreshUI();
