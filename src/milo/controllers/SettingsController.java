@@ -26,11 +26,22 @@ public class SettingsController {
 
     public void buildUI() {
         pathAddButton = new PathAddButton();
-        pathAddButton.setOnMouseClicked(event -> {
-            DirectoryChooser pathChooser = new DirectoryChooser();
-            pathChooser.setTitle("Add path");
-            File folder = pathChooser.showDialog(settingsWindow);
-            if (folder != null && folder.exists()) {
+        pathAddButton.setOnMouseClicked(event -> addPath());
+        pathsGrid.add(pathAddButton, 0, 0);
+        if (settingsFactory.getSettingsData().getPathList() != null && settingsFactory.getSettingsData().getPathList().size() > 0) {
+            for (String path : settingsFactory.getSettingsData().getPathList()) {
+                pathsGrid.add(new PathTile(path), item % 2, item / 2);
+                item++;
+            }
+        }
+    }
+
+    private void addPath() {
+        DirectoryChooser pathChooser = new DirectoryChooser();
+        pathChooser.setTitle("Add path");
+        File folder = pathChooser.showDialog(settingsWindow);
+        if (folder != null && folder.exists()) {
+            if (settingsFactory.addPath/*Successful*/(folder.getPath())) {
                 pathsGrid.add(new PathTile(folder.getPath()), item % 2, item / 2);
                 if (item % 2 == 0) {
                     RowConstraints newRow = new RowConstraints(80.0);
@@ -39,8 +50,7 @@ public class SettingsController {
                 }
                 item++;
             }
-        });
-        pathsGrid.add(pathAddButton, 0, 0);
+        }
     }
 
     public void setSettingsFactory(SettingsFactory settingsFactory) {

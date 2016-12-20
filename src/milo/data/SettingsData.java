@@ -35,6 +35,10 @@ public class SettingsData implements Serializable{
         return pathList;
     }
 
+    public void setPathList(List<String> pathList) {
+        this.pathList = pathList;
+    }
+
     public void setLastPlayedSong(SongData lastPlayedSong) {
         this.lastPlayedSong = lastPlayedSong;
     }

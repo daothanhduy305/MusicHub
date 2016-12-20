@@ -42,7 +42,7 @@ public class SongData implements Serializable {
         this.artist = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.ARTIST));
         this.path = new SimpleStringProperty(audioFile.getFile().getPath());
         this.length = new SimpleIntegerProperty(audioFile.getAudioHeader().getTrackLength());
-        this.lengthStr = new SimpleStringProperty(GUIUtils.lengthToLengthStr(this.getLength(), " "));
+        this.lengthStr = new SimpleStringProperty(GUIUtils.lengthToLengthStr(this.getLength(), " ") + "    ");
         this.albumTitle = new SimpleStringProperty(albumStr);
         this.albumAuthor = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.ALBUM_ARTIST));
         this.gerne = new SimpleStringProperty(audioFile.getTag().getFirst(FieldKey.GENRE));
@@ -133,7 +133,7 @@ public class SongData implements Serializable {
         artist = new SimpleStringProperty(s.readUTF());
         path = new SimpleStringProperty(s.readUTF());
         length = new SimpleIntegerProperty(s.readInt());
-        this.lengthStr = new SimpleStringProperty(GUIUtils.lengthToLengthStr(this.getLength(), " "));
+        this.lengthStr = new SimpleStringProperty(GUIUtils.lengthToLengthStr(this.getLength(), " ") + "    ");
         albumTitle = new SimpleStringProperty(s.readUTF());
         albumAuthor = new SimpleStringProperty(s.readUTF());
         year = new SimpleStringProperty(s.readUTF());

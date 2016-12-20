@@ -29,7 +29,7 @@ public class AllSongsViewController extends AbstractSubUIController {
     @FXML private VBox mHolder;
 
     private SortedList<SongData> songDataSortedList;
-    private boolean isDBSet = false;
+    private boolean isDBSet = false, hasDummy = false;
     private ObservableList<SongData> songDatas;
 
     @Override
@@ -40,10 +40,12 @@ public class AllSongsViewController extends AbstractSubUIController {
 
         songListTableTitle.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
         songListTableArtist.setCellValueFactory(cellData -> cellData.getValue().artistProperty());
-        songListTableLength.setCellValueFactory(cellData -> cellData.getValue().lengthStrProperty());
         songListTableAlbum.setCellValueFactory(cellData -> cellData.getValue().albumTitleProperty());
         songListTableYear.setCellValueFactory(cellData -> cellData.getValue().yearProperty());
         songListTableGenre.setCellValueFactory(cellData -> cellData.getValue().gerneProperty());
+
+        songListTableLength.setCellValueFactory(cellData -> cellData.getValue().lengthStrProperty());
+        songListTableLength.setStyle("-fx-alignment: CENTER-RIGHT;");
 
         songListTable.setFixedCellSize(48.0);
     }
@@ -79,13 +81,10 @@ public class AllSongsViewController extends AbstractSubUIController {
      *          another thread.
      */
     void setDB(ObservableList<SongData> songDatas) {
-        this.songDatas = songDatas;
-        // TODO: if we want to watch the paths later, then we have to eliminate these dummy on saving
-        // TODO: furthermore, be aware that the scrollbar also need to have padding
-        songDatas.addAll(SongData.getDummySongData(
-                (int) Math.ceil(sizeCalculator.getPlayerBarHeight() / songListTable.getFixedCellSize())
-        ));
         if (!isDBSet) {
+            this.songDatas = songDatas;
+            // TODO: if we want to watch the paths later, then we have to eliminate these dummy on saving
+            // TODO: furthermore, be aware that the scrollbar also need to have padding
             songDataSortedList = new SortedList<>(songDatas, (o1, o2) -> {
                 if (o1.getTitle().equals(" ")) {
                     return Integer.MAX_VALUE;
@@ -139,13 +138,24 @@ public class AllSongsViewController extends AbstractSubUIController {
                     };
                 }
             });
+            isDBSet = true;
+            Platform.runLater(() -> {
+                songListTable.setVisible(true);
+                songListTableRefresh();
+            });
+        } else {
+            this.songDatas.addAll(songDatas);
         }
-
-        isDBSet = true;
-        Platform.runLater(() -> {
-            songListTable.setVisible(true);
-            songListTableRefresh();
-        });
+        if (songDatas.size() * songListTable.getFixedCellSize()
+                > sizeCalculator.getWindowHeight() - sizeCalculator.getPlayerBarHeight()
+                && !hasDummy) {
+            songDatas.addAll(SongData.getDummySongData(
+                    (int) Math.ceil(sizeCalculator.getPlayerBarHeight() / songListTable.getFixedCellSize())
+            ));
+            hasDummy = true;
+        } else {
+            // How to remove dummies?
+        }
     }
 
     /**

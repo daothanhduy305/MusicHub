@@ -13,6 +13,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static milo.gui.utils.Utils.getSongsFromDir;
 
@@ -45,8 +46,6 @@ public class SettingsFactory {
         } catch (Exception e) {
             settingsData = new SettingsData();
             settingsData.initData();
-            // TODO: this is just a test path, it is necessary to be removed and replaced with users' path(s)
-            this.createDB("TestSongs", settingsData.getSongDatas(), settingsData.getAlbumDataMap());
         }
     }
 
@@ -90,6 +89,8 @@ public class SettingsFactory {
                     }
                 }
                 Platform.runLater(() -> mainPlayerController.setDB(songList, albumDataMap));
+                settingsData.getSongDatas().addAll(songList);
+                settingsData.getAlbumDataMap().putAll(albumDataMap);
                 saveSettings();
                 LOG.w(": Finished creating database");
             });
@@ -110,6 +111,18 @@ public class SettingsFactory {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean addPath(String path) {
+        if (settingsData.getPathList() == null) {
+            settingsData.setPathList(new ArrayList<>(5));
+        }
+        if (settingsData.getPathList().indexOf(path) == -1) {
+            settingsData.getPathList().add(path);
+            createDB(path, new ArrayList<>(10), new TreeMap<>());
+            return true;
+        }
+        return false;
     }
 
     public boolean getRepeatModeStatus() {
