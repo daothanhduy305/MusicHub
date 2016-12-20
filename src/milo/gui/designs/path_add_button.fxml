@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<fx:root cache="true" type="javafx.scene.layout.StackPane" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" text="+" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font size="36.0" />
+         </font></Label>
+   </children>
+</fx:root>

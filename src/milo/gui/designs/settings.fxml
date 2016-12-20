@@ -14,17 +14,17 @@
                 </font></Label>
             <Label text="Build your collection from your local music files" wrapText="true">
                 <font>
-                    <Font name="Segoe UI Semibold" size="20.0" />
+                    <Font name="Segoe UI" size="20.0" />
                 </font>
                 <padding>
                     <Insets top="30.0" />
                 </padding></Label>
             <Label text="Right now, we're watching these folders:">
                 <font>
-                    <Font name="Segoe UI" size="16.0" />
+                    <Font name="Segoe UI Semilight" size="16.0" />
                 </font>
                 <padding>
-                    <Insets bottom="10.0" top="10.0" />
+                    <Insets bottom="10.0" top="5.0" />
                 </padding></Label>
             <GridPane fx:id="pathsGrid" hgap="5.0" maxHeight="1.7976931348623157E308" vgap="5.0" VBox.vgrow="ALWAYS">
                 <columnConstraints>
@@ -32,7 +32,7 @@
                     <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="200.0" />
                 </columnConstraints>
                 <rowConstraints>
-                    <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="NEVER" />
+                    <RowConstraints minHeight="10.0" prefHeight="80.0" vgrow="NEVER" />
                 </rowConstraints>
             <padding>
                <Insets left="20.0" />

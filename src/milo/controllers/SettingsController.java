@@ -30,13 +30,15 @@ public class SettingsController {
             DirectoryChooser pathChooser = new DirectoryChooser();
             pathChooser.setTitle("Add path");
             File folder = pathChooser.showDialog(settingsWindow);
-            pathsGrid.add(new PathTile(folder.getPath()), item % 2, item / 2);
-            if (item % 2 == 0) {
-                RowConstraints newRow = new RowConstraints(60.0);
-                newRow.setVgrow(Priority.NEVER);
-                pathsGrid.getRowConstraints().add(newRow);
+            if (folder != null && folder.exists()) {
+                pathsGrid.add(new PathTile(folder.getPath()), item % 2, item / 2);
+                if (item % 2 == 0) {
+                    RowConstraints newRow = new RowConstraints(80.0);
+                    newRow.setVgrow(Priority.NEVER);
+                    pathsGrid.getRowConstraints().add(newRow);
+                }
+                item++;
             }
-            item++;
         });
         pathsGrid.add(pathAddButton, 0, 0);
     }

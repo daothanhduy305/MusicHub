@@ -1,17 +1,26 @@
 package milo.gui.custom;
 
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.StackPane;
 import milo.gui.utils.Constants;
+
+import java.io.IOException;
 
 /**
  * Created by Ebolo on 19/12/2016.
  */
-public class PathAddButton extends Pane {
-    private final Label symbol = new Label("+");
-
+public class PathAddButton extends StackPane {
     public PathAddButton() {
-        this.getChildren().add(symbol);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/milo/gui/designs/path_add_button.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
 
         this.setBackground(Constants.getBgButBlue());
         this.setOnMouseEntered(event -> setBackground(Constants.getBgButGray()));
