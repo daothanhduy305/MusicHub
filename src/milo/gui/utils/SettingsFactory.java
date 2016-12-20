@@ -113,6 +113,11 @@ public class SettingsFactory {
         }
     }
 
+    /**
+     * Function name:   addPath
+     * Usage:   This method will call a directory chooser to let the user choose the directory that contains music
+     * @param path the path to be monitored
+     */
     public boolean addPath(String path) {
         if (settingsData.getPathList() == null) {
             settingsData.setPathList(new ArrayList<>(5));

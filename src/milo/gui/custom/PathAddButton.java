@@ -7,8 +7,10 @@ import milo.gui.utils.Constants;
 import java.io.IOException;
 
 /**
- * Created by Ebolo on 19/12/2016.
+ * Class name:  PathTile
+ * Description: This is the class for the button of adding new path in Settings window
  */
+
 public class PathAddButton extends StackPane {
     public PathAddButton() {
         FXMLLoader fxmlLoader = new FXMLLoader();

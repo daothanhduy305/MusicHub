@@ -13,7 +13,8 @@ import milo.gui.utils.SettingsFactory;
 import java.io.File;
 
 /**
- * Created by Ebolo on 18/12/2016.
+ * Class name:  SettingsController
+ * Description: This controller controls the Settings window
  */
 public class SettingsController {
     @FXML private GridPane pathsGrid;
@@ -36,6 +37,10 @@ public class SettingsController {
         }
     }
 
+    /**
+     * Function name:   addPath
+     * Usage:   This method will call a directory chooser to let the user choose the directory that contains music
+     */
     private void addPath() {
         DirectoryChooser pathChooser = new DirectoryChooser();
         pathChooser.setTitle("Add path");
