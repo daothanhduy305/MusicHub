@@ -43,10 +43,8 @@ public class AllSongsViewController extends AbstractSubUIController {
         songListTableAlbum.setCellValueFactory(cellData -> cellData.getValue().albumTitleProperty());
         songListTableYear.setCellValueFactory(cellData -> cellData.getValue().yearProperty());
         songListTableGenre.setCellValueFactory(cellData -> cellData.getValue().gerneProperty());
-
         songListTableLength.setCellValueFactory(cellData -> cellData.getValue().lengthStrProperty());
         songListTableLength.setStyle("-fx-alignment: CENTER-RIGHT;");
-
         songListTable.setFixedCellSize(48.0);
     }
 

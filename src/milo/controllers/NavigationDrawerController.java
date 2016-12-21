@@ -36,6 +36,7 @@ public class NavigationDrawerController extends AbstractSubUIController {
     @Override
     public void refreshUI() {
         mHolder.setPrefWidth(sizeCalculator.getNavigationDrawerWidth());
+        mHolder.setMinWidth(sizeCalculator.getNavigationDrawerWidth());
         mHolder.setPrefHeight(sizeCalculator.getWindowHeight());
 
         albumsViewButton.setPrefWidth(mHolder.getPrefWidth());

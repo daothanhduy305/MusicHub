@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class AlbumsViewSpecificController extends AbstractAlbumsViewSubController {
     @FXML private TableView<SongData> songListTable;
-    @FXML private TableColumn<SongData, String> songListTableTitle, songListTableArtist, songListTableLength;
+    @FXML private TableColumn<SongData, String> songListTableTitle, songListTableArtist, songListTableGenre, songListTableYear, songListTableAlbum, songListTableLength;
     @FXML private VBox mainPanel, labelsBox;
     @FXML private HBox albumInfoBox;
     @FXML private ImageView albumArtBig;
@@ -50,9 +50,12 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
 
         songListTableTitle.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
         songListTableArtist.setCellValueFactory(cellData -> cellData.getValue().artistProperty());
+        songListTableAlbum.setCellValueFactory(cellData -> cellData.getValue().albumTitleProperty());
+        songListTableYear.setCellValueFactory(cellData -> cellData.getValue().yearProperty());
+        songListTableGenre.setCellValueFactory(cellData -> cellData.getValue().gerneProperty());
         songListTableLength.setCellValueFactory(cellData -> cellData.getValue().lengthStrProperty());
         songListTable.getSortOrder().setAll(songListTableTitle);
-
+        songListTableLength.setStyle("-fx-alignment: CENTER-RIGHT;");
         songListTable.setItems(songDataSortedList);
         songDataSortedList.comparatorProperty().bind(songListTable.comparatorProperty());
         songListTable.setOnMouseClicked(event -> {
@@ -67,12 +70,18 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
     public void refreshUI() {
         songListTable.setPrefWidth(sizeCalculator.getSongTableWidth());
 
-        songListTableTitle.setPrefWidth(sizeCalculator.getBigColumnWidth());
         songListTableTitle.setMaxWidth(sizeCalculator.getBigColumnWidth());
-        songListTableArtist.setPrefWidth(sizeCalculator.getBigColumnWidth());
+        songListTableTitle.setMinWidth(sizeCalculator.getBigColumnWidth());
         songListTableArtist.setMaxWidth(sizeCalculator.getBigColumnWidth());
-        songListTableLength.setPrefWidth(sizeCalculator.getSmallColumnWidth());
+        songListTableArtist.setMinWidth(sizeCalculator.getBigColumnWidth());
+        songListTableAlbum.setMaxWidth(sizeCalculator.getBigColumnWidth());
+        songListTableAlbum.setMinWidth(sizeCalculator.getBigColumnWidth());
+        songListTableYear.setMaxWidth(sizeCalculator.getSmallColumnWidth());
+        songListTableYear.setMinWidth(sizeCalculator.getSmallColumnWidth());
+        songListTableGenre.setMaxWidth(sizeCalculator.getSmallColumnWidth());
+        songListTableGenre.setMinWidth(sizeCalculator.getSmallColumnWidth());
         songListTableLength.setMaxWidth(sizeCalculator.getSmallColumnWidth());
+        songListTableLength.setMinWidth(sizeCalculator.getSmallColumnWidth());
 
         // TODO choose between the scene's height and the calculation beneath
         songListTable.setFixedCellSize(48.0);

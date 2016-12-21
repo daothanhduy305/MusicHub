@@ -34,6 +34,9 @@
             <columns>
                 <TableColumn fx:id="songListTableTitle" minWidth="100.0" prefWidth="400.0" resizable="false" text="Title" />
                 <TableColumn fx:id="songListTableArtist" prefWidth="75.0" resizable="false" text="Artist" />
+                <TableColumn fx:id="songListTableAlbum" prefWidth="75.0" resizable="false" text="Album" />
+                <TableColumn fx:id="songListTableYear" prefWidth="75.0" resizable="false" text="Year" />
+                <TableColumn fx:id="songListTableGenre" prefWidth="75.0" resizable="false" text="Genre" />
                 <TableColumn fx:id="songListTableLength" prefWidth="75.0" resizable="false" text="Length" />
             </columns>
         </TableView>

@@ -33,7 +33,7 @@ public class AlbumsViewOverviewController extends AbstractAlbumsViewSubControlle
         // TODO save album data into file instead of createDB()
         monitoringCells = new ArrayList<>(20);
 
-        albumsListView.setCellWidth(Constants.getAlbumOverviewAlbumArtSize() + 12);
+        albumsListView.setCellWidth(Constants.getAlbumOverviewAlbumArtSize() + 12 );
         albumsListView.setCellHeight(Constants.getAlbumOverviewAlbumArtSize() * 1.7);
 
         albumsListView.setCellFactory(gridView -> {
@@ -53,7 +53,8 @@ public class AlbumsViewOverviewController extends AbstractAlbumsViewSubControlle
 
     @Override
     public void refreshUI() {
-
+        albumsListView.setMinWidth(sizeCalculator.getMainViewPanelWidth());
+        albumsListView.setMaxWidth(sizeCalculator.getMainViewPanelWidth());
     }
 
     public void showAlbum(AlbumData albumData) {
