@@ -31,8 +31,7 @@ public class SettingsController {
         pathsGrid.add(pathAddButton, 0, 0);
         if (settingsFactory.getSettingsData().getPathList() != null && settingsFactory.getSettingsData().getPathList().size() > 0) {
             for (String path : settingsFactory.getSettingsData().getPathList()) {
-                pathsGrid.add(new PathTile(path), item % 2, item / 2);
-                item++;
+                addPathTile(path);
             }
         }
     }
@@ -47,15 +46,19 @@ public class SettingsController {
         File folder = pathChooser.showDialog(settingsWindow);
         if (folder != null && folder.exists()) {
             if (settingsFactory.addPath/*Successful*/(folder.getPath())) {
-                pathsGrid.add(new PathTile(folder.getPath()), item % 2, item / 2);
-                if (item % 2 == 0) {
-                    RowConstraints newRow = new RowConstraints(80.0);
-                    newRow.setVgrow(Priority.NEVER);
-                    pathsGrid.getRowConstraints().add(newRow);
-                }
-                item++;
+                addPathTile(folder.getPath());
             }
         }
+    }
+
+    private void addPathTile(String path) {
+        pathsGrid.add(new PathTile(path), item % 2, item / 2);
+        if (item % 2 == 0) {
+            RowConstraints newRow = new RowConstraints(80.0);
+            newRow.setVgrow(Priority.NEVER);
+            pathsGrid.getRowConstraints().add(newRow);
+        }
+        item++;
     }
 
     public void setSettingsFactory(SettingsFactory settingsFactory) {
