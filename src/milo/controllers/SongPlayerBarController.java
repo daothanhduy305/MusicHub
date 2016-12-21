@@ -89,7 +89,7 @@ public class SongPlayerBarController extends AbstractSubUIController {
                 if (!songSeekBar.isValueChanging()) {
                     double currentTime = mainPlayerController.getPlayer().getCurrentTime().toSeconds();
                     double sliderTime = newValue.doubleValue();
-                    if (Math.abs(currentTime - sliderTime) > 0.75 && !thumbChanged) {
+                    if (Math.abs(currentTime - sliderTime) > 1.0 && !thumbChanged) {
                         mainPlayerController.getPlayer().seek(new Duration(newValue.doubleValue() * 1000.0));
                     }
                     lengthCountLabel.setText(
@@ -154,12 +154,7 @@ public class SongPlayerBarController extends AbstractSubUIController {
         lengthCountLabel.setMinWidth(sizeCalculator.getLengthLabelWidth());
         lengthTotalLabel.setMaxWidth(sizeCalculator.getLengthLabelWidth());
         lengthTotalLabel.setMinWidth(sizeCalculator.getLengthLabelWidth());
-        lengthCountLabel.setPadding(new Insets(
-                0, 0, 0, sizeCalculator.getPlayerBarPaddingH()
-        ));
-        lengthTotalLabel.setPadding(new Insets(
-                0, 0, 0, sizeCalculator.getPlayerBarPaddingH()
-        ));
+
         songSeekBar.setMaxWidth(sizeCalculator.getSeekBarWidth());
         songSeekBar.setPrefWidth(sizeCalculator.getSeekBarWidth());
         songProgressBar.setMaxWidth(sizeCalculator.getSeekBarWidth());
@@ -167,7 +162,7 @@ public class SongPlayerBarController extends AbstractSubUIController {
         seekBarHolder.setMaxWidth(sizeCalculator.getSeekBarWidth());
         seekBarHolder.setPrefWidth(sizeCalculator.getSeekBarWidth());
         seekBarHolder.setPadding(new Insets(
-                0, 2 * sizeCalculator.getPlayerBarPaddingH(), 0, 2 * sizeCalculator.getPlayerBarPaddingH()
+                0, 4 * sizeCalculator.getPlayerBarPaddingH(), 0, 0
         ));
 
         if (thumb == null)
