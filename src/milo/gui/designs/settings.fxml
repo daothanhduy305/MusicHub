@@ -28,11 +28,11 @@
                 </padding></Label>
             <GridPane fx:id="pathsGrid" hgap="5.0" maxHeight="1.7976931348623157E308" vgap="5.0" VBox.vgrow="ALWAYS">
                 <columnConstraints>
-                    <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="200.0" />
-                    <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="200.0" />
+                    <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="250.0" />
+                    <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="250.0" />
                 </columnConstraints>
                 <rowConstraints>
-                    <RowConstraints minHeight="10.0" prefHeight="80.0" vgrow="NEVER" />
+                    <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="NEVER" />
                 </rowConstraints>
             <padding>
                <Insets left="20.0" />

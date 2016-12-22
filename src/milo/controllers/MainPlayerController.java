@@ -192,7 +192,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
             settingsStage = new Stage();
             settingsController.setSettingsWindow(settingsStage);
             settingsStage.initOwner(mainWindow);
-            settingsStage.setMinWidth(400.0);
+            settingsStage.setResizable(false);
             settingsStage.setTitle("Music Hub - Settings");
             settingsStage.setScene(settingsScene);
 

@@ -65,7 +65,7 @@ public class SettingsController {
         pathTile.setOnMouseClicked(event -> removePathTile(pathTile));
         pathsGrid.add(pathTile, item % 2, item / 2);
         if (item % 2 == 0) {
-            RowConstraints newRow = new RowConstraints(80.0);
+            RowConstraints newRow = new RowConstraints(100.0);
             newRow.setVgrow(Priority.NEVER);
             pathsGrid.getRowConstraints().add(newRow);
         }
