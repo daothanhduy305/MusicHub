@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class PathTile extends VBox {
     @FXML private Label folderName, folderPath;
+    private String folderNameStr, folderPathStr;
 
     public PathTile(String fPath) {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -28,11 +29,21 @@ public class PathTile extends VBox {
             throw new RuntimeException(exception);
         }
 
-        folderName.setText(fPath);
-        folderPath.setText(fPath);
+        folderPathStr = fPath;
+        folderNameStr = fPath; // TODO: extract the folder name from folder path
+        folderName.setText(folderNameStr);
+        folderPath.setText(folderPathStr);
 
         this.setBackground(Constants.getBgButBlue());
         this.setOnMouseEntered(event -> setBackground(Constants.getBgButGray()));
         this.setOnMouseExited(event -> setBackground(Constants.getBgButBlue()));
+    }
+
+    public String getFolderNameStr() {
+        return folderNameStr;
+    }
+
+    public String getFolderPathStr() {
+        return folderPathStr;
     }
 }

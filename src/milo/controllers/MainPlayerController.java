@@ -1,6 +1,5 @@
 package milo.controllers;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,7 +19,6 @@ import org.jaudiotagger.audio.AudioFileIO;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -70,7 +68,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
 
     @Override
     public void playSong(SongData songData) {
-        if (!songData.getTitle().equals(" ")) {
+        if (songData != null && !songData.getTitle().equals(" ")) {
             settingsFactory.setPlayingSong(songData);
             this.currentPlayingSong = songData;
             this.stopPlaying();
@@ -173,8 +171,8 @@ public class MainPlayerController extends AbstractPlayerUIController {
      * @param songDatas database for songs
      * @param albumDataMap database for albums
      */
-    public void setDB(List<SongData> songDatas, Map<String, AlbumData> albumDataMap) {
-        mainViewPanelController.setDB(FXCollections.observableArrayList(songDatas), albumDataMap);
+    public void setDB(Map<String, SongData> songDatas, Map<String, AlbumData> albumDataMap) {
+        mainViewPanelController.setDB(songDatas, albumDataMap);
         refreshUI();
     }
 

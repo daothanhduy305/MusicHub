@@ -97,7 +97,7 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
     public void showAlbum(AlbumData albumData) {
         this.albumData = albumData;
         albumSongsList.clear();
-        albumSongsList.addAll(albumData.getSongList());
+        albumSongsList.addAll(albumData.getSongList().values());
 
         if (mainPlayerController.isPlaying())
             songListTable.getSelectionModel().select(mainPlayerController.getCurrentPlayingSong());

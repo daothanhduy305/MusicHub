@@ -62,6 +62,7 @@ public class AlbumsViewOverviewController extends AbstractAlbumsViewSubControlle
     }
 
     public void setDB(Map<String, AlbumData> albumDataMap) {
+        albumTiles.clear();
         albumDataMap.values().forEach(albumData -> albumTiles.add(new AlbumTile(albumData)));
         FXCollections.sort(albumTiles);
     }

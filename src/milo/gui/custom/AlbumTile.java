@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import milo.data.AlbumData;
+import milo.data.SongData;
 import milo.gui.utils.Constants;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -17,6 +18,7 @@ import org.jaudiotagger.tag.images.Artwork;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Class name:  AlbumTile
@@ -75,8 +77,8 @@ public class AlbumTile extends VBox implements Comparable<AlbumTile> {
                 try {
                     Artwork artwork = null;
                     if (albumData.getSongList() != null && albumData.getSongList().size() > 0) {
-                        for (int i = 0; i < albumData.getSongList().size(); i++) {
-                            File song = new File(albumData.getSongList().get(i).getPath());
+                        for (Map.Entry<String, SongData> songDataEntry : albumData.getSongList().entrySet()) {
+                            File song = new File(songDataEntry.getValue().getPath());
                             AudioFile songFile = AudioFileIO.read(song);
                             artwork = songFile.getTag().getFirstArtwork();
                             if (artwork != null)

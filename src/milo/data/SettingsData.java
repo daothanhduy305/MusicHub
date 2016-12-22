@@ -1,7 +1,6 @@
 package milo.data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,18 +11,18 @@ import java.util.TreeMap;
  */
 
 public class SettingsData implements Serializable{
-    private List<SongData> songDatas;
+    private Map<String, SongData> songDatas;
     private List<String> pathList;
     private Map<String, AlbumData> albumDataMap;
     private SongData lastPlayedSong;
     private boolean isShuffle = false, isRepeat = false;
 
     public void initData() {
-        songDatas = new ArrayList<>(100);
+        songDatas = new TreeMap<>();
         albumDataMap = new TreeMap<>();
     }
 
-    public List<SongData> getSongDatas() {
+    public Map<String, SongData> getSongDatas() {
         return songDatas;
     }
 

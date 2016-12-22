@@ -1,6 +1,5 @@
 package milo.controllers;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import milo.controllers.abstractcontrollers.AbstractSubUIController;
@@ -94,7 +93,7 @@ public class MainViewPanelController extends AbstractSubUIController {
      * @param songDatas database for songs
      * @param albumDataMap database for albums
      */
-    void setDB(ObservableList<SongData> songDatas, Map<String, AlbumData> albumDataMap) {
+    void setDB(Map<String, SongData> songDatas, Map<String, AlbumData> albumDataMap) {
         allSongsViewController.setDB(songDatas);
         albumsViewController.setDB(albumDataMap);
     }

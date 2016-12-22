@@ -1,6 +1,9 @@
 package milo.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
@@ -11,6 +14,7 @@ import milo.gui.custom.PathTile;
 import milo.gui.utils.SettingsFactory;
 
 import java.io.File;
+import java.util.Optional;
 
 /**
  * Class name:  SettingsController
@@ -51,14 +55,51 @@ public class SettingsController {
         }
     }
 
+    /**
+     * Function name:   addPathTile
+     * Usage:   This method would add a new PathTile with relevant data into the grid
+     * @param path path to be added
+     */
     private void addPathTile(String path) {
-        pathsGrid.add(new PathTile(path), item % 2, item / 2);
+        PathTile pathTile = new PathTile(path);
+        pathTile.setOnMouseClicked(event -> removePathTile(pathTile));
+        pathsGrid.add(pathTile, item % 2, item / 2);
         if (item % 2 == 0) {
             RowConstraints newRow = new RowConstraints(80.0);
             newRow.setVgrow(Priority.NEVER);
             pathsGrid.getRowConstraints().add(newRow);
         }
         item++;
+    }
+
+    /**
+     * Function name:   removePathTile
+     * Usage:   This method would remove the chosen pathTile from the grid and its relevant data from the back-end database
+     * @param pathTile pathTile to be removed
+     */
+    private void removePathTile(PathTile pathTile) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        String headerMessage = "Remove this folder?";
+        alert.setTitle(headerMessage);
+        alert.setHeaderText(headerMessage);
+        alert.setContentText("If you remove the \"" + pathTile.getFolderNameStr() + "\" folder from Music, it won't" +
+                "appear in Music anymore, but won't be deleted.");
+        alert.initOwner(settingsWindow);
+
+        ButtonType buttonTypeConfirm = new ButtonType("Remove Folder", ButtonBar.ButtonData.APPLY);
+        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(buttonTypeConfirm, buttonTypeCancel);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonTypeConfirm){
+            int pathTileId = pathsGrid.getChildren().indexOf(pathTile);
+            pathsGrid.getChildren().remove(pathTileId);
+            for (int i = pathTileId; i < pathsGrid.getChildren().size(); i++) {
+                GridPane.setColumnIndex(pathsGrid.getChildren().get(i), i % 2);
+                GridPane.setRowIndex(pathsGrid.getChildren().get(i), i / 2);
+            }
+            settingsFactory.removePath(pathTile.getFolderPathStr());
+        }
     }
 
     public void setSettingsFactory(SettingsFactory settingsFactory) {

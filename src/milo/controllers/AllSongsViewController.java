@@ -1,8 +1,7 @@
 package milo.controllers;
 
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableCell;
@@ -15,6 +14,7 @@ import milo.data.SongData;
 import milo.gui.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Class name:  AllSongsViewController
@@ -30,13 +30,11 @@ public class AllSongsViewController extends AbstractSubUIController {
 
     private SortedList<SongData> songDataSortedList;
     private boolean isDBSet = false, hasDummy = false;
-    private ObservableList<SongData> songDatas;
 
     @Override
     public void buildUI() {
         songListTable.getStylesheets().clear();
         songListTable.getStylesheets().add(Constants.getCssMainFilePath());
-        songListTable.setVisible(false);
 
         songListTableTitle.setCellValueFactory(cellData -> cellData.getValue().titleProperty());
         songListTableArtist.setCellValueFactory(cellData -> cellData.getValue().artistProperty());
@@ -78,28 +76,27 @@ public class AllSongsViewController extends AbstractSubUIController {
      *          of creating database from Settings later. Moreover, this should be done only on init and partly done on
      *          another thread.
      */
-    void setDB(ObservableList<SongData> songDatas) {
+    void setDB(Map<String, SongData> songDatas) {
+        // TODO: if we want to watch the paths later, then we have to eliminate these dummy on saving
+        // TODO: furthermore, be aware that the scrollbar also need to have padding
+        songDataSortedList = new SortedList<>(FXCollections.observableArrayList(songDatas.values()), (o1, o2) -> {
+            if (o1.getTitle().equals(" ")) {
+                return Integer.MAX_VALUE;
+            }
+            else if (o2.getTitle().equals(" ")) {
+                return Integer.MIN_VALUE;
+            }
+            else {
+                if (o1.getTitle().compareToIgnoreCase(o2.getTitle()) != 0)
+                    return (o1.getTitle().compareToIgnoreCase(o2.getTitle()));
+                else
+                    return (o1.getArtist().compareToIgnoreCase(o2.getArtist()));
+            }
+        });
+
+        songListTable.setItems(songDataSortedList);
+
         if (!isDBSet) {
-            this.songDatas = songDatas;
-            // TODO: if we want to watch the paths later, then we have to eliminate these dummy on saving
-            // TODO: furthermore, be aware that the scrollbar also need to have padding
-            songDataSortedList = new SortedList<>(songDatas, (o1, o2) -> {
-                if (o1.getTitle().equals(" ")) {
-                    return Integer.MAX_VALUE;
-                }
-                else if (o2.getTitle().equals(" ")) {
-                    return Integer.MIN_VALUE;
-                }
-                else {
-                    if (o1.getTitle().compareToIgnoreCase(o2.getTitle()) != 0)
-                        return (o1.getTitle().compareToIgnoreCase(o2.getTitle()));
-                    else
-                        return (o1.getArtist().compareToIgnoreCase(o2.getArtist()));
-                }
-            });
-
-            songListTable.setItems(songDataSortedList);
-
             songListTableTitle.setCellFactory(new Callback<TableColumn<SongData, String>, TableCell<SongData, String>>() {
                 @Override
                 public TableCell<SongData, String> call(TableColumn<SongData, String> param) {
@@ -137,22 +134,19 @@ public class AllSongsViewController extends AbstractSubUIController {
                 }
             });
             isDBSet = true;
-            Platform.runLater(() -> {
-                songListTable.setVisible(true);
-                songListTableRefresh();
-            });
-        } else {
-            this.songDatas.addAll(songDatas);
         }
+
+        songListTableRefresh();
+
         if (songDatas.size() * songListTable.getFixedCellSize()
                 > sizeCalculator.getWindowHeight() - sizeCalculator.getPlayerBarHeight()
                 && !hasDummy) {
-            songDatas.addAll(SongData.getDummySongData(
+            songListTable.getItems().addAll(SongData.getDummySongData(
                     (int) Math.ceil(sizeCalculator.getPlayerBarHeight() / songListTable.getFixedCellSize())
             ));
             hasDummy = true;
         } else {
-            // How to remove dummies?
+            // TODO:  How to remove dummies?
         }
     }
 
@@ -177,7 +171,7 @@ public class AllSongsViewController extends AbstractSubUIController {
         mainPlayerController.setCurrentPlaylist(new ArrayList<>(100));
         mainPlayerController.setPreviousPlaylist(new ArrayList<>(100));
         (new Thread(() -> {
-            for (int i = id + 1; i < songDatas.size(); i++) {
+            for (int i = id + 1; i < songListTable.getItems().size(); i++) {
                 mainPlayerController.getCurrentPlaylist().add(songListTable.getItems().get(i));
             }
             for (int i = 0; i <= id; i++) {

@@ -8,6 +8,7 @@ import milo.data.SettingsData;
 import milo.data.SongData;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.tag.FieldKey;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -56,18 +57,18 @@ public class SettingsFactory {
      * @param dirPath directory that contains song files
      * @param songList database
      */
-    private void createDB(String dirPath, List<SongData> songList, Map<String, AlbumData> albumDataMap) {
+    private void createDB(String dirPath, Map<String, SongData> songList, Map<String, AlbumData> albumDataMap) {
         final File directory = new File(dirPath);
         List<File> filesList = new ArrayList<>(100);
         if (directory.isDirectory()) {
-            Thread createDBThread = new Thread(() -> {
+            new Thread(() -> {
                 getSongsFromDir(directory, filesList);
 
                 for (File songFile : filesList) {
                     try {
                         AudioFile song = AudioFileIO.read(songFile);
                         SongData songData = new SongData(song);
-                        songList.add(songData);
+                        songList.put(songData.getPath(), songData);
                         if (albumDataMap.get(songData.getAlbumTitle()) == null) {
                             AlbumData albumData = new AlbumData(
                                     songData.getAlbumTitle(),
@@ -83,18 +84,17 @@ public class SettingsFactory {
                             }
                             albumDataMap.put(songData.getAlbumTitle(), albumData);
                         }
-                        albumDataMap.get(songData.getAlbumTitle()).getSongList().add(songData);
+                        albumDataMap.get(songData.getAlbumTitle()).getSongList().put(songData.getPath(), songData);
                     } catch (Exception error) {
                         error.printStackTrace();
                     }
                 }
-                Platform.runLater(() -> mainPlayerController.setDB(songList, albumDataMap));
-                settingsData.getSongDatas().addAll(songList);
+                settingsData.getSongDatas().putAll(songList);
                 settingsData.getAlbumDataMap().putAll(albumDataMap);
+                Platform.runLater(() -> mainPlayerController.setDB(settingsData.getSongDatas(), settingsData.getAlbumDataMap()));
                 saveSettings();
                 LOG.w(": Finished creating database");
-            });
-            createDBThread.start();
+            }).run();
         }
     }
 
@@ -115,7 +115,7 @@ public class SettingsFactory {
 
     /**
      * Function name:   addPath
-     * Usage:   This method will call a directory chooser to let the user choose the directory that contains music
+     * Usage:   This method would add the folder into the back-end database
      * @param path the path to be monitored
      */
     public boolean addPath(String path) {
@@ -124,10 +124,38 @@ public class SettingsFactory {
         }
         if (settingsData.getPathList().indexOf(path) == -1) {
             settingsData.getPathList().add(path);
-            createDB(path, new ArrayList<>(10), new TreeMap<>());
+            createDB(path, new TreeMap<>(), new TreeMap<>());
             return true;
         }
         return false;
+    }
+
+    /**
+     * Function name:   removePath
+     * Usage:   This method would remove the folder into the back-end database
+     * @param path the path to be removed
+     */
+    public void removePath(String path) {
+        settingsData.getPathList().remove(path);
+        final File directory = new File(path);
+        List<File> filesList = new ArrayList<>(100);
+        new Thread(() -> {
+            getSongsFromDir(directory, filesList);
+            for (File file : filesList) {
+                String filePath = file.getPath();
+                settingsData.getSongDatas().remove(filePath);
+                String albumName = "";
+                try {
+                    albumName = AudioFileIO.read(file).getTag().getFirst(FieldKey.ALBUM) == null?
+                             "Unknown" : AudioFileIO.read(file).getTag().getFirst(FieldKey.ALBUM);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                settingsData.getAlbumDataMap().get(albumName).getSongList().remove(filePath);
+            }
+            Platform.runLater(() -> mainPlayerController.setDB(settingsData.getSongDatas(), settingsData.getAlbumDataMap()));
+            saveSettings();
+        }).run();
     }
 
     public boolean getRepeatModeStatus() {

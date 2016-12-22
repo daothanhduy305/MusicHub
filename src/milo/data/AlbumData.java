@@ -1,8 +1,8 @@
 package milo.data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Class name:  AlbumData
@@ -11,13 +11,13 @@ import java.util.List;
 
 public class AlbumData implements Serializable, Comparable<AlbumData> {
     private String mTitle, mAuthor;
-    private List<SongData> mSongList;
+    private Map<String, SongData> mSongList;
     private byte[] albumArtByte;
 
     public AlbumData(String albumTitle, String albumAuthor) {
         this.mAuthor = albumAuthor;
         this.mTitle = albumTitle;
-        mSongList = new ArrayList<>(20);
+        mSongList = new TreeMap<>();
     }
 
     public String getAlbumAuthor() {
@@ -36,7 +36,7 @@ public class AlbumData implements Serializable, Comparable<AlbumData> {
         this.mTitle = mTitle;
     }
 
-    public List<SongData> getSongList() {
+    public Map<String, SongData> getSongList() {
         return mSongList;
     }
 
