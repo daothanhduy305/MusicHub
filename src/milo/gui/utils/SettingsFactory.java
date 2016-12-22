@@ -74,10 +74,10 @@ public class SettingsFactory {
                                     songData.getAlbumTitle(),
                                     songData.getAlbumAuthor()
                             );
-                            if (albumData.getAlbumTitle() == null || albumData.getAlbumTitle().compareTo("") == 0)
+                            if (albumData.getAlbumTitle() == null || albumData.getAlbumTitle().trim().equalsIgnoreCase(""))
                                 albumData.setAlbumTitle("Unknown");
-                            if (albumData.getAlbumAuthor() == null || albumData.getAlbumAuthor().compareTo("") == 0) {
-                                if (songData.getArtist() == null || songData.getArtist().compareTo("") == 0)
+                            if (albumData.getAlbumAuthor() == null || albumData.getAlbumAuthor().trim().equalsIgnoreCase("")) {
+                                if (songData.getArtist() == null || songData.getArtist().trim().equalsIgnoreCase(""))
                                     albumData.setAlbumAuthor("Unknown");
                                 else
                                     albumData.setAlbumAuthor(songData.getArtist());
@@ -146,11 +146,13 @@ public class SettingsFactory {
                 settingsData.getSongDatas().remove(filePath);
                 String albumName = "";
                 try {
-                    albumName = AudioFileIO.read(file).getTag().getFirst(FieldKey.ALBUM) == null?
-                             "Unknown" : AudioFileIO.read(file).getTag().getFirst(FieldKey.ALBUM);
+                    albumName = AudioFileIO.read(file).getTag().getFirst(FieldKey.ALBUM);
+                    albumName = albumName == null || albumName.trim().equalsIgnoreCase("") ?
+                            "Unknown" : albumName;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                LOG.w(getClass() + ": " + filePath + "  ---> " + albumName);
                 settingsData.getAlbumDataMap().get(albumName).getSongList().remove(filePath);
             }
             Platform.runLater(() -> mainPlayerController.setDB(settingsData.getSongDatas(), settingsData.getAlbumDataMap()));

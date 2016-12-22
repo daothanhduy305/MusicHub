@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class PathTile extends VBox {
     @FXML private Label folderName, folderPath;
-    private String folderNameStr, folderPathStr;
+    private String folderNameStr = "", folderPathStr = "";
 
     public PathTile(String fPath) {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -30,7 +30,10 @@ public class PathTile extends VBox {
         }
 
         folderPathStr = fPath;
-        folderNameStr = fPath; // TODO: extract the folder name from folder path
+        int i = fPath.length() - 1;
+        while (i >= 0 && !(fPath.charAt(i) == '/' || fPath.charAt(i) == '\\'))
+            folderNameStr += fPath.charAt(i--);
+        folderNameStr = new StringBuilder(folderNameStr).reverse().toString();
         folderName.setText(folderNameStr);
         folderPath.setText(folderPathStr);
 

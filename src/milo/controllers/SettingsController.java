@@ -99,6 +99,7 @@ public class SettingsController {
                 GridPane.setRowIndex(pathsGrid.getChildren().get(i), i / 2);
             }
             settingsFactory.removePath(pathTile.getFolderPathStr());
+            item--;
         }
     }
 

@@ -2,6 +2,7 @@ package milo.controllers;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableCell;
@@ -28,7 +29,7 @@ public class AllSongsViewController extends AbstractSubUIController {
             songListTableAlbum, songListTableYear, songListTableGenre;
     @FXML private VBox mHolder;
 
-    private SortedList<SongData> songDataSortedList;
+    private ObservableList<SongData> songDataObservableList;
     private boolean isDBSet = false, hasDummy = false;
 
     @Override
@@ -79,7 +80,9 @@ public class AllSongsViewController extends AbstractSubUIController {
     void setDB(Map<String, SongData> songDatas) {
         // TODO: if we want to watch the paths later, then we have to eliminate these dummy on saving
         // TODO: furthermore, be aware that the scrollbar also need to have padding
-        songDataSortedList = new SortedList<>(FXCollections.observableArrayList(songDatas.values()), (o1, o2) -> {
+        this.songDataObservableList = FXCollections.observableArrayList(songDatas.values());
+
+        songListTable.setItems(new SortedList<>(songDataObservableList, (o1, o2) -> {
             if (o1.getTitle().equals(" ")) {
                 return Integer.MAX_VALUE;
             }
@@ -92,9 +95,7 @@ public class AllSongsViewController extends AbstractSubUIController {
                 else
                     return (o1.getArtist().compareToIgnoreCase(o2.getArtist()));
             }
-        });
-
-        songListTable.setItems(songDataSortedList);
+        }));
 
         if (!isDBSet) {
             songListTableTitle.setCellFactory(new Callback<TableColumn<SongData, String>, TableCell<SongData, String>>() {
@@ -141,13 +142,14 @@ public class AllSongsViewController extends AbstractSubUIController {
         if (songDatas.size() * songListTable.getFixedCellSize()
                 > sizeCalculator.getWindowHeight() - sizeCalculator.getPlayerBarHeight()
                 && !hasDummy) {
-            songListTable.getItems().addAll(SongData.getDummySongData(
+            songDataObservableList.addAll(SongData.getDummySongData(
                     (int) Math.ceil(sizeCalculator.getPlayerBarHeight() / songListTable.getFixedCellSize())
             ));
             hasDummy = true;
         } else {
             // TODO:  How to remove dummies?
         }
+        refreshUI();
     }
 
     /**
