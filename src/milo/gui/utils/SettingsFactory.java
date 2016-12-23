@@ -2,6 +2,7 @@ package milo.gui.utils;
 
 import javafx.application.Platform;
 import milo.controllers.MainPlayerController;
+import milo.controllers.SettingsController;
 import milo.controllers.utils.LOG;
 import milo.data.AlbumData;
 import milo.data.SettingsData;
@@ -26,6 +27,7 @@ import static milo.gui.utils.Utils.getSongsFromDir;
 public class SettingsFactory {
     private SettingsData settingsData;
     private MainPlayerController mainPlayerController;
+    private SettingsController settingsController;
 
     public SettingsFactory(MainPlayerController mainPlayerController) {
         this.mainPlayerController = mainPlayerController;
@@ -123,6 +125,19 @@ public class SettingsFactory {
             settingsData.setPathList(new ArrayList<>(5));
         }
         if (settingsData.getPathList().indexOf(path) == -1) {
+            List<String> childrenPath = new ArrayList<>(5);
+            for (String pathInList : settingsData.getPathList()) {
+                if (pathInList.contains(path)) { // Adding path is the parent of one or many former paths
+                    settingsController.removePathTile(pathInList);
+                    childrenPath.add(pathInList);
+                }
+            }
+            for (String pathInList : settingsData.getPathList()) {
+                if (path.contains(pathInList)) { // Adding path is the child of one of the paths in list
+                    return false;
+                }
+            }
+            settingsData.getPathList().removeAll(childrenPath);
             settingsData.getPathList().add(path);
             createDB(path, new TreeMap<>(), new TreeMap<>());
             return true;
@@ -152,7 +167,6 @@ public class SettingsFactory {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                LOG.w(getClass() + ": " + filePath + "  ---> " + albumName);
                 settingsData.getAlbumDataMap().get(albumName).getSongList().remove(filePath);
             }
             Platform.runLater(() -> mainPlayerController.setDB(settingsData.getSongDatas(), settingsData.getAlbumDataMap()));
@@ -182,5 +196,9 @@ public class SettingsFactory {
 
     public SettingsData getSettingsData() {
         return settingsData;
+    }
+
+    public void setSettingsController(SettingsController settingsController) {
+        this.settingsController = settingsController;
     }
 }

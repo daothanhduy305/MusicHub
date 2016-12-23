@@ -196,6 +196,8 @@ public class MainPlayerController extends AbstractPlayerUIController {
             settingsStage.setTitle("Music Hub - Settings");
             settingsStage.setScene(settingsScene);
 
+            settingsFactory.setSettingsController(settingsController);
+
             LOG.w("New settings window started");
         }
 

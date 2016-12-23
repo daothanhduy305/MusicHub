@@ -1,6 +1,7 @@
 package milo.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -25,12 +26,11 @@ public class SettingsController {
 
     private SettingsFactory settingsFactory;
     private Window settingsWindow;
-    private PathAddButton pathAddButton;
 
     private int item = 1;
 
     public void buildUI() {
-        pathAddButton = new PathAddButton();
+        PathAddButton pathAddButton = new PathAddButton();
         pathAddButton.setOnMouseClicked(event -> addPath());
         pathsGrid.add(pathAddButton, 0, 0);
         if (settingsFactory.getSettingsData().getPathList() != null && settingsFactory.getSettingsData().getPathList().size() > 0) {
@@ -62,7 +62,7 @@ public class SettingsController {
      */
     private void addPathTile(String path) {
         PathTile pathTile = new PathTile(path);
-        pathTile.setOnMouseClicked(event -> removePathTile(pathTile));
+        pathTile.setOnMouseClicked(event -> showRemovePathTileDialog(pathTile));
         pathsGrid.add(pathTile, item % 2, item / 2);
         if (item % 2 == 0) {
             RowConstraints newRow = new RowConstraints(100.0);
@@ -73,11 +73,11 @@ public class SettingsController {
     }
 
     /**
-     * Function name:   removePathTile
+     * Function name:   showRemovePathTileDialog
      * Usage:   This method would remove the chosen pathTile from the grid and its relevant data from the back-end database
      * @param pathTile pathTile to be removed
      */
-    private void removePathTile(PathTile pathTile) {
+    private void showRemovePathTileDialog(PathTile pathTile) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         String headerMessage = "Remove this folder?";
         alert.setTitle(headerMessage);
@@ -92,14 +92,43 @@ public class SettingsController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeConfirm){
-            int pathTileId = pathsGrid.getChildren().indexOf(pathTile);
-            pathsGrid.getChildren().remove(pathTileId);
-            for (int i = pathTileId; i < pathsGrid.getChildren().size(); i++) {
-                GridPane.setColumnIndex(pathsGrid.getChildren().get(i), i % 2);
-                GridPane.setRowIndex(pathsGrid.getChildren().get(i), i / 2);
-            }
+            removePathTile(pathTile, false);
+        }
+    }
+
+    /**
+     * Function name:   removePathTile
+     * Usage:   This method would be called when user want to remove a pathTile
+     * @param pathTile pathTile to be removed
+     * @param UIOnly only remove the pathTile (UI element) or also the songs (under that path) in database
+     */
+    private void removePathTile(PathTile pathTile, boolean UIOnly) {
+        int pathTileId = pathsGrid.getChildren().indexOf(pathTile);
+        pathsGrid.getChildren().remove(pathTileId);
+        for (int i = pathTileId; i < pathsGrid.getChildren().size(); i++) {
+            GridPane.setColumnIndex(pathsGrid.getChildren().get(i), i % 2);
+            GridPane.setRowIndex(pathsGrid.getChildren().get(i), i / 2);
+        }
+        if (!UIOnly)
             settingsFactory.removePath(pathTile.getFolderPathStr());
-            item--;
+        item--;
+    }
+
+    /**
+     * Function name:   removePathTile
+     * Usage:   This method would be called when user want to remove a pathTile. Since this is called only when a parent
+     *          path is added so, we don't need to update the database here
+     * @param path path of the pathTile to be removed
+     */
+    public void removePathTile(String path) {
+        for (Node node : pathsGrid.getChildren()) {
+            if (node instanceof PathTile) {
+                PathTile pathTile = (PathTile) node;
+                if (pathTile.getFolderPathStr().equalsIgnoreCase(path)) {
+                    removePathTile(pathTile, true);
+                    break;
+                }
+            }
         }
     }
 
