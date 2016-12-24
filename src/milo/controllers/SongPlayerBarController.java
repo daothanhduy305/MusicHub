@@ -144,7 +144,8 @@ public class SongPlayerBarController extends AbstractSubUIController {
         });
         buttonsBox.getChildren().add(shuffleButton);
 
-        settingButton = new ActionButton("play");
+        // TODO: This would be just temporary place for settings button, until we could find a better place
+        settingButton = new ActionButton("settings");
         settingButton.setOnMouseClicked(event -> mainPlayerController.showSettings());
         buttonsBox.getChildren().add(settingButton);
     }
