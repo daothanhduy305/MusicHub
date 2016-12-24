@@ -87,6 +87,21 @@ public class MainViewPanelController extends AbstractSubUIController {
     }
 
     /**
+     * Function name:   buildPlaylist
+     * Usage:   this method would be called to build new playlist when needed
+     */
+    public void buildPlaylist() {
+        switch (mainPlayerController.getViewId()) {
+            case ALL_SONGS:
+                allSongsViewController.buildPlaylist();
+                break;
+            case ALBUMS:
+                albumsViewController.buildPlaylist();
+                break;
+        }
+    }
+
+    /**
      * Function name:   setDB
      * Usage:   this method would be called to set database
      *
@@ -100,5 +115,13 @@ public class MainViewPanelController extends AbstractSubUIController {
 
     public void setNavigationDrawerController(NavigationDrawerController navigationDrawerController) {
         this.navigationDrawerController = navigationDrawerController;
+    }
+
+    @Override
+    public void setMainPlayerController(MainPlayerController mainPlayerController) {
+        super.setMainPlayerController(mainPlayerController);
+
+        allSongsViewController.setMainPlayerController(mainPlayerController);
+        albumsViewController.setMainPlayerController(mainPlayerController);
     }
 }

@@ -72,6 +72,14 @@ public class AlbumsViewController extends AbstractSubUIController {
     }
 
     /**
+     * Function name:   buildPlaylist
+     * Usage:   this method would be called to build new playlist when needed
+     */
+    public void buildPlaylist() {
+        albumsViewSpecificController.buildPlaylist();
+    }
+
+    /**
      * Function name:   setDB
      * Usage:   this method would be called to set database
      *

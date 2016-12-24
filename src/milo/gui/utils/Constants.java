@@ -62,6 +62,8 @@ public class Constants {
     private final static double ALBUM_PRIVATE_LABEL_BOX_w = GUIUtils.getScreenWidth() - NAVIGATION_DRAWER_WIDTH
             - ALBUM_ART_PRIVATE_SIZE - 2.0 * ALBUM_PRIVATE_INFO_BOX_PADDING;
 
+    public enum VIEWS_ID {ALL_SONGS, ALBUMS}
+
     public static String getCssMainFilePath() {
         return CSS_MAIN_FILE_PATH;
     }

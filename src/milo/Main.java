@@ -73,8 +73,7 @@ public class Main extends Application {
         mainScene = new Scene(root, GUIUtils.getScreenWidth(), GUIUtils.getScreenHeight());
 
         songPlayerBarController.setMainPlayerController(mainPlayerController);
-        allSongsViewController.setMainPlayerController(mainPlayerController);
-        albumsViewController.setMainPlayerController(mainPlayerController);
+        mainViewPanelController.setMainPlayerController(mainPlayerController);
         navigationDrawerController.setMainPlayerController(mainPlayerController);
 
         albumsViewOverviewController.setAlbumsViewController(albumsViewController);

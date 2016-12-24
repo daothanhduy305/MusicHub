@@ -2,6 +2,7 @@ package milo.controllers.abstractcontrollers;
 
 import javafx.scene.media.MediaPlayer;
 import milo.data.SongData;
+import milo.gui.utils.Constants.VIEWS_ID;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public abstract class AbstractPlayerUIController extends AbstractUIController {
     protected MediaPlayer player;
     protected SongData currentPlayingSong;
     protected volatile boolean isPlaying = false;
+    protected VIEWS_ID viewId;
 
     /**
      * Function name:   playSong
@@ -83,5 +85,13 @@ public abstract class AbstractPlayerUIController extends AbstractUIController {
 
     public SongData getCurrentPlayingSong() {
         return currentPlayingSong;
+    }
+
+    public void setViewId(VIEWS_ID viewId) {
+        this.viewId = viewId;
+    }
+
+    public VIEWS_ID getViewId() {
+        return viewId;
     }
 }

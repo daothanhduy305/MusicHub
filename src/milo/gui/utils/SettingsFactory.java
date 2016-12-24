@@ -201,4 +201,12 @@ public class SettingsFactory {
     public void switchRepeat() {
         settingsData.switchRepeat();
     }
+
+    public boolean isShuffle() {
+        return settingsData.isShuffle();
+    }
+
+    public boolean isRepeat() {
+        return settingsData.isRepeat();
+    }
 }

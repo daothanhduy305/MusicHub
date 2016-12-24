@@ -19,7 +19,6 @@ import milo.data.SongData;
 import milo.gui.utils.Constants;
 
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
 
 /**
  * Class name:  AlbumsViewSpecificController
@@ -61,7 +60,8 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
         songListTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 mainPlayerController.playSong(songListTable.getSelectionModel().getSelectedItem());
-                buildNowPlaylistLinear(songListTable.getSelectionModel().getSelectedIndex());
+                mainPlayerController.setViewId(Constants.VIEWS_ID.ALBUMS);
+                buildPlaylist();
             }
         });
     }
@@ -149,22 +149,10 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
 
     /**
      * Function name:   buildCurrentPlaylistLinear
-     * Usage:   this method would be called to build linear playlist (without shuffle)
-     *
-     * @param id the id number of the starting song (in the table view)
-     * TODO: have a look at repeat mode
+     * Usage:   this method would be called to build playlist when called
      */
-    private void buildNowPlaylistLinear(int id) {
-        mainPlayerController.setCurrentPlaylist(new ArrayList<>(20));
-        mainPlayerController.setPreviousPlaylist(new ArrayList<>(20));
-        (new Thread(() -> {
-            for (int i = id + 1; i < albumData.getSongList().size(); i++) {
-                mainPlayerController.getCurrentPlaylist().add(songListTable.getItems().get(i));
-            }
-            for (int i = 0; i <= id; i++) {
-                mainPlayerController.getCurrentPlaylist().add(songListTable.getItems().get(i));
-            }
-        })).start();
+    public void buildPlaylist() {
+        mainPlayerController.buildPlaylist(songListTable);
     }
 
     public TableView<SongData> getSongListTable() {

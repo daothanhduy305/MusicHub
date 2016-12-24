@@ -134,6 +134,7 @@ public class SongPlayerBarController extends AbstractSubUIController {
         repeatButton.setOnMouseClicked(event -> {
             mainPlayerController.getSettingsFactory().switchRepeat();
             repeatButton.replaceButName(mainPlayerController.getSettingsFactory().getRepeatStr());
+            mainPlayerController.buildPlaylist();
         });
         buttonsBox.getChildren().add(repeatButton);
 
@@ -141,6 +142,7 @@ public class SongPlayerBarController extends AbstractSubUIController {
         shuffleButton.setOnMouseClicked(event -> {
             mainPlayerController.getSettingsFactory().switchShuffle();
             shuffleButton.replaceButName(mainPlayerController.getSettingsFactory().getShuffleStr());
+            mainPlayerController.buildPlaylist();
         });
         buttonsBox.getChildren().add(shuffleButton);
 

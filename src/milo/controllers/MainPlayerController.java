@@ -3,6 +3,7 @@ package milo.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -19,6 +20,8 @@ import org.jaudiotagger.audio.AudioFileIO;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -79,7 +82,6 @@ public class MainPlayerController extends AbstractPlayerUIController {
                 player = new MediaPlayer(new Media(songFile.toURI().toURL().toExternalForm()));
                 songPlayerBarController.setupForPlayingMusic(audioFile);
                 player.play();
-                // TODO: check whether we reach the end of the list? If so, call to stop instead of pause
                 player.setOnEndOfMedia(this::playNextSong);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -124,8 +126,8 @@ public class MainPlayerController extends AbstractPlayerUIController {
         if (currentPlaylist != null && currentPlaylist.size() > 0) {
             previousPlaylist.add(0, currentPlayingSong);
             currentPlayingSong = currentPlaylist.get(0);
-            /*if (settingsFactory.getRepeatModeStatus())
-                currentPlaylist.add(currentPlaylist.get(0));*/
+            if (settingsFactory.isRepeat())
+                currentPlaylist.add(currentPlaylist.get(0));
             currentPlaylist.remove(0);
             mainViewPanelController.selectCurrentSong(currentPlayingSong);
             playSong(currentPlayingSong);
@@ -141,6 +143,42 @@ public class MainPlayerController extends AbstractPlayerUIController {
             mainViewPanelController.selectCurrentSong(currentPlayingSong);
             playSong(currentPlayingSong);
         }
+    }
+
+    /**
+     * Function name:   buildPlaylist
+     * Usage:   this method would be called to build new playlist when needed
+     */
+    public void buildPlaylist() {
+        if (viewId != null) {
+            mainViewPanelController.buildPlaylist();
+        }
+    }
+
+    /**
+     * Function name:   buildPlaylist
+     * Usage:   this method would be called to build playlist when called
+     */
+    public void buildPlaylist(TableView<SongData> songListTable) {
+        int id = songListTable.getItems().indexOf(currentPlayingSong);
+        currentPlaylist = new ArrayList<>(1);
+        previousPlaylist = new ArrayList<>(1);
+        (new Thread(() -> {
+            if (!getSettingsFactory().getRepeatStr().equalsIgnoreCase("repeat_one")) {
+                for (int i = id + 1; i < songListTable.getItems().size(); i++) {
+                    currentPlaylist.add(songListTable.getItems().get(i));
+                }
+                for (int i = 0; i < id; i++) {
+                    currentPlaylist.add(songListTable.getItems().get(i));
+                }
+
+                if (getSettingsFactory().isShuffle())
+                    Collections.shuffle(currentPlaylist);
+            }
+
+            if (settingsFactory.isRepeat())
+                currentPlaylist.add(songListTable.getItems().get(id));
+        })).start();
     }
 
     /**

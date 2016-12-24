@@ -13,8 +13,8 @@ import javafx.util.Callback;
 import milo.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.data.SongData;
 import milo.gui.utils.Constants;
+import milo.gui.utils.Constants.VIEWS_ID;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -110,9 +110,8 @@ public class AllSongsViewController extends AbstractSubUIController {
                             this.setOnMouseClicked(event -> {
                                 if (event.getClickCount() == 2) {
                                     mainPlayerController.playSong(songListTable.getSelectionModel().getSelectedItem());
-                                    AllSongsViewController.this.buildCurrentPlaylistLinear(
-                                            songListTable.getSelectionModel().getSelectedIndex()
-                                    );
+                                    mainPlayerController.setViewId(VIEWS_ID.ALL_SONGS);
+                                    buildPlaylist();
                                 }
                             });
                         }
@@ -163,23 +162,11 @@ public class AllSongsViewController extends AbstractSubUIController {
     }
 
     /**
-     * Function name:   buildCurrentPlaylistLinear
-     * Usage:   this method would be called to build linear playlist (without shuffle)
-     *
-     * @param id the id number of the starting song (in the table view)
-     * TODO: have a look at repeat mode
+     * Function name:   buildPlaylist
+     * Usage:   this method would be called to build playlist when called
      */
-    private void buildCurrentPlaylistLinear(int id) {
-        mainPlayerController.setCurrentPlaylist(new ArrayList<>(100));
-        mainPlayerController.setPreviousPlaylist(new ArrayList<>(100));
-        (new Thread(() -> {
-            for (int i = id + 1; i < songListTable.getItems().size(); i++) {
-                mainPlayerController.getCurrentPlaylist().add(songListTable.getItems().get(i));
-            }
-            for (int i = 0; i <= id; i++) {
-                mainPlayerController.getCurrentPlaylist().add(songListTable.getItems().get(i));
-            }
-        })).start();
+    public void buildPlaylist() {
+        mainPlayerController.buildPlaylist(songListTable);
     }
 
     TableView<SongData> getSongListTable() {
