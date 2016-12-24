@@ -42,6 +42,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
 
     private SizeCalculator sizeCalculator;
     private Window mainWindow;
+    private boolean onInit = true;
 
     private SettingsFactory settingsFactory;
     private SettingsController settingsController;
@@ -211,7 +212,10 @@ public class MainPlayerController extends AbstractPlayerUIController {
      */
     public void setDB(Map<String, SongData> songDatas, Map<String, AlbumData> albumDataMap) {
         mainViewPanelController.setDB(songDatas, albumDataMap);
-        refreshUI();
+        if (!onInit)
+            refreshUI();
+        else
+            onInit = false;
     }
 
     public void showSettings() {

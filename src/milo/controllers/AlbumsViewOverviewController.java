@@ -45,10 +45,6 @@ public class AlbumsViewOverviewController extends AbstractAlbumsViewSubControlle
         Insets oldPaddingVal = albumsListView.getPadding();
         albumsListView.setPadding(new Insets(oldPaddingVal.getTop(), oldPaddingVal.getRight(),
                 oldPaddingVal.getBottom(), albumsListView.getHorizontalCellSpacing() * 3.0));
-
-        albumTiles = FXCollections.observableArrayList();
-        albumsListView.setItems(albumTiles);
-
     }
 
     @Override
@@ -62,9 +58,10 @@ public class AlbumsViewOverviewController extends AbstractAlbumsViewSubControlle
     }
 
     public void setDB(Map<String, AlbumData> albumDataMap) {
-        albumTiles.clear();
+        albumTiles = FXCollections.observableArrayList();
         albumDataMap.values().forEach(albumData -> albumTiles.add(new AlbumTile(albumData)));
         FXCollections.sort(albumTiles);
+        albumsListView.setItems(albumTiles);
     }
 
     public List<AlbumTileCell> getMonitoringCells() {
