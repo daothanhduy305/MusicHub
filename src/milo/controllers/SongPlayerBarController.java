@@ -55,24 +55,16 @@ public class SongPlayerBarController extends AbstractSubUIController {
         );
         albumArtHolder.setVisible(false);
 
+        setUpSeekBar();
+        setUpTheButtons();
+    }
+
+    private void setUpSeekBar() {
         songSeekBar.getStylesheets().clear();
         songSeekBar.getStylesheets().add(Constants.getCssMainFilePath());
         songProgressBar.getStylesheets().clear();
         songProgressBar.getStylesheets().add(Constants.getCssMainFilePath());
 
-        prevButton = new ActionButton("prev");
-        prevButton.setOnMouseClicked(event -> mainPlayerController.playPreviousSong());
-        buttonsBox.getChildren().add(prevButton);
-        playButton = new ActionButton("play");
-        buttonsBox.getChildren().add(playButton);
-        nextButton = new ActionButton("next");
-        nextButton.setOnMouseClicked(event -> mainPlayerController.playNextSong());
-        buttonsBox.getChildren().add(nextButton);
-        buttonsBox.getChildren().add(new ActionButton("play"));
-        buttonsBox.getChildren().add(new ActionButton("play"));
-        settingButton = new ActionButton("play");
-        settingButton.setOnMouseClicked(event -> mainPlayerController.showSettings());
-        buttonsBox.getChildren().add(settingButton);
         songSeekBar.setMin(0f);
         songSeekBar.valueChangingProperty().addListener((obs, wasChanging, isNowChanging) -> {
             if (mainPlayerController.getPlayer() != null) {
@@ -122,6 +114,22 @@ public class SongPlayerBarController extends AbstractSubUIController {
             mainPlayerController.getPlayer().seek(new Duration(songSeekBar.getValue() * 1000.0));
             thumbChanged = false;
         });
+    }
+
+    private void setUpTheButtons() {
+        prevButton = new ActionButton("prev");
+        prevButton.setOnMouseClicked(event -> mainPlayerController.playPreviousSong());
+        buttonsBox.getChildren().add(prevButton);
+        playButton = new ActionButton("play");
+        buttonsBox.getChildren().add(playButton);
+        nextButton = new ActionButton("next");
+        nextButton.setOnMouseClicked(event -> mainPlayerController.playNextSong());
+        buttonsBox.getChildren().add(nextButton);
+        buttonsBox.getChildren().add(new ActionButton("play"));
+        buttonsBox.getChildren().add(new ActionButton("play"));
+        settingButton = new ActionButton("play");
+        settingButton.setOnMouseClicked(event -> mainPlayerController.showSettings());
+        buttonsBox.getChildren().add(settingButton);
     }
 
     @Override
