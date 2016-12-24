@@ -39,8 +39,8 @@ public class NavigationDrawerController extends AbstractSubUIController {
         mHolder.setMinWidth(sizeCalculator.getNavigationDrawerWidth());
         mHolder.setPrefHeight(sizeCalculator.getWindowHeight());
 
-        albumsViewButton.setPrefWidth(mHolder.getPrefWidth());
-        allSongViewButton.setPrefWidth(mHolder.getPrefWidth());
+        albumsViewButton.setPrefWidth(sizeCalculator.getNavigationDrawerWidth());
+        allSongViewButton.setPrefWidth(sizeCalculator.getNavigationDrawerWidth());
     }
 
     /**
