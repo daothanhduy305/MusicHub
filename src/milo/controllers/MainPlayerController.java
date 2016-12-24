@@ -124,8 +124,8 @@ public class MainPlayerController extends AbstractPlayerUIController {
         if (currentPlaylist != null && currentPlaylist.size() > 0) {
             previousPlaylist.add(0, currentPlayingSong);
             currentPlayingSong = currentPlaylist.get(0);
-            if (settingsFactory.getRepeatModeStatus())
-                currentPlaylist.add(currentPlaylist.get(0));
+            /*if (settingsFactory.getRepeatModeStatus())
+                currentPlaylist.add(currentPlaylist.get(0));*/
             currentPlaylist.remove(0);
             mainViewPanelController.selectCurrentSong(currentPlayingSong);
             playSong(currentPlayingSong);

@@ -174,22 +174,6 @@ public class SettingsFactory {
         }).run();
     }
 
-    public boolean getRepeatModeStatus() {
-        return settingsData.isRepeat();
-    }
-
-    public void setRepeatModeStatus(boolean newStatus) {
-        settingsData.setRepeat(newStatus);
-    }
-
-    public boolean getShuffleModeStatus() {
-        return settingsData.isShuffle();
-    }
-
-    public void setShuffleModeStatus(boolean newStatus) {
-        settingsData.setShuffle(newStatus);
-    }
-
     public void setPlayingSong(SongData playingSong) {
         settingsData.setLastPlayedSong(playingSong);
     }

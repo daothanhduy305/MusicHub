@@ -16,6 +16,7 @@ public class SettingsData implements Serializable{
     private Map<String, AlbumData> albumDataMap;
     private SongData lastPlayedSong;
     private boolean isShuffle = false, isRepeat = false;
+    private String shuffleStr = "shuffle_dis", repeatStr = "repeat_dis";
 
     public void initData() {
         songDatas = new TreeMap<>();
@@ -46,15 +47,29 @@ public class SettingsData implements Serializable{
         return isRepeat;
     }
 
-    public void setRepeat(boolean repeat) {
-        isRepeat = repeat;
+    public void switchRepeat() {
+        if (isRepeat && repeatStr.equalsIgnoreCase("repeat_all"))
+            repeatStr = "repeat_one";
+        else {
+            isRepeat = !isRepeat;
+            repeatStr = isRepeat? "repeat_all" : "repeat_dis";
+        }
     }
 
     public boolean isShuffle() {
         return isShuffle;
     }
 
-    public void setShuffle(boolean shuffle) {
-        isShuffle = shuffle;
+    public void switchShuffle() {
+        isShuffle = !isShuffle;
+        shuffleStr = isShuffle? "shuffle_ac" : "shuffle_dis";
+    }
+
+    public String getShuffleStr() {
+        return shuffleStr;
+    }
+
+    public String getRepeatStr() {
+        return repeatStr;
     }
 }
