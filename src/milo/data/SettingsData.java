@@ -15,12 +15,14 @@ public class SettingsData implements Serializable{
     private List<String> pathList;
     private Map<String, AlbumData> albumDataMap;
     private SongData lastPlayedSong;
-    private boolean isShuffle = false, isRepeat = false;
-    private String shuffleStr = "shuffle_dis", repeatStr = "repeat_dis";
+    private boolean isShuffle, isRepeat;
+    private String shuffleStr, repeatStr;
 
     public void initData() {
         songDatas = new TreeMap<>();
         albumDataMap = new TreeMap<>();
+        isShuffle = false; shuffleStr = "shuffle_dis";
+        isRepeat = false; repeatStr = "repeat_dis";
     }
 
     public Map<String, SongData> getSongDatas() {

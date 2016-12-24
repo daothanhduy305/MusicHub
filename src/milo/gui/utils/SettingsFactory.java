@@ -192,6 +192,7 @@ public class SettingsFactory {
 
     public void switchShuffle() {
         settingsData.switchShuffle();
+        saveSettings();
     }
 
     public String getRepeatStr() {
@@ -200,6 +201,7 @@ public class SettingsFactory {
 
     public void switchRepeat() {
         settingsData.switchRepeat();
+        saveSettings();
     }
 
     public boolean isShuffle() {
