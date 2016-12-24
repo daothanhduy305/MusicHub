@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<HBox fx:id="playerBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="BOTTOM_LEFT" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="milo.controllers.SongPlayerBarController">
+<HBox fx:id="playerBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="BOTTOM_LEFT" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="milo.controllers.SongPlayerBarController">
     <children>
         <StackPane fx:id="albumArtHolder" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #fff;">
             <children>
@@ -42,12 +42,12 @@
         </Label>
         <StackPane fx:id="seekBarHolder" alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
             <children>
-                <ProgressBar fx:id="songProgressBar" focusTraversable="false" prefWidth="200.0" progress="0.0" styleClass="progress_bar">
+                <ProgressBar fx:id="songProgressBar" focusTraversable="false" pickOnBounds="false" prefWidth="200.0" progress="0.0" styleClass="progress_bar">
                     <StackPane.margin>
                         <Insets />
                     </StackPane.margin>
                 </ProgressBar>
-                <Slider fx:id="songSeekBar" focusTraversable="false" styleClass="seek_bar">
+                <Slider fx:id="songSeekBar" focusTraversable="false" pickOnBounds="false" styleClass="seek_bar">
                     <StackPane.margin>
                         <Insets />
                     </StackPane.margin>
