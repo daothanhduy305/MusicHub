@@ -40,6 +40,8 @@ public class SongPlayerBarController extends AbstractSubUIController {
     private ActionButton nextButton;
     private ActionButton prevButton;
     private ActionButton settingButton;
+    private ActionButton repeatButton;
+    private ActionButton shuffleButton;
 
     private StackPane thumb;
     private boolean thumbChanged = false;
@@ -120,13 +122,28 @@ public class SongPlayerBarController extends AbstractSubUIController {
         prevButton = new ActionButton("prev");
         prevButton.setOnMouseClicked(event -> mainPlayerController.playPreviousSong());
         buttonsBox.getChildren().add(prevButton);
+
         playButton = new ActionButton("play");
         buttonsBox.getChildren().add(playButton);
+
         nextButton = new ActionButton("next");
         nextButton.setOnMouseClicked(event -> mainPlayerController.playNextSong());
         buttonsBox.getChildren().add(nextButton);
-        buttonsBox.getChildren().add(new ActionButton("play"));
-        buttonsBox.getChildren().add(new ActionButton("play"));
+
+        repeatButton = new ActionButton(mainPlayerController.getSettingsFactory().getRepeatStr());
+        repeatButton.setOnMouseClicked(event -> {
+            mainPlayerController.getSettingsFactory().switchRepeat();
+            repeatButton.replaceButName(mainPlayerController.getSettingsFactory().getRepeatStr());
+        });
+        buttonsBox.getChildren().add(repeatButton);
+
+        shuffleButton = new ActionButton(mainPlayerController.getSettingsFactory().getShuffleStr());
+        shuffleButton.setOnMouseClicked(event -> {
+            mainPlayerController.getSettingsFactory().switchShuffle();
+            shuffleButton.replaceButName(mainPlayerController.getSettingsFactory().getShuffleStr());
+        });
+        buttonsBox.getChildren().add(shuffleButton);
+
         settingButton = new ActionButton("play");
         settingButton.setOnMouseClicked(event -> mainPlayerController.showSettings());
         buttonsBox.getChildren().add(settingButton);

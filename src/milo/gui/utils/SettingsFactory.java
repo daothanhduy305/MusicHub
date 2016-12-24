@@ -185,4 +185,20 @@ public class SettingsFactory {
     public void setSettingsController(SettingsController settingsController) {
         this.settingsController = settingsController;
     }
+
+    public String getShuffleStr() {
+        return settingsData.getShuffleStr();
+    }
+
+    public void switchShuffle() {
+        settingsData.switchShuffle();
+    }
+
+    public String getRepeatStr() {
+        return settingsData.getRepeatStr();
+    }
+
+    public void switchRepeat() {
+        settingsData.switchRepeat();
+    }
 }

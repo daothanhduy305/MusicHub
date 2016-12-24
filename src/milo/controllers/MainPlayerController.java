@@ -48,13 +48,13 @@ public class MainPlayerController extends AbstractPlayerUIController {
 
     @Override
     public void buildUI() {
+        settingsFactory = new SettingsFactory(this);
+
         songPlayerBarController.buildUI();
         navigationDrawerController.buildUI();
         mainViewPanelController.buildUI();
 
         refreshUI();
-
-        settingsFactory = new SettingsFactory(this);
     }
 
     @Override
@@ -206,5 +206,9 @@ public class MainPlayerController extends AbstractPlayerUIController {
 
     public void setMainWindow(Window mainWindow) {
         this.mainWindow = mainWindow;
+    }
+
+    public SettingsFactory getSettingsFactory() {
+        return settingsFactory;
     }
 }
