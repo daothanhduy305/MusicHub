@@ -150,6 +150,8 @@ public class SongPlayerBarController extends AbstractSubUIController {
         settingButton = new ActionButton("settings");
         settingButton.setOnMouseClicked(event -> mainPlayerController.showSettings());
         buttonsBox.getChildren().add(settingButton);
+
+        buttonsBox.setSpacing(2 * sizeCalculator.getPlayerBarPaddingH());
     }
 
     @Override
