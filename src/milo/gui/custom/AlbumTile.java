@@ -58,13 +58,12 @@ public class AlbumTile extends VBox implements Comparable<AlbumTile> {
         albumInfoBox.setPrefWidth(Constants.getAlbumOverviewAlbumArtSize());
         albumInfoBox.setPrefWidth(Constants.getAlbumOverviewAlbumArtSize());
         albumTitleLabel.setPrefWidth(Constants.getAlbumOverviewAlbumArtSize());
-        albumTitleLabel.setPrefHeight(Constants.getAlbumOverviewAlbumArtSize() * 0.45);
         albumTitleLabel.setWrapText(true);
         this.setPadding(new Insets(6, 0, 0, 6));
         albumTitleLabel.setText(albumTitle);
         albumAuthorLabel.setText(albumAuthor);
         albumAuthorLabel.setPrefWidth(Constants.getAlbumOverviewAlbumArtSize());
-        albumAuthorLabel.setPrefHeight(Constants.getAlbumOverviewAlbumArtSize() * 0.25);
+        albumAuthorLabel.setWrapText(true);
 
         setAlbumArt();
     }
