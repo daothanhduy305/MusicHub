@@ -65,8 +65,8 @@ public class NavigationViewButton extends HBox {
         iconPath = Constants.getButtonsPrePath() + buttonName + "_ac" + iconExtension;
         buttonIcon.setImage(new Image(
                 iconPath,
-                sizeCalculator.getNavigationDrawerButtonHeight() / 1.8,
-                sizeCalculator.getNavigationDrawerButtonHeight() / 1.8,
+                sizeCalculator.getNavigationDrawerButtonHeight() / 2.0,
+                sizeCalculator.getNavigationDrawerButtonHeight() / 2.0,
                 true, true, false
         ));
         status.setBackground(new Background(new BackgroundFill(
@@ -79,8 +79,8 @@ public class NavigationViewButton extends HBox {
         iconPath = Constants.getButtonsPrePath() + buttonName + iconExtension;
         buttonIcon.setImage(new Image(
                 iconPath,
-                sizeCalculator.getNavigationDrawerButtonHeight() / 1.8,
-                sizeCalculator.getNavigationDrawerButtonHeight() / 1.8,
+                sizeCalculator.getNavigationDrawerButtonHeight() / 2.0,
+                sizeCalculator.getNavigationDrawerButtonHeight() / 2.0,
                 true, true, false
         ));
         status.setBackground(null);
