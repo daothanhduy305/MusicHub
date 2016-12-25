@@ -52,14 +52,7 @@ public class NavigationViewButton extends HBox {
     public void buildUI() {
         this.setPrefHeight(sizeCalculator.getNavigationDrawerButtonHeight());
         this.setPrefWidth(sizeCalculator.getNavigationDrawerWidth());
-        this.setSpacing(sizeCalculator.getNavigationDrawerPaddingH());
 
-        buttonIcon.setImage(new Image(
-                iconPath,
-                sizeCalculator.getNavigationDrawerButtonHeight() / 2.5,
-                sizeCalculator.getNavigationDrawerButtonHeight() / 2.5,
-                true, true, false
-        ));
         buttonIcon.setCache(true);
 
         status.setPrefHeight(sizeCalculator.getNavigationDrawerButtonHeight());
@@ -69,6 +62,13 @@ public class NavigationViewButton extends HBox {
     }
 
     public void makeActive() {
+        iconPath = Constants.getButtonsPrePath() + buttonName + "_ac" + iconExtension;
+        buttonIcon.setImage(new Image(
+                iconPath,
+                sizeCalculator.getNavigationDrawerButtonHeight() / 1.8,
+                sizeCalculator.getNavigationDrawerButtonHeight() / 1.8,
+                true, true, false
+        ));
         status.setBackground(new Background(new BackgroundFill(
                 Color.DODGERBLUE, CornerRadii.EMPTY, Insets.EMPTY
         )));
@@ -76,6 +76,13 @@ public class NavigationViewButton extends HBox {
     }
 
     public void makeInactive() {
+        iconPath = Constants.getButtonsPrePath() + buttonName + iconExtension;
+        buttonIcon.setImage(new Image(
+                iconPath,
+                sizeCalculator.getNavigationDrawerButtonHeight() / 1.8,
+                sizeCalculator.getNavigationDrawerButtonHeight() / 1.8,
+                true, true, false
+        ));
         status.setBackground(null);
         buttonTitleLabel.setTextFill(Color.BLACK);
     }
