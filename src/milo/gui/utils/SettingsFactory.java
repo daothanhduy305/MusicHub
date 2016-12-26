@@ -7,9 +7,6 @@ import milo.data.SongData;
 import milo.gui.controllers.MainPlayerController;
 import milo.gui.controllers.SettingsController;
 import milo.gui.controllers.utils.LOG;
-import org.jaudiotagger.audio.AudioFile;
-import org.jaudiotagger.audio.AudioFileIO;
-import org.jaudiotagger.tag.FieldKey;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -18,6 +15,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import static milo.gui.utils.Utils.getSongsFromDir;
+import static milo.gui.utils.Utils.removeSongsFromDir;
 
 /**
  * Class name:  SettingsFactory
@@ -61,43 +59,15 @@ public class SettingsFactory {
      */
     private void createDB(String dirPath, Map<String, SongData> songList, Map<String, AlbumData> albumDataMap) {
         final File directory = new File(dirPath);
-        List<File> filesList = new ArrayList<>(100);
-        if (directory.isDirectory()) {
-            new Thread(() -> {
-                getSongsFromDir(directory, filesList);
+        new Thread(() -> {
+            getSongsFromDir(directory, songList, albumDataMap);
 
-                for (File songFile : filesList) {
-                    try {
-                        AudioFile song = AudioFileIO.read(songFile);
-                        SongData songData = new SongData(song);
-                        songList.put(songData.getPath(), songData);
-                        if (albumDataMap.get(songData.getAlbumTitle()) == null) {
-                            AlbumData albumData = new AlbumData(
-                                    songData.getAlbumTitle(),
-                                    songData.getAlbumAuthor()
-                            );
-                            if (albumData.getAlbumTitle() == null || albumData.getAlbumTitle().trim().equalsIgnoreCase(""))
-                                albumData.setAlbumTitle("Unknown");
-                            if (albumData.getAlbumAuthor() == null || albumData.getAlbumAuthor().trim().equalsIgnoreCase("")) {
-                                if (songData.getArtist() == null || songData.getArtist().trim().equalsIgnoreCase(""))
-                                    albumData.setAlbumAuthor("Unknown");
-                                else
-                                    albumData.setAlbumAuthor(songData.getArtist());
-                            }
-                            albumDataMap.put(songData.getAlbumTitle(), albumData);
-                        }
-                        albumDataMap.get(songData.getAlbumTitle()).getSongList().put(songData.getPath(), songData);
-                    } catch (Exception error) {
-                        error.printStackTrace();
-                    }
-                }
-                settingsData.getSongDatas().putAll(songList);
-                settingsData.getAlbumDataMap().putAll(albumDataMap);
-                Platform.runLater(() -> mainPlayerController.setDB(settingsData.getSongDatas(), settingsData.getAlbumDataMap()));
-                saveSettings();
-                LOG.w("Finished creating database");
-            }).run();
-        }
+            settingsData.getSongDatas().putAll(songList);
+            settingsData.getAlbumDataMap().putAll(albumDataMap);
+            Platform.runLater(() -> mainPlayerController.setDB(settingsData.getSongDatas(), settingsData.getAlbumDataMap()));
+            saveSettings();
+            LOG.w("Finished creating database");
+        }).run();
     }
 
     /**
@@ -153,22 +123,8 @@ public class SettingsFactory {
     public void removePath(String path) {
         settingsData.getPathList().remove(path);
         final File directory = new File(path);
-        List<File> filesList = new ArrayList<>(100);
         new Thread(() -> {
-            getSongsFromDir(directory, filesList);
-            for (File file : filesList) {
-                String filePath = file.getPath();
-                settingsData.getSongDatas().remove(filePath);
-                String albumName = "";
-                try {
-                    albumName = AudioFileIO.read(file).getTag().getFirst(FieldKey.ALBUM);
-                    albumName = albumName == null || albumName.trim().equalsIgnoreCase("") ?
-                            "Unknown" : albumName;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                settingsData.getAlbumDataMap().get(albumName).getSongList().remove(filePath);
-            }
+            removeSongsFromDir(directory, settingsData);
             Platform.runLater(() -> mainPlayerController.setDB(settingsData.getSongDatas(), settingsData.getAlbumDataMap()));
             saveSettings();
         }).run();
