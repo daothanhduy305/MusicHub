@@ -10,22 +10,22 @@ import java.util.TreeMap;
  */
 
 public class AlbumData implements Serializable, Comparable<AlbumData> {
-    private String mTitle, mAuthor;
+    private String mTitle, mArtist;
     private Map<String, SongData> mSongList;
     private byte[] albumArtByte;
 
     public AlbumData(String albumTitle, String albumAuthor) {
-        this.mAuthor = albumAuthor;
+        this.mArtist = albumAuthor;
         this.mTitle = albumTitle;
         mSongList = new TreeMap<>();
     }
 
-    public String getAlbumAuthor() {
-        return mAuthor;
+    public String getAlbumArtist() {
+        return mArtist;
     }
 
     public void setAlbumAuthor(String mAuthor) {
-        this.mAuthor = mAuthor;
+        this.mArtist = mAuthor;
     }
 
     public String getAlbumTitle() {

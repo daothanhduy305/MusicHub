@@ -50,7 +50,7 @@ public class AlbumTile extends VBox implements Comparable<AlbumTile> {
 
         this.setAlbumData(albumData);
         this.setAlbumTitle(albumData.getAlbumTitle());
-        this.setAlbumAuthor(albumData.getAlbumAuthor());
+        this.setAlbumAuthor(albumData.getAlbumArtist());
         this.buildUI();
     }
 

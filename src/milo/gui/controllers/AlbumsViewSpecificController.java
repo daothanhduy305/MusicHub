@@ -141,7 +141,7 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
                 true, true
         ));
         albumTitleLabel.setText(albumData.getAlbumTitle());
-        albumArtistLabel.setText(albumData.getAlbumAuthor());
+        albumArtistLabel.setText(albumData.getAlbumArtist());
 
         songListTableRefresh();
         refreshUI();

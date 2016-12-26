@@ -5,7 +5,6 @@ import milo.data.SettingsData;
 import milo.data.SongData;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
-import org.jaudiotagger.tag.FieldKey;
 
 import java.io.File;
 import java.util.Map;
@@ -51,22 +50,15 @@ public class Utils {
                         AudioFile song = AudioFileIO.read(file);
                         SongData songData = new SongData(song);
                         songList.put(songData.getPath(), songData);
+                        String albumKey = songData.getAlbumTitle() + songData.getAlbumArtist();
                         if (albumDataMap.get(songData.getAlbumTitle()) == null) {
                             AlbumData albumData = new AlbumData(
                                     songData.getAlbumTitle(),
-                                    songData.getAlbumAuthor()
+                                    songData.getAlbumArtist()
                             );
-                            if (albumData.getAlbumTitle() == null || albumData.getAlbumTitle().trim().equalsIgnoreCase(""))
-                                albumData.setAlbumTitle("Unknown");
-                            if (albumData.getAlbumAuthor() == null || albumData.getAlbumAuthor().trim().equalsIgnoreCase("")) {
-                                if (songData.getArtist() == null || songData.getArtist().trim().equalsIgnoreCase(""))
-                                    albumData.setAlbumAuthor("Unknown");
-                                else
-                                    albumData.setAlbumAuthor(songData.getArtist());
-                            }
-                            albumDataMap.put(songData.getAlbumTitle(), albumData);
+                            albumDataMap.put(albumKey, albumData);
                         }
-                        albumDataMap.get(songData.getAlbumTitle()).getSongList().put(songData.getPath(), songData);
+                        albumDataMap.get(albumKey).getSongList().put(songData.getPath(), songData);
                     } catch (Exception error) {
                         error.printStackTrace();
                     }
@@ -90,17 +82,15 @@ public class Utils {
             if (!file.isDirectory()) {
                 if (isSong(file)) {
                     settingsData.getSongDatas().remove(file.getPath());
-                    String albumName = "";
                     try {
-                        albumName = AudioFileIO.read(file).getTag().getFirst(FieldKey.ALBUM);
-                        albumName = albumName == null || albumName.trim().equalsIgnoreCase("") ?
-                                "Unknown" : albumName;
+                        SongData currentSongInfo = new SongData(AudioFileIO.read(file));
+                        String albumKey = currentSongInfo.getAlbumTitle() + currentSongInfo.getAlbumArtist();
+                        settingsData.getAlbumDataMap().get(albumKey).getSongList().remove(file.getPath());
+                        if (settingsData.getAlbumDataMap().get(albumKey).getSongList().size() == 0)
+                            settingsData.getAlbumDataMap().remove(albumKey);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    settingsData.getAlbumDataMap().get(albumName).getSongList().remove(file.getPath());
-                    if (settingsData.getAlbumDataMap().get(albumName).getSongList().size() == 0)
-                        settingsData.getAlbumDataMap().remove(albumName);
                 }
             } else
                 removeSongsFromDir(file, settingsData);
