@@ -1,6 +1,6 @@
-package milo.controllers.abstractcontrollers;
+package milo.gui.controllers.abstractcontrollers;
 
-import milo.controllers.AlbumsViewController;
+import milo.gui.controllers.AlbumsViewController;
 
 /**
  * Class name:  AbstractAlbumsViewSubController

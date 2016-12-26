@@ -2,7 +2,7 @@
 
 <?import javafx.scene.layout.*?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" alignment="BOTTOM_LEFT" xmlns="http://javafx.com/javafx/8.0.102"
-           fx:controller="milo.controllers.MainPlayerController">
+           fx:controller="milo.gui.controllers.MainPlayerController">
     <children>
         <GridPane fx:id="mHolder" StackPane.alignment="TOP_LEFT">
             <children>

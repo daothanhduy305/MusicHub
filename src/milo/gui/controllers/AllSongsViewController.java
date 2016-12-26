@@ -1,4 +1,4 @@
-package milo.controllers;
+package milo.gui.controllers;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -10,9 +10,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
-import milo.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.data.SongData;
 import milo.data.utils.SongDataComparator;
+import milo.gui.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.gui.utils.Constants;
 import milo.gui.utils.Constants.VIEWS_ID;
 

@@ -1,4 +1,4 @@
-package milo.controllers.abstractcontrollers;
+package milo.gui.controllers.abstractcontrollers;
 
 import milo.gui.utils.SizeCalculator;
 

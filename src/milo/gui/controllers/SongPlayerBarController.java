@@ -1,4 +1,4 @@
-package milo.controllers;
+package milo.gui.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -11,8 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import milo.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.data.SongData;
+import milo.gui.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.gui.custom.ActionButton;
 import milo.gui.utils.Constants;
 import milo.gui.utils.GUIUtils;

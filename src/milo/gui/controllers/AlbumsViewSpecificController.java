@@ -1,4 +1,4 @@
-package milo.controllers;
+package milo.gui.controllers;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -13,10 +13,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import milo.controllers.abstractcontrollers.AbstractAlbumsViewSubController;
 import milo.data.AlbumData;
 import milo.data.SongData;
 import milo.data.utils.SongDataComparator;
+import milo.gui.controllers.abstractcontrollers.AbstractAlbumsViewSubController;
 import milo.gui.utils.Constants;
 
 import java.io.ByteArrayInputStream;

@@ -1,4 +1,4 @@
-package milo.controllers.utils;
+package milo.gui.controllers.utils;
 
 /**
  * Class name:  LOG

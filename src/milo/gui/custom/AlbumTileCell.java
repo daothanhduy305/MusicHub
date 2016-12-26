@@ -1,6 +1,6 @@
 package milo.gui.custom;
 
-import milo.controllers.AlbumsViewOverviewController;
+import milo.gui.controllers.AlbumsViewOverviewController;
 import milo.gui.utils.Constants;
 import org.controlsfx.control.GridCell;
 

@@ -1,9 +1,9 @@
-package milo.controllers;
+package milo.gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
-import milo.controllers.abstractcontrollers.AbstractSubUIController;
+import milo.gui.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.gui.custom.NavigationViewButton;
 import milo.gui.utils.Constants;
 

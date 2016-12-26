@@ -1,4 +1,4 @@
-package milo.controllers;
+package milo.gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,10 +9,10 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import milo.controllers.abstractcontrollers.AbstractPlayerUIController;
-import milo.controllers.utils.LOG;
 import milo.data.AlbumData;
 import milo.data.SongData;
+import milo.gui.controllers.abstractcontrollers.AbstractPlayerUIController;
+import milo.gui.controllers.utils.LOG;
 import milo.gui.utils.SettingsFactory;
 import milo.gui.utils.SizeCalculator;
 import org.jaudiotagger.audio.AudioFile;

@@ -1,6 +1,6 @@
-package milo.controllers.abstractcontrollers;
+package milo.gui.controllers.abstractcontrollers;
 
-import milo.controllers.MainPlayerController;
+import milo.gui.controllers.MainPlayerController;
 
 /**
  * Class name:  AbstractSubUIController

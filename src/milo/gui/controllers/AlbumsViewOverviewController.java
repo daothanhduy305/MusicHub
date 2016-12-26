@@ -1,12 +1,12 @@
-package milo.controllers;
+package milo.gui.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
-import milo.controllers.abstractcontrollers.AbstractAlbumsViewSubController;
 import milo.data.AlbumData;
+import milo.gui.controllers.abstractcontrollers.AbstractAlbumsViewSubController;
 import milo.gui.custom.AlbumTile;
 import milo.gui.custom.AlbumTileCell;
 import milo.gui.utils.Constants;

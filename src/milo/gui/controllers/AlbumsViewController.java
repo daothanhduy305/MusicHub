@@ -1,10 +1,10 @@
-package milo.controllers;
+package milo.gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
-import milo.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.data.AlbumData;
 import milo.data.SongData;
+import milo.gui.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.gui.utils.SizeCalculator;
 
 import java.util.Map;

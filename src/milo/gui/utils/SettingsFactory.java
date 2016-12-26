@@ -1,12 +1,12 @@
 package milo.gui.utils;
 
 import javafx.application.Platform;
-import milo.controllers.MainPlayerController;
-import milo.controllers.SettingsController;
-import milo.controllers.utils.LOG;
 import milo.data.AlbumData;
 import milo.data.SettingsData;
 import milo.data.SongData;
+import milo.gui.controllers.MainPlayerController;
+import milo.gui.controllers.SettingsController;
+import milo.gui.controllers.utils.LOG;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.tag.FieldKey;

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.GridView?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.102"
-      fx:controller="milo.controllers.AlbumsViewOverviewController" fx:id="mHolder">
+      fx:controller="milo.gui.controllers.AlbumsViewOverviewController" fx:id="mHolder">
     <children>
         <GridView fx:id="albumsListView" cellHeight="0.0" cellWidth="0.0" horizontalCellSpacing="5.0" verticalCellSpacing="2.0" VBox.vgrow="ALWAYS" />
     </children>
