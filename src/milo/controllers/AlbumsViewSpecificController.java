@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import milo.controllers.abstractcontrollers.AbstractAlbumsViewSubController;
 import milo.data.AlbumData;
 import milo.data.SongData;
+import milo.data.utils.SongDataComparator;
 import milo.gui.utils.Constants;
 
 import java.io.ByteArrayInputStream;
@@ -43,7 +44,7 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
     @Override
     public void buildUI() {
         albumSongsList = FXCollections.observableArrayList();
-        songDataSortedList = new SortedList<SongData>(albumSongsList);
+        songDataSortedList = new SortedList<>(albumSongsList, new SongDataComparator());
         songListTable.getStylesheets().clear();
         songListTable.getStylesheets().add(Constants.getCssMainFilePath());
 
@@ -53,10 +54,8 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
         songListTableYear.setCellValueFactory(cellData -> cellData.getValue().yearProperty());
         songListTableGenre.setCellValueFactory(cellData -> cellData.getValue().gerneProperty());
         songListTableLength.setCellValueFactory(cellData -> cellData.getValue().lengthStrProperty());
-        songListTable.getSortOrder().setAll(songListTableTitle);
         songListTableLength.setStyle("-fx-alignment: CENTER-RIGHT;");
         songListTable.setItems(songDataSortedList);
-        songDataSortedList.comparatorProperty().bind(songListTable.comparatorProperty());
         songListTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 mainPlayerController.playSong(songListTable.getSelectionModel().getSelectedItem());
@@ -64,6 +63,8 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
                 buildPlaylist();
             }
         });
+
+        songListTable.setFixedCellSize(48.0);
     }
 
     @Override
@@ -84,7 +85,6 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
         songListTableLength.setMinWidth(sizeCalculator.getSmallColumnWidth());
 
         // TODO choose between the scene's height and the calculation beneath
-        songListTable.setFixedCellSize(48.0);
         songListTable.prefHeightProperty().bind(Bindings.size(songListTable.getItems()).multiply(songListTable.getFixedCellSize()).add(2.0));
     }
 

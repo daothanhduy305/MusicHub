@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import milo.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.data.SongData;
+import milo.data.utils.SongDataComparator;
 import milo.gui.utils.Constants;
 import milo.gui.utils.Constants.VIEWS_ID;
 
@@ -82,20 +83,7 @@ public class AllSongsViewController extends AbstractSubUIController {
         // TODO: furthermore, be aware that the scrollbar also need to have padding
         this.songDataObservableList = FXCollections.observableArrayList(songDatas.values());
 
-        songListTable.setItems(new SortedList<>(songDataObservableList, (o1, o2) -> {
-            if (o1.getTitle().equals(" ")) {
-                return Integer.MAX_VALUE;
-            }
-            else if (o2.getTitle().equals(" ")) {
-                return Integer.MIN_VALUE;
-            }
-            else {
-                if (o1.getTitle().compareToIgnoreCase(o2.getTitle()) != 0)
-                    return (o1.getTitle().compareToIgnoreCase(o2.getTitle()));
-                else
-                    return (o1.getArtist().compareToIgnoreCase(o2.getArtist()));
-            }
-        }));
+        songListTable.setItems(new SortedList<>(songDataObservableList, new SongDataComparator()));
 
         if (!isDBSet) {
             songListTableTitle.setCellFactory(new Callback<TableColumn<SongData, String>, TableCell<SongData, String>>() {
