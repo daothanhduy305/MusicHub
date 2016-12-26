@@ -99,6 +99,8 @@ public class Utils {
                         e.printStackTrace();
                     }
                     settingsData.getAlbumDataMap().get(albumName).getSongList().remove(file.getPath());
+                    if (settingsData.getAlbumDataMap().get(albumName).getSongList().size() == 0)
+                        settingsData.getAlbumDataMap().remove(albumName);
                 }
             } else
                 removeSongsFromDir(file, settingsData);
