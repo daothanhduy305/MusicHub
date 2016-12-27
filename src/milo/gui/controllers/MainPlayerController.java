@@ -209,7 +209,6 @@ public class MainPlayerController extends AbstractPlayerUIController {
      *          children views.
      */
     public void setDB() {
-        LOG.e("" + (settingsFactory == null));
         mainViewPanelController.setDB(settingsFactory.getSettingsData().getSongDatas()
                 , settingsFactory.getSettingsData().getAlbumDataMap());
         if (!onInit)
