@@ -8,8 +8,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
-import milo.data.AlbumData;
 import milo.data.SongData;
 import milo.gui.controllers.abstractcontrollers.AbstractPlayerUIController;
 import milo.gui.controllers.utils.LOG;
@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Map;
 
 /**
  * Class name:  MainPlayerController
@@ -53,6 +52,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
     @Override
     public void buildUI() {
         settingsFactory = new SettingsFactory(this);
+        settingsFactory.loadSettings();
 
         songPlayerBarController.buildUI();
         navigationDrawerController.buildUI();
@@ -207,18 +207,18 @@ public class MainPlayerController extends AbstractPlayerUIController {
      * Function name:   setDB
      * Usage:   this method would be called to set database and call lower-level relevant methods to set data for also
      *          children views.
-     * @param songDatas database for songs
-     * @param albumDataMap database for albums
      */
-    public void setDB(Map<String, SongData> songDatas, Map<String, AlbumData> albumDataMap) {
-        mainViewPanelController.setDB(songDatas, albumDataMap);
+    public void setDB() {
+        LOG.e("" + (settingsFactory == null));
+        mainViewPanelController.setDB(settingsFactory.getSettingsData().getSongDatas()
+                , settingsFactory.getSettingsData().getAlbumDataMap());
         if (!onInit)
             refreshUI();
         else
             onInit = false;
     }
 
-    public void showSettings() {
+    public void showSettingsWindow() {
         if (settingsLoader == null) {
             settingsLoader = new FXMLLoader();
             settingsLoader.setLocation(getClass().getResource("/milo/gui/designs/settings.fxml"));
@@ -232,6 +232,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
             settingsController.buildUI();
 
             settingsStage = new Stage();
+            settingsStage.initStyle(StageStyle.UNDECORATED);
             settingsController.setSettingsWindow(settingsStage);
             settingsStage.initOwner(mainWindow);
             settingsStage.setResizable(false);

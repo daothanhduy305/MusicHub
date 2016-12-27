@@ -1,8 +1,10 @@
 package milo.gui.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.GridPane;
@@ -15,7 +17,10 @@ import milo.gui.custom.PathTile;
 import milo.gui.utils.SettingsFactory;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.TreeMap;
 
 /**
  * Class name:  SettingsController
@@ -23,10 +28,12 @@ import java.util.Optional;
  */
 public class SettingsController {
     @FXML private GridPane pathsGrid;
+    @FXML private Button doneButton;
 
     private SettingsFactory settingsFactory;
     private Window settingsWindow;
 
+    private List<String> addingFolderList, removingFolderList;
     private int item = 1;
 
     public void buildUI() {
@@ -38,6 +45,9 @@ public class SettingsController {
                 addPathTile(path);
             }
         }
+        doneButton.setOnAction(event -> applySettings());
+        addingFolderList = new ArrayList<>(1);
+        removingFolderList = new ArrayList<>(1);
     }
 
     /**
@@ -50,6 +60,7 @@ public class SettingsController {
         File folder = pathChooser.showDialog(settingsWindow);
         if (folder != null && folder.exists()) {
             if (settingsFactory.addPath/*Successful*/(folder.getPath())) {
+                addingFolderList.add(folder.getPath());
                 addPathTile(folder.getPath());
             }
         }
@@ -100,17 +111,24 @@ public class SettingsController {
      * Function name:   removePathTile
      * Usage:   This method would be called when user want to remove a pathTile
      * @param pathTile pathTile to be removed
-     * @param UIOnly only remove the pathTile (UI element) or also the songs (under that path) in database
      */
     private void removePathTile(PathTile pathTile, boolean UIOnly) {
+        String path = pathTile.getFolderPathStr();
+        if (!UIOnly) {
+            if (addingFolderList.indexOf(path) == -1) {
+                removingFolderList.add(path);
+            } else {
+                addingFolderList.remove(path);
+            }
+
+            settingsFactory.getSettingsData().getPathList().remove(path);
+        }
         int pathTileId = pathsGrid.getChildren().indexOf(pathTile);
         pathsGrid.getChildren().remove(pathTileId);
         for (int i = pathTileId; i < pathsGrid.getChildren().size(); i++) {
             GridPane.setColumnIndex(pathsGrid.getChildren().get(i), i % 2);
             GridPane.setRowIndex(pathsGrid.getChildren().get(i), i / 2);
         }
-        if (!UIOnly)
-            settingsFactory.removePath(pathTile.getFolderPathStr());
         item--;
     }
 
@@ -130,6 +148,22 @@ public class SettingsController {
                 }
             }
         }
+    }
+
+    private void applySettings() {
+        settingsWindow.hide();
+        new Thread(() -> {
+            for (String path : removingFolderList) {
+                settingsFactory.removePath(path);
+            }
+            for (String path : addingFolderList) {
+                settingsFactory.createDB(path, new TreeMap<>(), new TreeMap<>());
+            }
+            settingsFactory.saveSettings();
+            removingFolderList.clear();
+            addingFolderList.clear();
+            Platform.runLater(() -> settingsFactory.setDB());
+        }).run();
     }
 
     public void setSettingsFactory(SettingsFactory settingsFactory) {

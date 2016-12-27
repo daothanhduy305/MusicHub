@@ -1,6 +1,5 @@
 package milo.gui.utils;
 
-import javafx.application.Platform;
 import milo.data.AlbumData;
 import milo.data.SettingsData;
 import milo.data.SongData;
@@ -12,7 +11,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import static milo.gui.utils.Utils.getSongsFromDir;
 import static milo.gui.utils.Utils.removeSongsFromDir;
@@ -23,13 +21,12 @@ import static milo.gui.utils.Utils.removeSongsFromDir;
  */
 
 public class SettingsFactory {
-    private SettingsData settingsData;
+    volatile private SettingsData settingsData;
     private MainPlayerController mainPlayerController;
     private SettingsController settingsController;
 
     public SettingsFactory(MainPlayerController mainPlayerController) {
         this.mainPlayerController = mainPlayerController;
-        this.loadSettings();
     }
 
     /**
@@ -37,14 +34,15 @@ public class SettingsFactory {
      * Usage:   this method would be called to either load former settings or create a new one
      * TODO:    take care of loading settings and loading/creating database separately
      */
-    private void loadSettings() {
+    public void loadSettings() {
         try {
             FileInputStream settingsFileIS = new FileInputStream("proprietary/data/settings/milo_set");
             ObjectInputStream settingsDataIS = new ObjectInputStream(settingsFileIS);
             settingsData = (SettingsData) settingsDataIS.readObject();
-            mainPlayerController.setDB(settingsData.getSongDatas(), settingsData.getAlbumDataMap());
+            setDB();
             LOG.w( "Finished loading settings");
         } catch (Exception e) {
+            e.printStackTrace();
             settingsData = new SettingsData();
             settingsData.initData();
         }
@@ -57,17 +55,13 @@ public class SettingsFactory {
      * @param dirPath directory that contains song files
      * @param songList database
      */
-    private void createDB(String dirPath, Map<String, SongData> songList, Map<String, AlbumData> albumDataMap) {
+    public void createDB(String dirPath, Map<String, SongData> songList, Map<String, AlbumData> albumDataMap) {
         final File directory = new File(dirPath);
-        new Thread(() -> {
-            getSongsFromDir(directory, songList, albumDataMap);
+        getSongsFromDir(directory, songList, albumDataMap);
 
-            settingsData.getSongDatas().putAll(songList);
-            settingsData.getAlbumDataMap().putAll(albumDataMap);
-            Platform.runLater(() -> mainPlayerController.setDB(settingsData.getSongDatas(), settingsData.getAlbumDataMap()));
-            saveSettings();
-            LOG.w("Finished creating database");
-        }).run();
+        settingsData.getSongDatas().putAll(songList);
+        settingsData.getAlbumDataMap().putAll(albumDataMap);
+        LOG.w("Finished creating database");
     }
 
     /**
@@ -109,7 +103,6 @@ public class SettingsFactory {
             }
             settingsData.getPathList().removeAll(childrenPath);
             settingsData.getPathList().add(path);
-            createDB(path, new TreeMap<>(), new TreeMap<>());
             return true;
         }
         return false;
@@ -123,11 +116,8 @@ public class SettingsFactory {
     public void removePath(String path) {
         settingsData.getPathList().remove(path);
         final File directory = new File(path);
-        new Thread(() -> {
-            removeSongsFromDir(directory, settingsData);
-            Platform.runLater(() -> mainPlayerController.setDB(settingsData.getSongDatas(), settingsData.getAlbumDataMap()));
-            saveSettings();
-        }).run();
+        removeSongsFromDir(directory, settingsData);
+        //saveSettings();
     }
 
     public void setPlayingSong(SongData playingSong) {
@@ -166,5 +156,9 @@ public class SettingsFactory {
 
     public boolean isRepeat() {
         return settingsData.isRepeat();
+    }
+
+    public void setDB() {
+        mainPlayerController.setDB();
     }
 }
