@@ -20,7 +20,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.TreeMap;
 
 /**
  * Class name:  SettingsController
@@ -157,7 +156,7 @@ public class SettingsController {
                 settingsFactory.removePath(path);
             }
             for (String path : addingFolderList) {
-                settingsFactory.createDB(path, new TreeMap<>(), new TreeMap<>());
+                settingsFactory.createDB(path);
             }
             settingsFactory.saveSettings();
             removingFolderList.clear();

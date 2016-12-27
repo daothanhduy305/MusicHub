@@ -1,6 +1,5 @@
 package milo.gui.utils;
 
-import milo.data.AlbumData;
 import milo.data.SettingsData;
 import milo.data.SongData;
 import milo.gui.controllers.MainPlayerController;
@@ -10,7 +9,6 @@ import milo.gui.controllers.utils.LOG;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static milo.gui.utils.Utils.getSongsFromDir;
 import static milo.gui.utils.Utils.removeSongsFromDir;
@@ -53,14 +51,10 @@ public class SettingsFactory {
      * Usage:   this method would be called to create the database for songs for the first time database set
      *
      * @param dirPath directory that contains song files
-     * @param songList database
      */
-    public void createDB(String dirPath, Map<String, SongData> songList, Map<String, AlbumData> albumDataMap) {
+    public void createDB(String dirPath) {
         final File directory = new File(dirPath);
-        getSongsFromDir(directory, songList, albumDataMap);
-
-        settingsData.getSongDatas().putAll(songList);
-        settingsData.getAlbumDataMap().putAll(albumDataMap);
+        getSongsFromDir(directory, settingsData.getSongDatas(), settingsData.getAlbumDataMap());
         LOG.w("Finished creating database");
     }
 
