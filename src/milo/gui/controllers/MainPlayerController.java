@@ -10,6 +10,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
+import javafx.util.Duration;
 import milo.data.SongData;
 import milo.gui.controllers.abstractcontrollers.AbstractPlayerUIController;
 import milo.gui.controllers.utils.LOG;
@@ -137,13 +138,16 @@ public class MainPlayerController extends AbstractPlayerUIController {
 
     @Override
     public void playPreviousSong() {
-        if (previousPlaylist != null && previousPlaylist.size() > 0) {
-            currentPlaylist.add(0, currentPlayingSong);
-            currentPlayingSong = previousPlaylist.get(0);
-            previousPlaylist.remove(0);
-            mainViewPanelController.selectCurrentSong(currentPlayingSong);
+        if (isPlaying && player.getCurrentTime().greaterThanOrEqualTo(new Duration(5000)))
             playSong(currentPlayingSong);
-        }
+        else
+            if (previousPlaylist != null && previousPlaylist.size() > 0) {
+                currentPlaylist.add(0, currentPlayingSong);
+                currentPlayingSong = previousPlaylist.get(0);
+                previousPlaylist.remove(0);
+                mainViewPanelController.selectCurrentSong(currentPlayingSong);
+                playSong(currentPlayingSong);
+            }
     }
 
     /**
