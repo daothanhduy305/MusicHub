@@ -5,7 +5,8 @@ import milo.data.SongData;
 import java.util.Comparator;
 
 /**
- * Created by Ebolo on 26/12/2016.
+ * Class name:  SongDataComparator
+ * Description: This class is the comparator for comparing song data
  */
 public class SongDataComparator implements Comparator<SongData> {
     @Override

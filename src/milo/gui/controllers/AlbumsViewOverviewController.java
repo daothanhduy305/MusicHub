@@ -1,11 +1,14 @@
 package milo.gui.controllers;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
 import milo.data.AlbumData;
+import milo.data.utils.AlbumDataComparator;
 import milo.gui.controllers.abstractcontrollers.AbstractAlbumsViewSubController;
 import milo.gui.custom.AlbumTile;
 import milo.gui.custom.AlbumTileCell;
@@ -15,6 +18,7 @@ import org.controlsfx.control.GridView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Class name:  AlbumsViewOverviewController
@@ -23,9 +27,10 @@ import java.util.Map;
 
 public class AlbumsViewOverviewController extends AbstractAlbumsViewSubController {
     @FXML private VBox mHolder;
-    @FXML private GridView<AlbumTile> albumsListView;
+    @FXML private GridView<AlbumData> albumsListView;
 
-    private ObservableList<AlbumTile> albumTiles;
+    //private ObservableList<AlbumTile> albumTiles;
+    private Map<String, AlbumTile> albumTileMap;
     private List<AlbumTileCell> monitoringCells;
 
     @Override
@@ -35,12 +40,6 @@ public class AlbumsViewOverviewController extends AbstractAlbumsViewSubControlle
 
         albumsListView.setCellWidth(Constants.getAlbumOverviewAlbumArtSize() + 12 );
         albumsListView.setCellHeight(Constants.getAlbumOverviewAlbumArtSize() * 1.7);
-
-        albumsListView.setCellFactory(gridView -> {
-            AlbumTileCell albumTileCell = new AlbumTileCell(this);
-            monitoringCells.add(albumTileCell);
-            return albumTileCell;
-        });
 
         Insets oldPaddingVal = albumsListView.getPadding();
         albumsListView.setPadding(new Insets(oldPaddingVal.getTop(), oldPaddingVal.getRight(),
@@ -58,13 +57,23 @@ public class AlbumsViewOverviewController extends AbstractAlbumsViewSubControlle
     }
 
     public void setDB(Map<String, AlbumData> albumDataMap) {
-        albumTiles = FXCollections.observableArrayList();
-        albumDataMap.values().forEach(albumData -> albumTiles.add(new AlbumTile(albumData)));
-        FXCollections.sort(albumTiles);
-        albumsListView.setItems(albumTiles);
+        ObservableList<AlbumData> albumDatas = FXCollections.observableArrayList(albumDataMap.values());
+        albumTileMap = new TreeMap<>();
+        albumDatas.forEach(albumData -> albumTileMap.put(albumData.getAlbumTitle() + albumData.getAlbumArtist()
+                , new AlbumTile(albumData)));
+        albumsListView.setCellFactory(gridView -> {
+            AlbumTileCell albumTileCell = new AlbumTileCell(AlbumsViewOverviewController.this);
+            monitoringCells.add(albumTileCell);
+            return albumTileCell;
+        });
+        Platform.runLater(() -> albumsListView.setItems(new SortedList<>(albumDatas, new AlbumDataComparator())));
     }
 
     public List<AlbumTileCell> getMonitoringCells() {
         return monitoringCells;
+    }
+
+    public Map<String, AlbumTile> getAlbumTileMap() {
+        return albumTileMap;
     }
 }

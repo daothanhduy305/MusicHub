@@ -1,6 +1,6 @@
 package milo.gui.controllers;
 
-import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -151,18 +151,22 @@ public class SettingsController {
 
     private void applySettings() {
         settingsWindow.hide();
-        new Thread(() -> {
-            for (String path : removingFolderList) {
-                settingsFactory.removePath(path);
+        new Thread(new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                for (String path : removingFolderList) {
+                    settingsFactory.removePath(path);
+                }
+                for (String path : addingFolderList) {
+                    settingsFactory.createDB(path);
+                }
+                settingsFactory.saveSettings();
+                removingFolderList.clear();
+                addingFolderList.clear();
+                settingsFactory.setDB();
+                return null;
             }
-            for (String path : addingFolderList) {
-                settingsFactory.createDB(path);
-            }
-            settingsFactory.saveSettings();
-            removingFolderList.clear();
-            addingFolderList.clear();
-            Platform.runLater(() -> settingsFactory.setDB());
-        }).run();
+        }).start();
     }
 
     public void setSettingsFactory(SettingsFactory settingsFactory) {

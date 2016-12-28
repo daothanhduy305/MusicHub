@@ -30,7 +30,6 @@ public class AllSongsViewController extends AbstractSubUIController {
             songListTableAlbum, songListTableYear, songListTableGenre;
     @FXML private VBox mHolder;
 
-    private ObservableList<SongData> songDataObservableList;
     private boolean isDBSet = false, hasDummy = false;
 
     @Override
@@ -81,8 +80,7 @@ public class AllSongsViewController extends AbstractSubUIController {
     void setDB(Map<String, SongData> songDatas) {
         // TODO: if we want to watch the paths later, then we have to eliminate these dummy on saving
         // TODO: furthermore, be aware that the scrollbar also need to have padding
-        this.songDataObservableList = FXCollections.observableArrayList(songDatas.values());
-
+        ObservableList<SongData> songDataObservableList = FXCollections.observableArrayList(songDatas.values());
         songListTable.setItems(new SortedList<>(songDataObservableList, new SongDataComparator()));
 
         if (!isDBSet) {
@@ -124,8 +122,6 @@ public class AllSongsViewController extends AbstractSubUIController {
             isDBSet = true;
         }
 
-        songListTableRefresh();
-
         if (songDatas.size() * songListTable.getFixedCellSize()
                 > sizeCalculator.getWindowHeight() - sizeCalculator.getPlayerBarHeight()
                 && !hasDummy) {
@@ -137,16 +133,6 @@ public class AllSongsViewController extends AbstractSubUIController {
             // TODO:  How to remove dummies?
         }
         refreshUI();
-    }
-
-    /**
-     * Function name:   songListTableRefresh
-     * Usage:   This is the very ugly workaround to force the tableview to refresh when the data got updated but the UI
-     *          view still be stuck with old data
-     */
-    private void songListTableRefresh() {
-        songListTable.getColumns().get(0).setVisible(false);
-        songListTable.getColumns().get(0).setVisible(true);
     }
 
     /**

@@ -1,6 +1,7 @@
 package milo.gui.controllers;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -47,7 +48,6 @@ public class SongPlayerBarController extends AbstractSubUIController {
     private boolean thumbChanged = false;
 
     private long timeStart, timeCurrent, timePassed;
-    private Thread setAlbumArtThread, timeTrackingThread;
 
     @Override
     public void buildUI() {
@@ -230,7 +230,6 @@ public class SongPlayerBarController extends AbstractSubUIController {
     public void stopPlaying(boolean timeReset) {
         if (timeReset)
             this.timeCurrent = 0;
-        killTimeThread();
     }
 
     /**
@@ -250,25 +249,28 @@ public class SongPlayerBarController extends AbstractSubUIController {
      * @param audioFile the song file of the playing song (since the song data doesn't contain the audio file).
      */
     private void setAlbumArtView(AudioFile audioFile) {
-        setAlbumArtThread = new Thread(() -> {
-            try {
-                Artwork artwork = audioFile.getTag().getFirstArtwork();
-                byte[] rawAlbumArt = artwork != null ? artwork.getBinaryData(): Constants.getDefaultArtworkRaw();
-                Platform.runLater(() -> {
-                    Image albumArtImage = new Image(
-                            new ByteArrayInputStream(rawAlbumArt),
-                            sizeCalculator.getPlayerBarHeight() * 1.5,
-                            sizeCalculator.getPlayerBarHeight() * 1.5,
-                            true, true
-                    );
-                    albumArtHolder.setVisible(true);
-                    albumArtView.setImage(albumArtImage);
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
+        new Thread(new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    Artwork artwork = audioFile.getTag().getFirstArtwork();
+                    byte[] rawAlbumArt = artwork != null ? artwork.getBinaryData() : Constants.getDefaultArtworkRaw();
+                    Platform.runLater(() -> {
+                        Image albumArtImage = new Image(
+                                new ByteArrayInputStream(rawAlbumArt),
+                                sizeCalculator.getPlayerBarHeight() * 1.5,
+                                sizeCalculator.getPlayerBarHeight() * 1.5,
+                                true, true
+                        );
+                        albumArtHolder.setVisible(true);
+                        albumArtView.setImage(albumArtImage);
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
             }
-        });
-        setAlbumArtThread.start();
+        }).start();
     }
 
     /**
@@ -277,34 +279,23 @@ public class SongPlayerBarController extends AbstractSubUIController {
      * labels. The tracking job would be monitored on another thread instead.
      */
     private void timeTrack() {
-        timeTrackingThread = new Thread(() -> {
-            while (mainPlayerController.isPlaying()) {
-                timeCurrent = System.currentTimeMillis();
-                timePassed = timeCurrent - timeStart;
-                if ((timePassed % 1000) == 0) {
-                    Platform.runLater(() -> {
-                        if (!songSeekBar.isValueChanging() && !songSeekBar.isPressed()) {
-                            songSeekBar.setValue(Math.ceil(mainPlayerController.getPlayer().getCurrentTime().toSeconds()));
-                        }
-                    });
+        new Thread(new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                while (mainPlayerController.isPlaying()) {
+                    timeCurrent = System.currentTimeMillis();
+                    timePassed = timeCurrent - timeStart;
+                    if ((timePassed % 1000) == 0) {
+                        Platform.runLater(() -> {
+                            if (!songSeekBar.isValueChanging() && !songSeekBar.isPressed()) {
+                                songSeekBar.setValue(Math.ceil(mainPlayerController.getPlayer().getCurrentTime().toSeconds()));
+                            }
+                        });
+                    }
                 }
+                return null;
             }
-        });
-        timeTrackingThread.start();
-    }
-
-    /**
-     * Function name:   stopPlaying
-     * Usage:   this function would be called to kill the timeTrackingThread
-     */
-    private void killTimeThread() {
-        if (timeTrackingThread != null && timeTrackingThread.isAlive()) {
-            try {
-                timeTrackingThread.join();
-            } catch (InterruptedException ie) {
-                ie.printStackTrace();
-            }
-        }
+        }).start();
     }
 
     public ActionButton getPlayButton() {

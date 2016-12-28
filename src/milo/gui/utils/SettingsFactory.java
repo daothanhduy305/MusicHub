@@ -1,5 +1,6 @@
 package milo.gui.utils;
 
+import javafx.concurrent.Task;
 import milo.data.SettingsData;
 import milo.data.SongData;
 import milo.gui.controllers.MainPlayerController;
@@ -37,10 +38,15 @@ public class SettingsFactory {
             FileInputStream settingsFileIS = new FileInputStream("proprietary/data/settings/milo_set");
             ObjectInputStream settingsDataIS = new ObjectInputStream(settingsFileIS);
             settingsData = (SettingsData) settingsDataIS.readObject();
-            setDB();
+            new Thread(new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    setDB();
+                    return null;
+                }
+            }).start();
             LOG.w( "Finished loading settings");
         } catch (Exception e) {
-            e.printStackTrace();
             settingsData = new SettingsData();
             settingsData.initData();
         }

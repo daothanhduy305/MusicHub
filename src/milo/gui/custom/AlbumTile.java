@@ -1,6 +1,6 @@
 package milo.gui.custom;
 
-import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -71,21 +71,22 @@ public class AlbumTile extends VBox implements Comparable<AlbumTile> {
     public void setAlbumArt() {
         albumArtImageView.setFitHeight(Constants.getAlbumOverviewAlbumArtSize());
         albumArtImageView.setFitWidth(Constants.getAlbumOverviewAlbumArtSize());
-        if (albumData.getAlbumArtByte() == null) {
-            Runnable setAlbumArtTask = () -> {
-                try {
-                    Artwork artwork = null;
-                    if (albumData.getSongList() != null && albumData.getSongList().size() > 0) {
-                        for (Map.Entry<String, SongData> songDataEntry : albumData.getSongList().entrySet()) {
-                            File song = new File(songDataEntry.getValue().getPath());
-                            AudioFile songFile = AudioFileIO.read(song);
-                            artwork = songFile.getTag().getFirstArtwork();
-                            if (artwork != null)
-                                break;
+        new Thread(new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                if (albumData.getAlbumArtByte() == null) {
+                    try {
+                        Artwork artwork = null;
+                        if (albumData.getSongList() != null && albumData.getSongList().size() > 0) {
+                            for (Map.Entry<String, SongData> songDataEntry : albumData.getSongList().entrySet()) {
+                                File song = new File(songDataEntry.getValue().getPath());
+                                AudioFile songFile = AudioFileIO.read(song);
+                                artwork = songFile.getTag().getFirstArtwork();
+                                if (artwork != null)
+                                    break;
+                            }
                         }
-                    }
-                    byte[] rawAlbumArt = artwork != null ? artwork.getBinaryData(): Constants.getDefaultArtworkRaw();
-                    Platform.runLater(() -> {
+                        byte[] rawAlbumArt = artwork != null ? artwork.getBinaryData() : Constants.getDefaultArtworkRaw();
                         Image albumArtImage = new Image(
                                 new ByteArrayInputStream(rawAlbumArt),
                                 Constants.getAlbumOverviewAlbumArtSize() * 1.5,
@@ -94,21 +95,20 @@ public class AlbumTile extends VBox implements Comparable<AlbumTile> {
                         );
                         albumArtImageView.setImage(albumArtImage);
                         albumData.setAlbumArtByte(rawAlbumArt);
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    albumArtImageView.setImage(new Image(
+                            new ByteArrayInputStream(albumData.getAlbumArtByte()),
+                            Constants.getAlbumOverviewAlbumArtSize() * 1.5,
+                            Constants.getAlbumOverviewAlbumArtSize() * 1.5,
+                            true, true
+                    ));
                 }
-            };
-            setAlbumArtThread = new Thread(setAlbumArtTask);
-            setAlbumArtThread.start();
-        } else {
-            albumArtImageView.setImage(new Image(
-                    new ByteArrayInputStream(albumData.getAlbumArtByte()),
-                    Constants.getAlbumOverviewAlbumArtSize() * 1.5,
-                    Constants.getAlbumOverviewAlbumArtSize() * 1.5,
-                    true, true
-            ));
-        }
+                return null;
+            }
+        }).start();
     }
 
     public void setAlbumTitle(String albumTitle) {

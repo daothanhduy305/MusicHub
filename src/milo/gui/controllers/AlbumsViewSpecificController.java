@@ -106,16 +106,6 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
     }
 
     /**
-     * Function name:   songListTableRefresh
-     * Usage:   This is the very ugly workaround to force the tableview to refresh when the data got updated but the UI
-     *          view still be stuck with old data
-     */
-    private void songListTableRefresh() {
-        songListTable.getColumns().get(0).setVisible(false);
-        songListTable.getColumns().get(0).setVisible(true);
-    }
-
-    /**
      * Function name:   buildInfoUI
      * Usage:   This method would be call to set the correct album data for current album
      */
@@ -143,7 +133,6 @@ public class AlbumsViewSpecificController extends AbstractAlbumsViewSubControlle
         albumTitleLabel.setText(albumData.getAlbumTitle());
         albumArtistLabel.setText(albumData.getAlbumArtist());
 
-        songListTableRefresh();
         refreshUI();
     }
 
