@@ -58,6 +58,11 @@ public class SongPlayerBarController extends AbstractSubUIController {
         albumArtHolder.setVisible(false);
 
         setUpSeekBar();
+    }
+
+    @Override
+    public void postBuildUI() {
+        super.postBuildUI();
         setUpTheButtons();
     }
 

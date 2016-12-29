@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" alignment="BOTTOM_LEFT" xmlns="http://javafx.com/javafx/8.0.102"
-           fx:controller="milo.gui.controllers.MainPlayerController">
+<StackPane alignment="BOTTOM_LEFT" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="milo.gui.controllers.MainPlayerController">
     <children>
         <GridPane fx:id="mHolder" StackPane.alignment="TOP_LEFT">
             <children>
-                <fx:include fx:id="navigationDrawer" source="navigation_drawer.fxml"/>
-                <fx:include fx:id="mainViewPanel" source="main_view_panel.fxml" GridPane.columnIndex="1"
-                            GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"/>
+                <fx:include fx:id="navigationDrawer" source="navigation_drawer.fxml" />
+                <fx:include fx:id="mainViewPanel" source="main_view_panel.fxml" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
             </children>
             <columnConstraints>
-                <ColumnConstraints/>
-                <ColumnConstraints/>
+                <ColumnConstraints />
+                <ColumnConstraints />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints/>
+                <RowConstraints />
             </rowConstraints>
         </GridPane>
-        <fx:include fx:id="songPlayerBar" source="song_player_bar.fxml"/>
+        <fx:include fx:id="songPlayerBar" source="song_player_bar.fxml" />
+      <StackPane fx:id="loadingPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #0078d7;" StackPane.alignment="CENTER">
+         <children>
+            <ImageView pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file:proprietary/data/media/buts/loading_icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </StackPane>
     </children>
 </StackPane>

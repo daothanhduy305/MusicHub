@@ -49,6 +49,9 @@ public class SettingsFactory {
         } catch (Exception e) {
             settingsData = new SettingsData();
             settingsData.initData();
+            mainPlayerController.setSongLoading(false);
+            mainPlayerController.setAlbumLoading(false);
+            mainPlayerController.setLoadingState();
         }
     }
 

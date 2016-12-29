@@ -13,9 +13,15 @@ public abstract class AbstractUIController {
 
     /**
      * Function name:   buildUI
-     * Usage:   to construct the GUI at the init stage, each controller will have to cconstruct its own fxml here
+     * Usage:   to construct the GUI at the init stage, each controller will have to construct its own fxml here
      */
     public abstract void buildUI();
+
+    /**
+     * Function name:   postBuildUI
+     * Usage:   to construct the GUI after the settings is loaded
+     */
+    public void postBuildUI() {}
 
     /**
      * Function name:   refreshUI

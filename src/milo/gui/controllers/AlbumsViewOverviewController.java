@@ -67,6 +67,8 @@ public class AlbumsViewOverviewController extends AbstractAlbumsViewSubControlle
             return albumTileCell;
         });
         Platform.runLater(() -> albumsListView.setItems(new SortedList<>(albumDatas, new AlbumDataComparator())));
+        mainPlayerController.setAlbumLoading(false);
+        mainPlayerController.setLoadingState();
     }
 
     public List<AlbumTileCell> getMonitoringCells() {

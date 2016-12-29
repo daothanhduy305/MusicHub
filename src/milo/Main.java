@@ -83,7 +83,6 @@ public class Main extends Application {
 
         mainPlayerController.setScene(mainScene);
         mainPlayerController.setMainWindow(primaryStage);
-        mainPlayerController.buildUI();
 
         primaryStage.setMinWidth(GUIUtils.getScreenWidth() / 1.5);
         primaryStage.setTitle("Music Hub");
@@ -91,5 +90,7 @@ public class Main extends Application {
         primaryStage.setMaximized(true);
         primaryStage.setOnCloseRequest(e -> System.exit(0));
         primaryStage.show();
+
+        mainPlayerController.buildUI();
     }
 }

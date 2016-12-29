@@ -30,7 +30,7 @@ public class AllSongsViewController extends AbstractSubUIController {
             songListTableAlbum, songListTableYear, songListTableGenre;
     @FXML private VBox mHolder;
 
-    private boolean isDBSet = false, hasDummy = false;
+    private boolean isDBSet = false, hasDummy = false, onInit = true;
 
     @Override
     public void buildUI() {
@@ -69,6 +69,11 @@ public class AllSongsViewController extends AbstractSubUIController {
         songListTableGenre.setMinWidth(sizeCalculator.getSmallColumnWidth());
         songListTableLength.setMaxWidth(sizeCalculator.getSmallColumnWidth());
         songListTableLength.setMinWidth(sizeCalculator.getSmallColumnWidth());
+
+        if (onInit) {
+            songListTableRefresh();
+            onInit = false;
+        }
     }
 
     /**
@@ -132,7 +137,19 @@ public class AllSongsViewController extends AbstractSubUIController {
         } else {
             // TODO:  How to remove dummies?
         }
-        refreshUI();
+
+        mainPlayerController.setSongLoading(false);
+        mainPlayerController.setLoadingState();
+    }
+
+    /**
+     * Function name:   songListTableRefresh
+     * Usage:   This is the very ugly workaround to force the tableview to refresh when the data got updated but the UI
+     *          view still be stuck with old data
+     */
+    private void songListTableRefresh() {
+        songListTable.getColumns().get(0).setVisible(false);
+        songListTable.getColumns().get(0).setVisible(true);
     }
 
     /**

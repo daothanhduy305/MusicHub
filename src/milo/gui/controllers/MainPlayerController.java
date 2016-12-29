@@ -1,10 +1,12 @@
 package milo.gui.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -39,10 +41,15 @@ public class MainPlayerController extends AbstractPlayerUIController {
     @FXML private MainViewPanelController mainViewPanelController;
     @FXML private NavigationDrawerController navigationDrawerController;
     @FXML private GridPane mHolder;
+    @FXML private StackPane loadingPane;
 
     private SizeCalculator sizeCalculator;
     private Window mainWindow;
+    private Scene mainScene;
     private boolean onInit = true;
+
+    volatile private boolean isLoading = true;
+    private boolean isSongLoading = true, isAlbumLoading = true;
 
     private SettingsFactory settingsFactory;
     private SettingsController settingsController;
@@ -52,14 +59,27 @@ public class MainPlayerController extends AbstractPlayerUIController {
 
     @Override
     public void buildUI() {
+        startLoading();
+
         settingsFactory = new SettingsFactory(this);
-        settingsFactory.loadSettings();
 
         songPlayerBarController.buildUI();
         navigationDrawerController.buildUI();
         mainViewPanelController.buildUI();
 
-        refreshUI();
+        settingsFactory.loadSettings();
+        //postBuildUI();
+    }
+
+    @Override
+    public void postBuildUI() {
+        super.postBuildUI();
+
+        songPlayerBarController.postBuildUI();
+        navigationDrawerController.postBuildUI();
+        mainViewPanelController.postBuildUI();
+
+        mainScene.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> refreshUI());
     }
 
     @Override
@@ -194,9 +214,8 @@ public class MainPlayerController extends AbstractPlayerUIController {
      * @param scene main scene from Main
      */
     public void setScene(Scene scene) {
+        this.mainScene = scene;
         sizeCalculator = new SizeCalculator(scene);
-
-        scene.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> refreshUI());
 
         songPlayerBarController.setSizeCalculator(sizeCalculator);
         mainViewPanelController.setSizeCalculator(sizeCalculator);
@@ -250,11 +269,52 @@ public class MainPlayerController extends AbstractPlayerUIController {
         settingsStage.show();
     }
 
+    private void startLoading() {
+        /*new Thread(new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                while (true) {
+                    if (!isLoading) {
+                        refreshUI();
+                        loadingPane.setVisible(false);
+                        break;
+                    }
+                }
+                return null;
+            }
+        }).start();*/
+
+        new Thread(() -> {
+            while (true) {
+                if (!isLoading) {
+                    Platform.runLater(() -> {
+                        postBuildUI();
+                        refreshUI();
+                        loadingPane.setVisible(false);
+                    });
+                    break;
+                }
+            }
+        }).start();
+    }
+
     public void setMainWindow(Window mainWindow) {
         this.mainWindow = mainWindow;
     }
 
     public SettingsFactory getSettingsFactory() {
         return settingsFactory;
+    }
+
+    public void setLoadingState() {
+        isLoading = (isSongLoading | isAlbumLoading);
+    }
+
+    public void setAlbumLoading(boolean albumLoading) {
+        isAlbumLoading = albumLoading;
+    }
+
+    public void setSongLoading(boolean songLoading) {
+        isSongLoading = songLoading;
     }
 }
