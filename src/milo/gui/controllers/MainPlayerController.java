@@ -270,20 +270,6 @@ public class MainPlayerController extends AbstractPlayerUIController {
     }
 
     private void startLoading() {
-        /*new Thread(new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                while (true) {
-                    if (!isLoading) {
-                        refreshUI();
-                        loadingPane.setVisible(false);
-                        break;
-                    }
-                }
-                return null;
-            }
-        }).start();*/
-
         new Thread(() -> {
             while (true) {
                 if (!isLoading) {
