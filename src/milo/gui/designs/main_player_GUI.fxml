@@ -19,14 +19,15 @@
             </rowConstraints>
         </GridPane>
         <fx:include fx:id="songPlayerBar" source="song_player_bar.fxml" />
-      <StackPane fx:id="loadingPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #0078d7;" StackPane.alignment="CENTER">
-         <children>
-            <ImageView pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="file:proprietary/data/media/buts/loading_icon.png" />
-               </image>
-            </ImageView>
-         </children>
-      </StackPane>
+        <Pane fx:id="settingsBg" StackPane.alignment="CENTER" style="-fx-background-color: rgba(0,0,0,0.75);" visible="false"/>
+        <StackPane fx:id="loadingPane" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #0078d7;" StackPane.alignment="CENTER">
+            <children>
+                <ImageView pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="file:proprietary/data/media/buts/loading_icon.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </StackPane>
     </children>
 </StackPane>

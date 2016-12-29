@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -42,6 +43,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
     @FXML private NavigationDrawerController navigationDrawerController;
     @FXML private GridPane mHolder;
     @FXML private StackPane loadingPane;
+    @FXML private Pane settingsBg;
 
     private SizeCalculator sizeCalculator;
     private Window mainWindow;
@@ -251,6 +253,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
             }
             settingsController = settingsLoader.getController();
             settingsController.setSettingsFactory(settingsFactory);
+            settingsController.setMainPlayerController(this);
             settingsController.buildUI();
 
             settingsStage = new Stage();
@@ -267,6 +270,12 @@ public class MainPlayerController extends AbstractPlayerUIController {
         }
 
         settingsStage.show();
+        settingsBg.setVisible(true);
+    }
+
+    public void hideSettingsWindow() {
+        settingsStage.hide();
+        settingsBg.setVisible(false);
     }
 
     private void startLoading() {

@@ -31,6 +31,7 @@ public class SettingsController {
 
     private SettingsFactory settingsFactory;
     private Window settingsWindow;
+    private MainPlayerController mainPlayerController;
 
     private List<String> addingFolderList, removingFolderList;
     private int item = 1;
@@ -150,7 +151,7 @@ public class SettingsController {
     }
 
     private void applySettings() {
-        settingsWindow.hide();
+        mainPlayerController.hideSettingsWindow();
         new Thread(new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -175,5 +176,9 @@ public class SettingsController {
 
     public void setSettingsWindow(Window settingsWindow) {
         this.settingsWindow = settingsWindow;
+    }
+
+    public void setMainPlayerController(MainPlayerController mainPlayerController) {
+        this.mainPlayerController = mainPlayerController;
     }
 }
