@@ -1,11 +1,11 @@
 package milo.gui.controllers;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
@@ -41,7 +41,7 @@ public class MainPlayerController extends AbstractPlayerUIController {
     @FXML private SongPlayerBarController songPlayerBarController;
     @FXML private MainViewPanelController mainViewPanelController;
     @FXML private NavigationDrawerController navigationDrawerController;
-    @FXML private GridPane mHolder;
+    @FXML private StackPane mHolder;
     @FXML private StackPane loadingPane;
     @FXML private Pane settingsBg;
 
@@ -285,7 +285,12 @@ public class MainPlayerController extends AbstractPlayerUIController {
                     Platform.runLater(() -> {
                         postBuildUI();
                         refreshUI();
-                        loadingPane.setVisible(false);
+
+                        FadeTransition loadingEndAnim = new FadeTransition(Duration.millis(500), loadingPane);
+                        loadingEndAnim.setFromValue(1.0);
+                        loadingEndAnim.setToValue(0.0);
+                        loadingEndAnim.setOnFinished(event -> loadingPane.setVisible(false));
+                        loadingEndAnim.play();
                     });
                     break;
                 }

@@ -34,25 +34,25 @@ public class SettingsFactory {
      * TODO:    take care of loading settings and loading/creating database separately
      */
     public void loadSettings() {
-        try {
-            FileInputStream settingsFileIS = new FileInputStream("proprietary/data/settings/milo_set");
-            ObjectInputStream settingsDataIS = new ObjectInputStream(settingsFileIS);
-            settingsData = (SettingsData) settingsDataIS.readObject();
-            new Thread(new Task<Void>() {
-                @Override
-                protected Void call() throws Exception {
+        new Thread(new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    FileInputStream settingsFileIS = new FileInputStream("proprietary/data/settings/milo_set");
+                    ObjectInputStream settingsDataIS = new ObjectInputStream(settingsFileIS);
+                    settingsData = (SettingsData) settingsDataIS.readObject();
                     setDB();
-                    return null;
+                    LOG.w( "Finished loading settings");
+                } catch (Exception e) {
+                    settingsData = new SettingsData();
+                    settingsData.initData();
+                    mainPlayerController.setSongLoading(false);
+                    mainPlayerController.setAlbumLoading(false);
+                    mainPlayerController.setLoadingState();
                 }
-            }).start();
-            LOG.w( "Finished loading settings");
-        } catch (Exception e) {
-            settingsData = new SettingsData();
-            settingsData.initData();
-            mainPlayerController.setSongLoading(false);
-            mainPlayerController.setAlbumLoading(false);
-            mainPlayerController.setLoadingState();
-        }
+                return null;
+            }
+        }).start();
     }
 
     /**
