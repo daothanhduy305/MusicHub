@@ -62,7 +62,6 @@ public class SongPlayerBarController extends AbstractSubUIController {
 
     @Override
     public void postBuildUI() {
-        super.postBuildUI();
         setUpTheButtons();
     }
 

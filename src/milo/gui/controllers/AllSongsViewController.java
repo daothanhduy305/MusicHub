@@ -1,8 +1,7 @@
 package milo.gui.controllers;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableCell;
@@ -15,8 +14,6 @@ import milo.data.utils.SongDataComparator;
 import milo.gui.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.gui.utils.Constants;
 import milo.gui.utils.Constants.VIEWS_ID;
-
-import java.util.Map;
 
 /**
  * Class name:  AllSongsViewController
@@ -53,9 +50,6 @@ public class AllSongsViewController extends AbstractSubUIController {
         mHolder.setPrefHeight(sizeCalculator.getWindowHeight());
 
         songListTable.setPrefWidth(sizeCalculator.getSongTableWidth());
-        songListTable.prefHeightProperty().bind(
-                Bindings.size(songListTable.getItems()).multiply(songListTable.getFixedCellSize()).add(2.0)
-        );
 
         songListTableTitle.setMaxWidth(sizeCalculator.getBigColumnWidth());
         songListTableTitle.setMinWidth(sizeCalculator.getBigColumnWidth());
@@ -71,7 +65,10 @@ public class AllSongsViewController extends AbstractSubUIController {
         songListTableLength.setMinWidth(sizeCalculator.getSmallColumnWidth());
 
         if (onInit) {
-            songListTableRefresh();
+            if (Platform.isFxApplicationThread())
+                songListTableRefresh();
+            else
+                Platform.runLater(this::songListTableRefresh);
             onInit = false;
         }
     }
@@ -82,64 +79,75 @@ public class AllSongsViewController extends AbstractSubUIController {
      *          of creating database from Settings later. Moreover, this should be done only on init and partly done on
      *          another thread.
      */
-    void setDB(Map<String, SongData> songDatas) {
+    void setDB() {
         // TODO: if we want to watch the paths later, then we have to eliminate these dummy on saving
         // TODO: furthermore, be aware that the scrollbar also need to have padding
-        ObservableList<SongData> songDataObservableList = FXCollections.observableArrayList(songDatas.values());
-        songListTable.setItems(new SortedList<>(songDataObservableList, new SongDataComparator()));
 
-        if (!isDBSet) {
-            songListTableTitle.setCellFactory(new Callback<TableColumn<SongData, String>, TableCell<SongData, String>>() {
-                @Override
-                public TableCell<SongData, String> call(TableColumn<SongData, String> param) {
-                    return new TableCell<SongData, String>() {
-                        @Override
-                        protected void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            setText(item);
-                            setStyle("");
-                            this.setOnMouseClicked(event -> {
-                                if (event.getClickCount() == 2) {
-                                    mainPlayerController.playSong(songListTable.getSelectionModel().getSelectedItem());
-                                    mainPlayerController.setViewId(VIEWS_ID.ALL_SONGS);
-                                    buildPlaylist();
-                                }
-                            });
-                        }
-                    };
-                }
-            });
+        songListTable.setItems(new SortedList<>(mainPlayerController.getSongDataObservableList(), new SongDataComparator()));
 
-            songListTableAlbum.setCellFactory(new Callback<TableColumn<SongData, String>, TableCell<SongData, String>>() {
-                @Override
-                public TableCell<SongData, String> call(TableColumn<SongData, String> param) {
-                    return new TableCell<SongData, String>() {
-                        @Override
-                        protected void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            setText(item);
-                            setStyle("");
-                            this.setOnMouseClicked(event -> mainPlayerController.getMainViewPanelController().showAlbum(item));
-                        }
-                    };
-                }
-            });
-            isDBSet = true;
+        songListTable.prefHeightProperty().bind(
+                Bindings.size(songListTable.getItems()).multiply(songListTable.getFixedCellSize()).add(2.0)
+        );
+
+        songListTableTitle.setCellFactory(new Callback<TableColumn<SongData, String>, TableCell<SongData, String>>() {
+            @Override
+            public TableCell<SongData, String> call(TableColumn<SongData, String> param) {
+                return new TableCell<SongData, String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(item);
+                        setStyle("");
+                        this.setOnMouseClicked(event -> {
+                            if (event.getClickCount() == 2) {
+                                mainPlayerController.playSong(songListTable.getSelectionModel().getSelectedItem());
+                                mainPlayerController.setViewId(VIEWS_ID.ALL_SONGS);
+                                buildPlaylist();
+                            }
+                        });
+                    }
+                };
+            }
+        });
+
+        songListTableAlbum.setCellFactory(new Callback<TableColumn<SongData, String>, TableCell<SongData, String>>() {
+            @Override
+            public TableCell<SongData, String> call(TableColumn<SongData, String> param) {
+                return new TableCell<SongData, String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(item);
+                        setStyle("");
+                        this.setOnMouseClicked(event -> {
+                            SongData currentSongData = (SongData) this.getTableRow().getItem();
+                            mainPlayerController.showAlbum(currentSongData.getAlbumTitle() + currentSongData.getAlbumArtist());
+                        });
+                    }
+                };
+            }
+        });
+    }
+
+    /**
+     * Function name:   addSong
+     * Usage:   this method should be call whenever the albumList is updated with operation add
+     * @param songData new Album to add in the list
+     */
+    void addSong(SongData songData) {
+        mainPlayerController.getSongDataObservableList().add(songData);
+        if (!hasDummy) {
+            if (mainPlayerController.getSongDataObservableList().size() * songListTable.getFixedCellSize()
+                    > sizeCalculator.getWindowHeight() - sizeCalculator.getPlayerBarHeight()) {
+                mainPlayerController.getSongDataObservableList().addAll(SongData.getDummySongData(
+                        (int) Math.ceil(sizeCalculator.getPlayerBarHeight() / songListTable.getFixedCellSize())
+                ));
+                hasDummy = true;
+            }
         }
 
-        if (songDatas.size() * songListTable.getFixedCellSize()
-                > sizeCalculator.getWindowHeight() - sizeCalculator.getPlayerBarHeight()
-                && !hasDummy) {
-            songDataObservableList.addAll(SongData.getDummySongData(
-                    (int) Math.ceil(sizeCalculator.getPlayerBarHeight() / songListTable.getFixedCellSize())
-            ));
-            hasDummy = true;
-        } else {
-            // TODO:  How to remove dummies?
-        }
-
-        mainPlayerController.setSongLoading(false);
-        mainPlayerController.setLoadingState();
+        /*if (mainPlayerController.isSongLoading())
+            mainPlayerController.setSongLoading(false);*/
     }
 
     /**

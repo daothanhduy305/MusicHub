@@ -1,5 +1,6 @@
 package milo.gui.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
@@ -27,7 +28,10 @@ public class NavigationDrawerController extends AbstractSubUIController {
     public void buildUI() {
         albumsViewButton = new NavigationViewButton("Albums", sizeCalculator);
         allSongViewButton = new NavigationViewButton("Songs", sizeCalculator);
-        buttonBox.getChildren().addAll(allSongViewButton, albumsViewButton);
+        if (Platform.isFxApplicationThread())
+            buttonBox.getChildren().addAll(allSongViewButton, albumsViewButton);
+        else
+            Platform.runLater(() -> buttonBox.getChildren().addAll(allSongViewButton, albumsViewButton));
         buttonBox.setSpacing(Constants.getNavigationDrawerPaddingV());
 
         makeButtonFunctional();

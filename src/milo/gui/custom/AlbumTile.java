@@ -25,16 +25,13 @@ import java.util.Map;
  * Description: This is the custom album tile, which would be used to shows albums general info in albums overview
  */
 
-public class AlbumTile extends VBox implements Comparable<AlbumTile> {
+public class AlbumTile extends VBox {
     @FXML private ImageView albumArtImageView;
     @FXML private Label albumTitleLabel, albumAuthorLabel;
     @FXML private VBox albumInfoBox;
 
-    private boolean isClicked = false;
-
     private String albumTitle, albumAuthor;
     private AlbumData albumData;
-    private Thread setAlbumArtThread;
 
     public AlbumTile(AlbumData albumData) {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -125,18 +122,5 @@ public class AlbumTile extends VBox implements Comparable<AlbumTile> {
 
     public AlbumData getAlbumData() {
         return albumData;
-    }
-
-    public void setClicked(boolean clicked) {
-        isClicked = clicked;
-    }
-
-    public boolean isClicked() {
-        return isClicked;
-    }
-
-    @Override
-    public int compareTo(AlbumTile o) {
-        return (this.albumData.compareTo(o.albumData));
     }
 }

@@ -2,6 +2,9 @@ package milo.gui.controllers;
 
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +20,7 @@ import javafx.util.Duration;
 import milo.data.SongData;
 import milo.gui.controllers.abstractcontrollers.AbstractPlayerUIController;
 import milo.gui.controllers.utils.LOG;
+import milo.gui.custom.AlbumTile;
 import milo.gui.utils.SettingsFactory;
 import milo.gui.utils.SizeCalculator;
 import org.jaudiotagger.audio.AudioFile;
@@ -41,14 +45,12 @@ public class MainPlayerController extends AbstractPlayerUIController {
     @FXML private SongPlayerBarController songPlayerBarController;
     @FXML private MainViewPanelController mainViewPanelController;
     @FXML private NavigationDrawerController navigationDrawerController;
-    @FXML private StackPane mHolder;
-    @FXML private StackPane loadingPane;
+    @FXML private StackPane loadingPane, mainViewPanel;
     @FXML private Pane settingsBg;
 
     private SizeCalculator sizeCalculator;
     private Window mainWindow;
     private Scene mainScene;
-    private boolean onInit = true;
 
     volatile private boolean isLoading = true;
     private boolean isSongLoading = true, isAlbumLoading = true;
@@ -59,27 +61,26 @@ public class MainPlayerController extends AbstractPlayerUIController {
     private FXMLLoader settingsLoader;
     private Scene settingsScene;
 
+    private ObservableList<SongData> songDataObservableList;
+    private ObservableList<AlbumTile> albumTileObservableList;
+
     @Override
     public void buildUI() {
+        settingsFactory = new SettingsFactory(this);
         startLoading();
 
-        settingsFactory = new SettingsFactory(this);
-
-        songPlayerBarController.buildUI();
         navigationDrawerController.buildUI();
-        mainViewPanelController.buildUI();
+        new Thread(() -> songPlayerBarController.buildUI()).start();
+        new Thread(() -> mainViewPanelController.buildUI()).start();
 
         settingsFactory.loadSettings();
-        //postBuildUI();
     }
 
     @Override
     public void postBuildUI() {
-        super.postBuildUI();
-
         songPlayerBarController.postBuildUI();
-        navigationDrawerController.postBuildUI();
-        mainViewPanelController.postBuildUI();
+        //navigationDrawerController.postBuildUI();
+        //mainViewPanelController.postBuildUI();
 
         mainScene.widthProperty().addListener((observableValue, oldSceneWidth, newSceneWidth) -> refreshUI());
     }
@@ -224,22 +225,40 @@ public class MainPlayerController extends AbstractPlayerUIController {
         navigationDrawerController.setSizeCalculator(sizeCalculator);
     }
 
-    public MainViewPanelController getMainViewPanelController() {
-        return mainViewPanelController;
-    }
-
     /**
      * Function name:   setDB
      * Usage:   this method would be called to set database and call lower-level relevant methods to set data for also
      *          children views.
      */
     public void setDB() {
-        mainViewPanelController.setDB(settingsFactory.getSettingsData().getSongDatas()
-                , settingsFactory.getSettingsData().getAlbumDataMap());
-        if (!onInit)
-            refreshUI();
-        else
-            onInit = false;
+        songDataObservableList = FXCollections.observableArrayList();
+        albumTileObservableList = FXCollections.observableArrayList();
+
+        new Thread(new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                mainViewPanelController.setDB();
+                return null;
+            }
+        }).start();
+
+        new Thread(new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                settingsFactory.getSettingsData().getSongDatas().values().forEach(songData -> mainViewPanelController.addSong(songData));
+                setSongLoading(false);
+                LOG.w("Finished loading songs");
+                LOG.w("Current time is: " + System.currentTimeMillis());
+                return null;
+            }
+        }).start();
+
+        settingsFactory.getSettingsData().getAlbumDataMap().values().forEach(
+                albumData -> Platform.runLater(() -> albumTileObservableList.add(new AlbumTile(albumData)))
+        );
+        setAlbumLoading(false);
+        LOG.w("Finished loading albums");
+        LOG.w("Current time is: " + System.currentTimeMillis());
     }
 
     public void showSettingsWindow() {
@@ -281,21 +300,56 @@ public class MainPlayerController extends AbstractPlayerUIController {
     private void startLoading() {
         new Thread(() -> {
             while (true) {
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                setLoadingState();
                 if (!isLoading) {
                     Platform.runLater(() -> {
+                        FadeTransition loadingPaneFadeAnim = new FadeTransition(Duration.millis(500), loadingPane);
+                        loadingPaneFadeAnim.setFromValue(1.0);
+                        loadingPaneFadeAnim.setToValue(0.0);
+                        loadingPaneFadeAnim.setOnFinished(event -> loadingPane.setVisible(false));
+                        loadingPaneFadeAnim.play();
+
                         postBuildUI();
                         refreshUI();
 
-                        FadeTransition loadingEndAnim = new FadeTransition(Duration.millis(500), loadingPane);
-                        loadingEndAnim.setFromValue(1.0);
-                        loadingEndAnim.setToValue(0.0);
-                        loadingEndAnim.setOnFinished(event -> loadingPane.setVisible(false));
-                        loadingEndAnim.play();
+                        //ParallelTransition loadingEndAnims = new ParallelTransition();
+                        LOG.w("Finished loading everything");
+                        LOG.w("Current time is: " + System.currentTimeMillis());
+                        //loadingPane.setVisible(false);
+
+                        /*FadeTransition mainPanelAppearAnim = new FadeTransition(Duration.millis(1000), mainViewPanel);
+                        mainPanelAppearAnim.setFromValue(0.5);
+                        mainPanelAppearAnim.setToValue(1.0);
+
+                        TranslateTransition mainPanelSlideAnim = new TranslateTransition(Duration.millis(1000), mainViewPanel);
+                        *//*mainPanelSlideAnim.setFromX(0.5);
+                        mainPanelSlideAnim.setToX(1.0);*//*
+                        mainPanelSlideAnim.setFromY(0.5);
+                        mainPanelSlideAnim.setToY(1.0);
+
+                        loadingEndAnims.getChildren().addAll(mainPanelAppearAnim, mainPanelSlideAnim);
+                        //loadingEndAnims.setOnFinished(event -> loadingPane.setVisible(false));
+                        loadingEndAnims.play();*/
                     });
                     break;
                 }
             }
         }).start();
+    }
+
+    /**
+     * Function name:   showAlbumsView
+     * Usage:   this method would be called to set the mainViewPanel to display AlbumsView
+     *
+     * @param albumKey the key for the album in map
+     */
+    void showAlbum(String albumKey) {
+        mainViewPanelController.showAlbum(albumKey);
     }
 
     public void setMainWindow(Window mainWindow) {
@@ -316,5 +370,17 @@ public class MainPlayerController extends AbstractPlayerUIController {
 
     public void setSongLoading(boolean songLoading) {
         isSongLoading = songLoading;
+    }
+
+    public ObservableList<SongData> getSongDataObservableList() {
+        return songDataObservableList;
+    }
+
+    public ObservableList<AlbumTile> getAlbumTileObservableList() {
+        return albumTileObservableList;
+    }
+
+    public boolean isSongLoading() {
+        return isSongLoading;
     }
 }

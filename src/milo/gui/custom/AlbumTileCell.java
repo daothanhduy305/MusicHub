@@ -1,6 +1,6 @@
 package milo.gui.custom;
 
-import milo.data.AlbumData;
+import javafx.application.Platform;
 import milo.gui.controllers.AlbumsViewOverviewController;
 import milo.gui.utils.Constants;
 import org.controlsfx.control.GridCell;
@@ -10,42 +10,54 @@ import org.controlsfx.control.GridCell;
  * Description: This class is the holder for AlbumTile, as a cell in the albums grid cell
  */
 
-public class AlbumTileCell extends GridCell<AlbumData> {
+public class AlbumTileCell extends GridCell<AlbumTile> {
     private AlbumsViewOverviewController albumsViewOverviewController;
-    private AlbumTile albumTile;
+    private boolean isClicked = false;
+
 
     public AlbumTileCell(AlbumsViewOverviewController controller) {
         this.albumsViewOverviewController = controller;
     }
 
     @Override
-    protected void updateItem(AlbumData item, boolean empty) {
-        super.updateItem(item, empty);
+    protected void updateItem(AlbumTile item, boolean empty) {
+        //super.updateItem(item, empty);
         if (empty || item == null) {
-            setText(null);
-            setGraphic(null);
+            if (!Platform.isFxApplicationThread()) {
+                setText(null);
+                setGraphic(null);
+            } else
+                Platform.runLater(() -> {
+                    setText(null);
+                    setGraphic(null);
+                });
         } else {
-            albumTile = albumsViewOverviewController.getAlbumTileMap().get(item.getAlbumTitle() + item.getAlbumArtist());
-            setGraphic(albumTile);
-            if (albumTile.isClicked())
-                setBackground(Constants.getBgGray());
-            this.setOnMouseEntered(event -> setBackground(Constants.getBgGray()));
+            if (!Platform.isFxApplicationThread())
+                setGraphic(item);
+            else
+                Platform.runLater(() -> setGraphic(item));
+            this.setOnMouseEntered(event -> setBackground(Constants.getBgGrayer()));
 
             this.setOnMouseExited(event -> {
-                if (!albumTile.isClicked())
+                if (!isClicked)
                     setBackground(Constants.getBgWhite());
             });
 
             this.setOnMouseClicked(event -> {
                 for (AlbumTileCell albumTileCell : albumsViewOverviewController.getMonitoringCells()) {
                     albumTileCell.setBackground(Constants.getBgWhite());
-                    ((AlbumTile)albumTileCell.getGraphic()).setClicked(false);
+                    albumTileCell.setClicked(false);
                 }
-                albumTile.setClicked(true);
-                this.setBackground(Constants.getBgGray());
+                setClicked(true);
+                this.setBackground(Constants.getBgGrayer());
                 if (event.getClickCount() == 2) {
-                    albumsViewOverviewController.showAlbum(albumTile.getAlbumData());}
+                    albumsViewOverviewController.showAlbum(item.getAlbumData());
+                }
             });
         }
+    }
+
+    private void setClicked(boolean clicked) {
+        isClicked = clicked;
     }
 }

@@ -7,8 +7,6 @@ import milo.data.SongData;
 import milo.gui.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.gui.utils.SizeCalculator;
 
-import java.util.Map;
-
 /**
  * Class name:  AlbumsViewController
  * Description: This controller will control the albums views, consists of Overview (All albums) and Specific view
@@ -20,12 +18,10 @@ public class AlbumsViewController extends AbstractSubUIController {
     @FXML private AlbumsViewSpecificController albumsViewSpecificController;
     @FXML private StackPane mHolder;
 
-    private Map<String, AlbumData> albumDataMap;
-
     @Override
     public void buildUI() {
-        albumsViewOverviewController.buildUI();
-        albumsViewSpecificController.buildUI();
+        new Thread(() -> albumsViewOverviewController.buildUI()).start();
+        new Thread(() -> albumsViewSpecificController.buildUI()).start();
     }
 
     @Override
@@ -62,13 +58,15 @@ public class AlbumsViewController extends AbstractSubUIController {
      * Usage:   this function is called display the view for a specific album
      * this also calls the lower level relevant method from albumsViewSpecificController
      *
-     * @param albumTitle the data of the album to be displayed
+     * @param albumKey the key for the album in map
      */
-    void showAlbum(String albumTitle) {
+    void showAlbum(String albumKey) {
         mHolder.getChildren().get(1).setVisible(true);
         mHolder.getChildren().get(0).setVisible(false);
 
-        albumsViewSpecificController.showAlbum(albumDataMap.get(albumTitle));
+        albumsViewSpecificController.showAlbum(
+                mainPlayerController.getSettingsFactory().getSettingsData().getAlbumDataMap().get(albumKey)
+        );
     }
 
     /**
@@ -82,12 +80,9 @@ public class AlbumsViewController extends AbstractSubUIController {
     /**
      * Function name:   setDB
      * Usage:   this method would be called to set database
-     *
-     * @param albumDataMap database
      */
-    void setDB(Map<String, AlbumData> albumDataMap) {
-        this.albumDataMap = albumDataMap;
-        albumsViewOverviewController.setDB(this.albumDataMap);
+    void setDB() {
+        albumsViewOverviewController.setDB();
     }
 
     @Override

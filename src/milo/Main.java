@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import milo.gui.controllers.*;
+import milo.gui.controllers.utils.LOG;
 import milo.gui.utils.GUIUtils;
 
 /**
@@ -31,6 +32,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        LOG.w("App started");
+        LOG.w("Current time is: " + System.currentTimeMillis());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gui/designs/main_player_GUI.fxml"));
 
         mainPlayerController = new MainPlayerController();
@@ -64,7 +67,7 @@ public class Main extends Application {
                     return param.newInstance();
                 } catch (Exception exc) {
                     exc.printStackTrace();
-                    throw new RuntimeException(exc); // fatal, just bail...
+                    throw new RuntimeException(exc);
                 }
             }
         });
@@ -90,6 +93,8 @@ public class Main extends Application {
         primaryStage.setMaximized(true);
         primaryStage.setOnCloseRequest(e -> System.exit(0));
         primaryStage.show();
+        LOG.w("App appeared");
+        LOG.w("Current time is: " + System.currentTimeMillis());
 
         mainPlayerController.buildUI();
     }

@@ -2,12 +2,9 @@ package milo.gui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
-import milo.data.AlbumData;
 import milo.data.SongData;
 import milo.gui.controllers.abstractcontrollers.AbstractSubUIController;
 import milo.gui.utils.SizeCalculator;
-
-import java.util.Map;
 
 /**
  * Class name:  MainViewPanelController
@@ -22,8 +19,8 @@ public class MainViewPanelController extends AbstractSubUIController {
 
     @Override
     public void buildUI() {
-        allSongsViewController.buildUI();
-        albumsViewController.buildUI();
+        new Thread(() -> allSongsViewController.buildUI()).start();
+        new Thread(() -> albumsViewController.buildUI()).start();
 
         showAllSongsView();
     }
@@ -68,13 +65,15 @@ public class MainViewPanelController extends AbstractSubUIController {
     /**
      * Function name:   showAlbumsView
      * Usage:   this method would be called to set the mainViewPanel to display AlbumsView
+     *
+     * @param albumKey the key for the album in map
      */
-    void showAlbum(String albumTitle) {
+    void showAlbum(String albumKey) {
         mHolder.getChildren().get(1).setVisible(true);
         mHolder.getChildren().get(0).setVisible(false);
 
         navigationDrawerController.enableAlbumsViewButton();
-        albumsViewController.showAlbum(albumTitle);
+        albumsViewController.showAlbum(albumKey);
     }
 
     /**
@@ -104,13 +103,19 @@ public class MainViewPanelController extends AbstractSubUIController {
     /**
      * Function name:   setDB
      * Usage:   this method would be called to set database
-     *
-     * @param songDatas database for songs
-     * @param albumDataMap database for albums
      */
-    void setDB(Map<String, SongData> songDatas, Map<String, AlbumData> albumDataMap) {
-        allSongsViewController.setDB(songDatas);
-        albumsViewController.setDB(albumDataMap);
+    void setDB() {
+        allSongsViewController.setDB();
+        albumsViewController.setDB();
+    }
+
+    /**
+     * Function name:   addSong
+     * Usage:   this method should be call whenever the albumList is updated with operation add
+     * @param songData new Album to add in the list
+     */
+    void addSong(SongData songData) {
+        allSongsViewController.addSong(songData);
     }
 
     public void setNavigationDrawerController(NavigationDrawerController navigationDrawerController) {
