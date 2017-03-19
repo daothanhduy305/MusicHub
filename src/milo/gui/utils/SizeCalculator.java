@@ -18,7 +18,7 @@ public class SizeCalculator {
     private double playerBarAlbumArtSize = Constants.getPlayerBarAlbumArtSize();
     private double songInfoLabelsBoxW;
     private double seekBarWidth;
-    private double lengthLabelWidth = 40.0;
+    private double lengthLabelWidth = 50.0;
     private double buttonWidth = Constants.getPlayerBarAlbumArtSize() * 0.6;
 
     private double navigationDrawerWidth = Constants.getNavigationDrawerWidth();
